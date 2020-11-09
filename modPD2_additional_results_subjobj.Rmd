@@ -1,0 +1,304 @@
+
+
+```{r setup_aer, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache=TRUE,message=FALSE,warning=FALSE)
+
+library("papaja")
+library(ggplot2)
+library(GGally)
+library(lemon)
+library(Matrix)
+library(ggmosaic)
+
+library(knitr)
+library(afex)
+options(contrasts=c('contr.sum', 'contr.poly'))
+afex_options(check_contrasts=FALSE, method_mixed="S")
+emm_options(pbkrtest.limit = 5000)
+emm_options(lmerTest.limit = 5000)
+
+library(data.table)
+library(lme4)
+library(lmerTest)
+library(tidyverse)
+library(emmeans)
+
+
+# load exp2 data
+
+#d2 <- readr::read_delim("../modPD2/modPD2_d2.csv", ",", escape_double = FALSE, trim_ws = TRUE)
+load(file="./data/modPD2_d2.RData")
+
+## Exclude participants who failed the PD training test
+d2 <- subset(d2, include==TRUE)
+
+## compute subset of paired stimuli
+d2p <- subset(d2, US_Valence!="none")
+
+```
+
+
+## Subjective and objective memory
+
+In Experiment 2, participants reported their subjective memory for US valence in three different ways: 
+First, by selecting either the Memory or Attitude buttons on the PD task; 
+second, by reporting the confidence (high, medium, low) of their US valence memory response;
+and third, by indicating whether they experienced the retrieval of US memory as Remembering, Knowing, or Guessing.
+<!-- Here we explored the correlations between the three measures. -->
+To the degree that subjective memory is reliable, subjective memory measures should be strongly correlated: 
+An experience of having memory for US valence during the PD task (and the associated Memory response) should be associated with an experience of either Remembering (or Knowing) US valence and at least moderate confidence.
+Similarly, an experience of not remembering (indicated by an Attitude response) should be associated with lower confidence and a Guessing (or Knowing) experience.
+On the other hand, experiences of Remembering and Knowing may be accompanied with comparable confidence, hence there is also reason to believe that the confidence and RKG measures at least partly tap distinct properties of subjective memory. 
+We explored the relation between subjective-memory responses as well as their correspondence with objective memory performance.
+
+### Relation among subjective memory measures
+
+
+```{r}
+
+t1 <- prop.table(with(d2, table(pdset, RKG)), margin = 1)
+t2 <- prop.table(with(d2, table(pdset, Confidence)), margin=1)
+t3 <- prop.table(with(d2, table(RKG, Confidence)), margin=1)
+
+```
+
+The three subjective-memory measures were considerably associated:
+<!-- (see Tables 1-3):  -->
+Most Memory responses were associated with high (41%) or medium confidence (38%) and experienced as Remembering (43%) or Knowing (35%); most Attitude responses were associated with low confidence (72%) and experienced as Guessing (75%).
+<!-- ; with 18% Know and 7% Remember attributions). -->
+Guess responses were mostly low-confidence (83%; with 16% medium and 1% high), whereas Remember and Know responses were predominantly associated with high and medium confidence, respectively (Remember: 62% high, 29% medium; Know: 16% high, 63% medium). 
+
+On the other hand, there was also substantial disagreement between the measures:
+Substantial proportions of Attitude responses were associated with medium (25%) or high confidence (3%) and attributed to Remember (7%) or Know (18%) experiences.
+<!-- ---perhaps a second kind of introspective "misses" where participants fail to detect the presence of subjective memory. -->
+Conversely, subsets of Memory responses were associated with low confidence (21%) and attributed to Guessing (22%).
+<!--  these may constitute a second kind of introspective "false alarms" where participants falsely claim the presence of subjective memory. -->
+The error variance apparent in this disagreement raises the possibility of selection biases such as regression to the mean [@shanks_regressive_2017]:
+A subset of cases selected because the responses suggest the absence of subjective US valence memory (e.g., PD Attitude responses) will likely reflect an underestimation of subjective memory, and a second measurement will tend to reveal higher levels of subjective memory in this subset.
+Consider, for instance, the RKG measure as a second subjective-memory measure: 
+Of the PD Attitude responses (thought to involve the absence of memory), we saw that substantial proportions were associated with Remember or Know experiences (25%) as well as medium or high confidence (28%), suggesting the presence of (at least residual amounts of) memory.
+It would therefore be inappropriate to interpret the EC effect for Attitude responses as reflecting EC in the absence of subjective memory.
+@shanks_regressive_2017 suggested using instead multiple (or repeated) measures as one means by which researchers can avoid the regression-to-the-mean pitfall.
+
+
+### Subjective memory as a proxy for objective memory
+
+One assumption underlying the PD approach is that subjective memory can serve as a proxy for objective memory (which is itself often used as a proxy for awareness during attitude formation), on the basis that both are strongly correlated.
+In the present research, the focal issue is whether the absence of subjective memory reliably indicates chance-level (objective) memory accuracy.
+
+
+```{r obj-subj-model-base}
+
+vm_ <- afex::mixed(data=d2p, as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+im_ <- afex::mixed(data=d2p, imcor ~ Instruction*Material*CS_Valence*US_Valence  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+```
+
+We used linear mixed models to predict US memory accuracy (valence and identity). 
+^[For consistency, and because of their relative familiarity, we report linear mixed model analyses in all these additional exploratory analyses to benefit from the response-level data.
+With memory accuracy as the dependent variable, logistic (or probit) mixed models would be more adequate (we checked that the general pattern of results reported below did not depend on the distributional assumption).]
+A baseline model was used as a starting point that had fixed effects for all factors of the design, person random intercepts and slopes for the within-subject factors of CS and US valence and their interaction, as well as item random intercepts and slopes for US valence. ^[The baseline model replicated the general result patterns that were obtained in the traditional ANOVA (see Appendix).]
+To this baseline model we added as covariate the subjective-memory measures, first separately (this section) and then jointly (next section).
+
+
+```{r vobj-subj-model-sep}
+
+## adding subjective measures...
+
+### individually as factor, allowing for interactions with design factors; check if any interactions are sig.
+
+#### pdset as fixed --> pdset interacts with design factors; adding by-pdset random effects does not improve fit
+
+vm_pd_ <- afex::mixed(data=d2p, as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence+pdset  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+vm_pd_.em <- emmeans(vm_pd_, ~pdset)
+
+
+#### conf as fixed with ia
+
+vm_c_ <- afex::mixed(data=d2p, as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence+Confidence  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+vm_c_.em <- emmeans(vm_c_, ~Confidence)
+
+
+#### RKG as fixed with ia
+
+vm_r_ <- afex::mixed(data=d2p, as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence+RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+vm_r_.em <- emmeans(vm_r_, ~RKG)
+
+```
+
+A set of linear mixed models was fitted to explain US valence memory accuracy, each with one of the subjective memory measures added as a covariate (but without expanding the random-effects structure).
+All three resulting models were preferred over the baseline model by Likelihood-Ratio tests, and the subjective-memory measure significantly predicted US valence memory accuracy; PD Response: $F(1, 1654.95)=58.16, p<.001$; Confidence: $F(2,  2655.16)= 98.22, p<.001$; and RKG: $F(2,2586.46)=72.07, p<.001$.
+The estimated marginal means suggest that US valence memory was absent at low levels of subjective memory:
+Estimates were around chance, and the lower end of the CI did not exceed the chance level, for Attitude responses (.49 [.45, .52]), Guess attributions (.46, [.44, .49]), or low confidence (.48, [.45, .51]).
+^[Accuracy increased to above-chance levels with higher subjective-memory levels, for Memory responses (M=.65, 95% CI [.62, .69]), Know (.60 [.57, .63]) and Remember (.71 [.68, .74]) attributions, as well as medium (.54 [.51, .57]) and high (.77 [.74, .80]) levels of confidence.]
+
+```{r iobj-subj-model-sep}
+
+## adding subjective measures...
+
+### individually as factor, allowing for interactions with design factors; check if any interactions are sig.
+
+#### pdset as fixed --> pdset interacts with design factors; adding by-pdset random effects does not improve fit
+
+im_pd_ <- afex::mixed(data=d2p, imcor ~ Instruction*Material*CS_Valence*US_Valence+pdset  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+#anova(im_, im_pd_)
+# pdset 1, 1745.85 40.32 ***   <.001
+im_pd_.em <- emmeans(im_pd_, ~pdset)
+
+#### conf as fixed with ia
+im_c_ <- afex::mixed(data=d2p, imcor ~ Instruction*Material*CS_Valence*US_Valence+Confidence  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+#anova(im_, im_c_)
+# adding Confidence main effect help fit
+# vm_c
+# Confidence 2, 2872.20 39.56 ***   <.001
+im_c_.em <- emmeans(im_c_, ~Confidence)
+
+#### RKG as fixed with ia
+im_r_ <- afex::mixed(data=d2p, imcor ~ Instruction*Material*CS_Valence*US_Valence+RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+#anova(im_, im_r_)
+# adding RKG main effect help fit
+# RKG 2, 2872.66 36.08 ***   <.001
+im_r_.em <- emmeans(im_r_, ~RKG)
+
+```
+
+
+The same set of models was fitted for US identity memory.
+Again, all three resulting models were preferred over the base model by Likelihood-Ratio tests, and the subjective-memory measure significantly predicted US valence memory accuracy, PD Response: $F(1, 1745.85)= 40.32, p<.001$, Confidence: $F(2,  2872.20) = 39.56, p<.001$, and RKG: $F(2,2872.66)=36.08, p<.001$, with increasing accuracy for higher levels of subjective memory.
+However, in contrast to US valence memory, the relation with accuracy was much weaker for US identity memory, and accuracy was above chance for even the lowest levels of all measures; for Attitude responses (.68 [.64, .72]), Guess attributions (.69, [.65, .72]), or low confidence (.67, [.64, .71]).
+
+Supporting the validity of subjective measures as proxies, US valence memory was at chance at the lowest level of each subjective-memory measure, and increased with increasing subjective memory.
+However, we saw in the previous section that this lack of objective memory for certain subjective-memory levels may reflect selection bias, and a different picture may emerge when multiple subjective measures may be considered jointly.
+
+Accuracy of US identity memory responses (i.e., forced-choice recognition of paired CSs) was also related to subjective memory measures, but the relation was not as strong as that for valence memory.
+Again, all subjective memory measures suggest a gradual increase of identity-memory accuracy with each increasing subjective memory level. 
+However, in contrast to US valence memory, US identity memory was above chance at even the lowest subjective-memory levels.
+
+This pattern suggests that subjective valence-memory measures are better calibrated to accuracy of valence memory than of identity memory; viewed this way, it can be taken as support of the validity of subjective-memory measures.
+Alternatively, the finding that the lowest levels of subjective memory were associated with above-chance identity-memory accuracy may be taken to replicate the "introspective misses" result reported above and extend it to the confidence and RKG measures. 
+As memory for US identity can be argued to encompass memory for its valence, it appears that subjective memory reports (e.g., of lacking memory of US valence, of not remembering the CS-US episode) cannot be taken at face value; they do not reliably indicate the objective absence of US memory.
+
+### A joint analysis of subjective memory measures
+
+Because of the selection problem and limited interpretability of a single subjective-memory response, we next combined subjective-measures to explore their joint relation with objective memory indicators.
+We explored the RKG measure's potential to identify qualitatively distinct subjective states --- of Remembering episodic detail versus Knowing without retrieval of episodic details (versus Guessing in the absence of any memory or conscious knowledge).
+The measure is frequently used with the aim of separating two types of memory processes or contents --- recollective retrieval of relatively rich episodic detail versus a feeling of knowing of (or of familiarity with) the correct response.
+Because recollective retrieval of the CS-US episode is required for identifying the identity of the US, R (but not K) experiences may be associated with US identity memory accuracy.
+On the other hand, because a feeling of knowing the correct answer can be sufficient to accurately report US valence, K experiences may nevertheless be associated with US valence memory accuracy.
+<!-- The RKG responses are more likely to dissociate between US valence and US identity performance when they indeed reflect memory states --- Remembering and Knowing --- than when based on error variance.  -->
+To help separate signal from noise, we added both the RKG and the PD Response predictors: 
+A difference between R and K experiences and their relations with accuracy should more readily emerge among the subset of Memory than Attitude cases (the latter are both less likely to be accurate and less likely to be associated with R or K attributions).
+This also allowed us to explore selection-bias issues in the Attitude responses.
+
+
+```{r vobj-subj-model-joint}
+
+### joint analyses
+
+#### RKG in addition to pdset? helps
+
+vm_pd_r <- afex::mixed(data=d2p, as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence + pdset*RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+#anova(vm_pd_r, vm_pd_)
+# compared to using only pd, adding RKG & interaction with pdset improves model fit!
+
+# 5                                   pdset 1, 1715.41 12.68 ***   <.001
+# 6                                     RKG 2, 1714.67 18.90 ***   <.001
+# 13                              pdset:RKG 2, 1786.73    3.38 *    .034
+# RKG and the interaton are significant; the RKG effect is stronger for Mem than Att
+#afex_plot(vm_pd_r, x="RKG", trace="pdset") # M: R>K>G; A: R=K>G
+#afex_plot(vm_pd_r, x="pdset", trace="RKG")
+vm_pd_r.emr <- emmeans(vm_pd_r, ~RKG)
+vm_pd_r.emp <- emmeans(vm_pd_r, ~pdset)
+vm_pd_r.em <- emmeans(vm_pd_r, ~RKG|pdset)
+
+## Mem subset:
+# 5                                     RKG 2, 1037.22 27.75 ***   <.001
+vm_pd_r_Mem <- afex::mixed(data=subset(d2p, pdset=="Memory"), as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence + RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+vm_pd_r_Mem.em <- emmeans(vm_pd_r_Mem, ~RKG)
+vm_pd_r_Mem.p <- pairs(vm_pd_r_Mem.em) # all sig.
+
+## Att subset: RKG sig.! evidence for obj & subj memory!
+# 5                                     RKG 2, 706.06    3.70 *    .025
+vm_pd_r_Att <- afex::mixed(data=subset(d2p, pdset=="Attitude"), as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence + RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+vm_pd_r_Att.em <- emmeans(vm_pd_r_Att, ~RKG)
+vm_pd_r_Att.p <- pairs(vm_pd_r_Att.em) # all ns; but: 
+
+vm_pd_r_Att <- afex::mixed(data=subset(d2p, pdset=="Attitude" & Confidence!="medium"), as.numeric(Valence_memory) ~ Instruction*Material*CS_Valence*US_Valence + RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+
+```
+
+We combined the PD Response and RKG measures, first in an analysis of US valence memory accuracy (the model with both predictors was preferred over the single-measure model by a Likelihood-Ratio test).
+In this model, both PD Response, $F(1,1715.41)=12.68, p<.001$, and RKG, $F(2,1714.67)=18.90,p<.001$, were significant predictors, as well as their interaction, $F(2,1786.73)=3.38, p=.03$, which indicated a stronger RKG effect for Memory than Attitude responses.
+To dissect the interaction, we computed separate analyses of the Attitude and Memory subsets. Among Memory responses, RKG strongly predicted accuracy, $F(2,1037.22)= 27.75,p<.001$, reflecting significant pairwise differences in accuracy between the three levels (G: .47 [.41, .54], K: .64 [.59, .69], R: .74 [.70, .79]; largest *p* of pairwise comparisons was .003).
+Among Attitude responses, the RKG effect was much weaker, $F(2, 706.06)=3.70, p=.025$ (none of the pairwise differences were significant); it reflected the difference between (low) accuracy for Guess attributions (.46 [.41, .50]), one one hand, and comparable but higher accuracy in both the Know (.54 [.46, .62]) and Remember (.57 [.45, .70]) attributions.
+This systematic relation between subjective and objective memory within the subset of Attitude responses suggests that some amount of (subjective and objective) memory is left in PD Attitude cases (supposedly reflecting the absence of memory).
+This points to the possible involvement of selection bias, and it suggests that an Attitude response should not be interpreted as reflecting the absence of (neither objective nor subjective) memory. 
+
+```{r iobj-subj-model-joint}
+
+### joint analyses
+
+#### RKG in addition to pdset? helps
+
+im_pd_r <- afex::mixed(data=d2p, imcor ~ Instruction*Material*CS_Valence*US_Valence + pdset*RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+#anova(im_pd_r, im_pd_)
+# compared to using only pd, adding RKG & interaction with pdset improves model fit!
+# 5                                   pdset 1, 1858.84 25.01 ***   <.001
+# 13                              pdset:RKG 2, 1875.96  7.20 ***   <.001
+# pdset and the pdset:RKG interaton are significant; the RKG effect is stronger for Mem than Att
+#afex_plot(vm_pd_r, x="RKG", trace="pdset") # M: R>K>G; A: R=K>G
+#afex_plot(vm_pd_r, x="pdset", trace="RKG")
+im_pd_r.emp <- emmeans(im_pd_r, ~pdset)
+im_pd_r.em <- emmeans(im_pd_r, ~RKG|pdset)
+
+## Mem subset:
+# 5                                     RKG 2, 1082.28 16.68 ***   <.001
+im_pd_r_Mem <- afex::mixed(data=subset(d2p, pdset=="Memory"), imcor ~ Instruction*Material*CS_Valence*US_Valence + RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+im_pd_r_Mem.em <- emmeans(im_pd_r_Mem, ~RKG)
+im_pd_r_Mem.p <- pairs(im_pd_r_Mem.em) # G=K<R!
+
+## Att subset: RKG sig.! evidence for obj & subj memory!
+# 5                                     RKG 2, 574.73      1.20    .302
+im_pd_r_Att <- afex::mixed(data=subset(d2p, pdset=="Attitude"), imcor ~ Instruction*Material*CS_Valence*US_Valence + RKG  + (US_Valence|cs) + (CS_Valence*US_Valence|id), method="S", progress=FALSE)
+im_pd_r_Att.em <- emmeans(im_pd_r_Att, ~RKG)
+im_pd_r_Att.p <- pairs(im_pd_r_Att.em) # all ns; but: 
+
+```
+
+Next, we turned to US identity memory, using the same modeling approach (the combined model with the PD Response and RKG predictors was preferred over the single-measure model by a Likelihood-Ratio test).
+In this model, PD Response, $F(1,1858.84)=25.01, p<.001$, and the PD Response by RKG interaction, $F(2,1875.96)=7.20,p<.001$, were significant predictors, but not the RKG main effect, $F<1$.
+Among Attitude responses, the RKG effect was not significant, $F(2, 574.73)=1.20, p=.30$.
+Among Memory responses, RKG again strongly predicted accuracy, $F(2,1082.28)= 16.68,p<.001$.
+In contrast to US valence memory accuracy, however, US identity memory accuracy did not differ between Guess (.75 [.69, .81]) and Know (.76 [.71, .80]) attributions ($t=0.3, p=.95$).
+Compared to these two subsets, accuracy of US identifications was substantially higher for Remember attributions (.88 [.84, .92], smallest $t=4.16, p<.001$).
+
+```{r pdset-rkg-plot, fig.cap="Exp.2: US valence and US identity memory accuracy for PD Memory responses are differently associated with Remember and Know experiences."}
+
+#par(mfrow = 1)
+par(mfrow=c(1,1))
+
+d2l <- tidyr::pivot_longer(d2p, cols=c("imcor", "vmcor"), names_to = "Memory content", values_to="Memory Accuracy", values_drop_na = TRUE)
+d2l$Measure <- factor(d2l$`Memory content`, levels=c("imcor","vmcor"), labels=c("Identity", "Valence"))
+
+papaja::apa_barplot(subset(d2l, `PD Response`=="Memory"), id="id", dv="Memory Accuracy", factors=c("Measure","RKG"), use = "all.obs", ylim=c(.2,1), args_legend=list(x="topright"))  
+
+```
+
+ 
+Taken together, joint analyses of subjective memory measures yielded two results: 
+First, the distinct patterns of RKG predictions of US valence versus US identity memory, as illustrated in 
+Figure \@ref(fig:pdset-rkg-plot).
+Focusing first on US identity memory (left), only high-confidence "Remember" experiences were associated with higher accuracy, consistent with the notion that they reflect episodic recollection.
+For US valence memory (right), "Know" experiences also predicted higher accuracy, supporting the notion that (a subset of) valence-memory judgments may be driven by familiarity (or a feeling of knowing).
+^[A similar pattern can be seen when using Confidence instead of PD Response as the second variable (although the results are noisier), and focusing on high-confidence responses:
+Here, the pattern was evident in that identity-memory accuracy was higher for R than K responses, but valence-memory accuracy was comparable for K and R.]
+
+Second, within the subset of Attitude responses (thought to reflect the absence of memory), the RKG measure predicted US valence memory accuracy.
+This incremental validity suggests that, in line with a selection artefact, nonnegligible amounts of both subjective and objective memory were available to participants even when they indicated not remembering US valence. 
+
+
+

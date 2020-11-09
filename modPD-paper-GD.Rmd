@@ -1,0 +1,186 @@
+
+
+To improve upon the original PD approach and its coarse group-level estimate of unaware EC, we have introduced a procedural modification that yields response-level assessments of subjective memory as well as attitudes in the subjective absence of memory.
+In support of the validity of this approach, we have shown that the subjective memory indicator responded to memory manipulations, and that the attitude indicator responded to attitude manipulations.
+We have employed the modified procedure in two experiments to shed light on core assumptions of the original PD procedure as a measurement tool for EC in the absence of memory (which we found to be unsupported),
+and we have reported evidence illustrating the potential of response-level measures of (objective and subjective) memory in EC research.
+Here we summarize our main as well as additional findings and point out limitations of the present approach. 
+We discuss the implications for research on attitude learning, and conclude with recommendations for assessing memory states in future EC research.
+
+<!-- ## Summary -->
+
+### Main findings
+
+The main insight of the present research is that core assumptions of the PD procedure as a measurement tool of unaware EC are violated.
+In particular, subjective memory assessments are imperfect proxies of objective memory.
+
+#### Perfect Introspection
+
+Most importantly, objective and subjective memory states do not map onto each other in the EC paradigm. 
+Memory responses, assumed in the PD approach to reflect perfect CS-US pairing memory, actually involved suboptimal memory (i.e., accuracy of 70-80%). 
+In addition, Attitude responses, assumed to reflect evaluations in the total absence of objective memory, were associated with above-chance memory accuracy. 
+Thus, as expected, introspection was not perfect (and/or memory states are more continuous than assumed by the Process-Dissociation procedure). 
+Clearly, this is highly problematic when investigating the memory-independent EC question based on the original PD procedure. 
+Specifically, if participants report a supposedly memory-free evaluation when they do in fact have memory for relevant information, outcomes from the PD procedure are likely to falsely suggest that EC effects are acquired or maintained in the absence of memory.
+
+#### Invariance
+
+Critical to the PD too, several of the present findings suggest the operation of heterogeneous processes in inclusion and exclusion conditions.
+In Experiment 1, the proportion of Memory responses differed between inclusion and exclusion conditions. 
+In addition, there was evidence for a carry-over effect to the subsequent valence-memory measure:
+The response distribution on the US valence memory measure varied between these conditions, with uncertainty about US valence memory higher under inclusion instructions, and especially for the to-be-reversed Attitude responses the responses to non-paired stimuli were affected by PD Condition.
+Perhaps most importantly, both studies converged in showing greater difficulty (RT and/or accuracy) of the Exclusion task in the modified PD procedure.
+This is consistent with our previous findings from the original PD procedure showing the same RT difference.
+Collectively, these findings are inconsistent with the assumption of invariance inherent to the PD procedure. 
+As a result, they also threaten the validity of the PD procedure for examining the memory-independent EC question.
+
+Taken together, the two findings --- that introspection is not perfect and that cognitive processes differ between inclusion and exclusion groups --- seriously question the validity of the original PD paradigm, and in particular, the interpretation of the PD procedure's main A>0 result in terms of EC in the absence of memory.
+<!-- TODO FA: perhaps briefly menition that the independenc assumption is no longer needed  -->
+
+
+### Additional results from response-level analyses
+
+A core feature of the PD approach is its assessment of subjective mnemonic experiences.
+Our minimal procedural modification turned the PD's original group-level estimate into an response-level subjective memory assessment that no longer requires the invariance and independence assumptions.
+We illustrated how this measure, as well as other more established subjective measures, can be fruitfully used in EC research.
+
+#### Responses on subjective measures should not be taken at face value
+
+We saw above that, because introspection is not perfect, an interpretation of subjective memory results has to take into account the possibility of introspective misses and false alarms.
+This caveat of course applies to all subjective memory measures [e.g., Remember vs. Know responses do not perfectly separate recollective retrieval from its absence; @wais_remember-know_2008]. 
+More generally, the psychometric properties of subjective memory measures should be carefully considered before drawing conclusions about awareness. 
+For instance, construct validity is often limited: 
+As an example, while the Remember-Know distinction is typically interpreted as reflecting qualitatively distinct mnemonic experiences with comparable strength, the measure is found to be strongly correlated with confidence (i.e., R responses are associated with higher confidence than K responses; Dunn 2004).
+Furthermore, what is reflected in the Remember-Know distinction depends on the wording of instructions [e.g., @mccabe_influence_2009;@williams_different_2019], specific procedural properties and the availabiliy of a Guess option [@eldridge_effect_2002], as well as the experimental context [@mulligan_remember-know_2010].
+As another example, subjective memory measures are noisy and therefore subject to selection bias issues: 
+When a subset of cases is selected based on their showing low level of (subjective or objective) memory on a noisy measure, repeated measures are likely to show higher memory levels.
+We reported evidence for selection bias operating: 
+CSs selected because they received Attitude responses (suggesting the absence of memory) showed substantial levels of memory on the other subjective measures (RKG, Confidence; and subjective memory was related to objective memory in these cases).
+In sum, subjective-memory responses should not be interpreted at face value:
+A participant may respond "I don't remember" to an item on a specific occasion, but memory for that item may nevertheless be available on other measures and/or other occasions.
+
+#### Subjective measures can help discover regularities
+
+In our response-level analyses, subjective memory measures helped identify patterns that could not have been detected without them.
+In support of their validity, subjective measures of US valence memory were better predictors of US valence memory accuracy than of US identity memory accuracy.
+Furthermore, consistent with the notion that episodic recollection is required to identify the US paired with a given CS, subjective experiences of episodic retrieval predicted US identity-memory accuracy; in contrast, subjective experiences of familiarity were sufficient to predict increased US valence-memory accuracy.
+Perhaps most relevant was the subjective-objective interaction in predicting EC effects.
+Consistently, and even in the absence of any pairings with USs, pre-post evaluative change was associated with valence-memory responses, suggesting that pre-post evaluative change depended on participants' *perceived US valence*: 
+CSs (falsely) believed to have been paired with pleasant USs became more pleasant than CSs (falsely) believed to have been paired with negative USs.
+Interestingly, this pattern strengthened with increasing confidence: 
+It depended on the strength of participants' belief in their valence memory (even if that belief was false). 
+
+These results exemplify that subjective memory measures, while they should not be taken at face value, can still be useful tools in EC research---especially when considered jointly with other fine-grained measures.
+
+## Limitations and open questions
+
+The present studies, are, in turn, based on several assumptions. 
+We discuss several reasons for cautious interpretation of their results.
+
+### Relevance of modified-PD data for original PD
+
+The interpretation of the present findings as relevant for the original PD relies on the assumption that the small modification we made to the PD procedure did not induce substantial changes to the underlying processes, in particular to participants' mnemonic introspection. 
+Yet, the procedural modification may have affected results in a more profound way than we have assumed here. 
+If the procedural modification indeed disrupted introspection, the present empirical findings would not be relevant for the original PD procedure.
+Yet, we know of no evidence in support of such an assumption; and it is difficult to see why the modified procedure would be more problematic a-priori. 
+Both procedures are similar in that they require participants to select a response mapping based on their introspective decision (which needs to be made before participants can select a response).
+If the presence of the second set of response buttons somehow interferes with introspection, this may lead to the selection of response-mappings that do not correspond to the "true" introspective state (e.g., participants would sometimes use the Memory buttons without actually being in the introspective "memory present" state).
+Thus, it would affect the relation between introspective states and the observable response.
+Presumably, however, such errors in selecting the response mapping that corresponds to the given introspective state would also be possible in the original procedure; and would then have similar consequences (discussed above) as errors in the introspective process itself.
+
+<!-- It would however be difficult to provide empirical evidence for the claim that introspective accuracy is perfect as long as one is not asked to express ones’ introspection by the modified procedure. -->
+We have argued above that we consider the procedural modification minimal and unproblematic, but we cannot offer direct evidence in its support.
+Lacking empirical evidence, plausibility considerations may help assess the perfect-introspection assumption.
+Even if the present data could not be taken as evidence for less-than-perfect introspection, we feel it is safe to just assume (even without evidence from this specific paradigm) that introspection sometimes does fail.
+In light of our knowledge, it appears much more plausible to assume that introspection is as noisy and error-prone as most of cognition is. 
+Thus, there would still be good arguments for going beyond PD and preferring a response-level subjective measurement approach:
+First, the results of our simulations would still hold, showing that a single-process model can account for the "memory-independent attitude" pattern if introspection is allowed to be less than perfect.
+In other words, only if we buy into the assumption of perfect introspective accuracy (as well as process invariance) would we be able to interpret findings of $A>0$ as supporting EC in the absence of memory; if, instead, we contend that introspection may occasionally fail, such findings are consistent with a more parsimonious single-process model.
+Second, if EC in the absence of memory does in fact exist, it should also be found on tasks other than the original PD procedure; and the added benefits of more fine-grained measurement approaches that build bridges to other fields of research would be considerable.
+
+<!-- ^[FN: Importantly, our response-mapping simplification should not affect the PD procedure's core instructions (i.e., regarding the two-stage decision), and therefore, should not substantially alter the cognitive processes involved. -->
+<!-- It seems fair to say that the modified procedure does not differ from the original procedure more than the exclusion condition differs from the inclusion condition. -->
+<!-- <!-- Equating the processes in the modified and original procedures is thus no greater a leap than equating those under inclusion and exclusion instructions. --> 
+<!-- <!-- If one is willing to accept the original PD's invariance assumption, then one should be willing to accept the modified procedure as involving the same cognitive processes as the original procedure. --> 
+<!-- We consider it unlikely that the modification substantially affected participants' introspective accuracy or the inclusion-exclusion process invariance and used the modified procedure as a research tool for probing these assumptions of the original procedure.] -->
+
+
+### Introspective misses as implicit memory
+
+It could be argued that introspective misses reflect memory traces too weak to be consciously detected and therefore represent implicit (or unconscious) memory.
+Viewed this way, the fact that these cases are reflected in the *A* parameter of the PD model no longer appears problematic;
+the PD approach would remain valid as a measure of attitudes in the absence of explicit memory.
+This is another way of stating that the findings are *consistent* with a dual-process model assuming two distinct mnemonic representations---explicit and implicit memory.
+Of note, this is not the same as *evidence* supporting this model over other models, as the results are also consistent with, for instance, a single-process model in which the same information is used to inform both mnemonic and evaluative judgments and weak memory traces---while falling below a memory criterion---may nevertheless inform attitude judgments.
+^[Memory decision criteria cannot be equated to awareness thresholds: 
+They are tools to separate cases of higher from those of lower strength or confidence; and they can be shifted adaptively in response to consciously available factors such as base rates, payoffs, and other situational factors.
+<!-- Some researchers argue that mnemonic decision criteria are variable to some degree [@criterion-noise]; such random fluctuations may be responsible for introspective misses. -->
+]
+<!-- Perhaps more importantly, weak memory traces are not equivalent to attitudes, at least in the dual-process approach on which the PD model is based. -->
+<!-- Only when one accepts a single-process model in which same information is used to inform both mnemonic and evaluative judgments. -->
+There was also empirical evidence against an interpretation of *A* as reflecting implicit memory:
+We saw that, due to selection biases, an Attitude response did not imply the absence of subjective memory (i.e., it was associated with substantial proportions of high-confidence and Remember responses).
+
+
+
+### Understanding of instructions
+
+The PD instructions were not understood well in both studies. 
+This problem is not specific to the modified procedure but widespread also in applications of the original PD.
+Because of selection bias, the problem is likely not fully addressed by excluding participants who failed the instruction check, as (1) some participants who have passed may have succeeded accidentally, without fully understanding the task; and (2) some (of these) participants may have subsequently failed to adhere to instructions on at least a few trials.
+We believe simplifying the task by eliminating the need for an Exclusion instructions, as we have done in the modified procedure, is a more promising way of addressing the difficulty of exclusion instructions.
+^[Note that the RKG instructions, while also notoriously difficult to implement, were considerably easier than the PD task.]
+
+<!-- ### Other processes may have distored PD responses -->
+
+<!-- The present study does not provide a thorough and comprehensive test of the potentially problematic assumptions of the PD. -->
+<!-- There are other ways in which the assumptions inherent in the original PD may turn out to be problematic. -->
+<!-- For instance, another way in which PD responses may be distorted is via attitude-informed guessing in introspective false-alarm states. -->
+<!-- If participants decide they are in the "memory-present" state erroneously (i.e., they have no US valence memory) but still use its response mapping, their responses will be based on guessing processes that may (or may not) be informed by (pre-existing or learned) attitudes. -->
+<!-- In this case, they will generate a surplus of attitude-consistent responses under inclusion (and attitude-inconsistent responses under memory-exclusion) that is not represented in the PD equations (here, guessing probabilities are assumed to be equal across instruction conditions) and will therefore cause the *A* parameter to be artifically inflated. -->
+<!-- In other words, introspective false alarms may render the PD procedure susceptible to attitude-as-information heuristics. -->
+<!-- TODO: simulate first! -->
+
+<!-- ## Implications for assessing EC and (subjective) memory -->
+
+<!-- Here we developed and empirically tested an item-level assessment procedure of subjective memory states in EC research, which closely resembles the PD approach, for separating explicit memory from attitudes in the absence of such memory.  -->
+<!-- The results supports the validity of the modified procedure, and they suggest that core assumptions underlying the PD approach are violated.  -->
+<!-- They seriously question the interpretation of the original PD's *A*>0 result as support to dual-process theories of attitude learning. -->
+
+<!-- The specific assessment procedure used here served to illustrate the potential, for EC research, of the general approach of subjective person-by-item-level awareness assessments (see Dienes, 2007; Dienes & Scott, 2005).  -->
+<!-- It is limited in that it yields only partial information (i.e., for a given CS, participants report only memory or attitude conditional upon their subjective assessment, not both), and that it considers only two subjective states. -->
+<!-- Both limitations were motivated by the goal to closely follow the original PD procedure; they can and should be addressed in future research. -->
+<!-- The conditional reporting can be eliminated by further modification of the procedure (i.e., asking for both memory and attitude judgments regardless of subjective state, as we have done in Exp. 2). -->
+<!-- The approach is of course not limited to two states; researchers should assess the number and variety of subjective states that are of interest in a given study.  -->
+<!-- For instance, future EC studies may wish to assess three (or more) subjective states of US valence memory: Guessing, Intuition/Knowing, or Remembering US valence (e.g., Waroquier, Abadie, & Dienes, 2020).  -->
+<!-- Such an approach is analogous to the separate assessment of judgment versus structural implicit knowledge (see Dienes, 2007; Dienes & Scott, 2005), as well as analogous to the Remember-Know-Guess procedure used in recognition memory (Gardiner & Java, 1993; Gardiner, Ramponi, & Richardson-Klavehn, 2002; Migo, Mayes, & Montaldi, 2012). -->
+<!-- We have illustrated how such established item-by-item assessment approaches (i.e., confidence ratings, remember-know-guess judgments) may be fruitfully used to study the role of memory and awareness in EC. -->
+
+## Implications for attitude research
+
+Prominent dual-process theories of attitude posit that evaluations can be acquired automatically, and in particular unconsciously [e.g., @gawronski_implicit_2014; @mcconnell_systems_2014]. 
+High-profile EC publications that relied on the use of a Process Dissociation (PD) procedure have claimed to bring support for this dual-learning view [e.g., @hutter_dissociating_2012;
+@hutter_implicit_2013]. 
+In the present contribution, we report data that (i) are inconsistent with central assumptions of the PD and (ii) fail to support dual-process models of attitude learning. 
+
+In addition to questioning central assumptions of the PD procedure, we found no evidence for EC effects in the absence of CS-US pairing memory. 
+This conclusion, relying on a response-level rather than group-level analysis, is fully consistent with our previous work relating EC to memory for US valence [e.g., @pleyers_aware_2007; @stahl_respective_2009]. 
+Whereas this finding fails to support the dual-process approach to attitudes, it however does not necessarily invalidate it. 
+First, although posited in the most prominent dual-process models of attitude, such as the Associative-Propositions Evaluations model [@gawronski_implicit_2014], the Systems of Evaluations Model [@mcconnell_systems_2014], and the Implicit Affect Misattribution model [@jones_implicit_2009; @jones_evaluative_2010], the unaware EC assumption is not necessarily inherent to the dual-learning approach itself. 
+For instance, the Meta-Cognitive model [@petty_metacognitive_2007] is mute on the unaware attitude learning question. 
+Second, that no evidence was observed here for unconscious EC does not mean such evidence is not to be observed in other EC paradigms. 
+In particular, EC paradigms relying on more incidental CS-US presentations might be more conducive to an implicit acquisition of attitudes [@jones_implicit_2009; @moran_incidental_2020; but see @kurdi_does_2020;@hussey_evaluative_2020;@stahl_evaluative_2020]. 
+Third, memory data ultimately inform us about the role of retrieval at the evaluation stage, not necessarily about the role of awareness at encoding. 
+In other words, the current finding that EC depends on accurate US valence memory suggests that EC (at least in the paradigm considered here) does not survive a loss of CS-US memory traces. 
+Instead of relying on correlational data making use of proxies for awareness, experimental manipulations directly implemented at the learning stage should be favored. 
+As discussed in the introduction, however, this approach has so far provided little (if any) support to the unaware attitude learning view [for a comprehensive discussion, see @corneille_associative_2019].
+
+## Conclusion and outlook
+
+We have illustrated how the PD approach comes with problematic assumptions, and that even minor violations of these assumptions can substantially distort substantive conclusions.
+Next, we have demonstrated empirically in two studies that those assumptions were indeed violated in a procedure highly similar to the original PD approach, suggesting that the PD results reported in the literature are likely distorted. 
+Finally, even without such risks of distortion, a more fine-grained assessment of (objective and subjective) memory in EC is preferrable over the PD approach.
+<!-- (which requires aggregation across items, participants, and groups, and yields only a single estimate per study). -->
+When aiming for evidence of dual processes, instead of relying on interpretation of a group-level point estimate (i.e., the difference of the *A* parameter estimate from zero), researchers should make use of response-level measures to aim for richer patterns [such as crossed double dissociations or two-dimensional outcome spaces; e.g., @schmidt_criteria_2006] that would more strongly support dual-process explanations.
+
+

@@ -1,0 +1,184 @@
+digraph {
+  graph [
+    rankdir = LR
+    , fontname = Helvetica
+    , compound = true
+    , splines = false
+  ]
+
+  # CS
+  node [shape = plaintext, fontname = Helvetica, fontsize = 14]
+  cs2 [label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="4"  CELLPADDING="9"><TR><TD PORT="pos">CS+</TD></TR><TR><TD PORT="neg">CS-</TD></TR></TABLE>>, margin = 0.1]
+  cs1 [label = <<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="4"  CELLPADDING="9"><TR><TD PORT="pos">CS+</TD></TR><TR><TD PORT="neg">CS-</TD></TR></TABLE>>, margin = 0.1]
+
+  A [label = <<B>A        </B><BR /><BR /><BR />>]
+
+  # Original procedue
+  subgraph cluster_0 {
+    labeljust = "c";
+    style = "rounded, dashed";
+    label = "     Introspection         Unobserved decision";
+    fontsize = 14;
+    
+    node [shape = oval, fontname = Helvetica, style = filled, fillcolor = white, height = 0.8, width = 1.6]
+    memory11 [label = "Memory"]
+    memory12 [label = "No\nmemory"]
+    
+    direct [label = "Report US\nvalence"]
+    reverse [label = "Report\nattitude"]
+
+    {rank = same; direct; reverse}
+  }
+
+  subgraph cluster_1 {
+    labeljust = "c";
+    style = "rounded";
+    # color = white;
+    label = "Response";
+    fontsize = 14;
+
+    subgraph cluster_c {
+        labeljust = "c";
+        style = "";
+        color = black;
+        fillcolor = lightgrey;
+        label = <<I>US valence<BR />or attitude?</I>>;
+        fontsize = 14;
+    
+        subgraph cluster_11 {
+            labeljust = "c";
+            style = "filled";
+            color = black;
+            fillcolor = lightgrey;
+            label = "";
+            fontsize = 14;
+            
+            
+            node [shape = box, fontname = Helvetica, style = "bold,filled", fillcolor = white, width = 1.35, height = 0.5]
+            pleasant [label = "Pleasant"]
+            unpleasant [label = "Unpleasant"]
+        }
+    }
+  }
+
+  B [label = <<BR /><BR /><B>B        </B>>]
+  cs1 -> B [color = white]
+
+  {rank = same; A, B, cs1, cs2}
+
+  # Modified procedue
+  subgraph cluster_2 {
+    labeljust = "c";
+    style = "rounded, dashed";
+    label = "Introspection";
+    fontsize = 14;
+    
+    node [shape = oval, fontname = Helvetica, style = filled, fillcolor = white, height = 0.8, width = 1.25]
+    memory21 [label = "Memory"]
+    memory22 [label = "No\nmemory"]
+  }
+
+  subgraph cluster_3 {
+    labeljust = "c";
+    style = "rounded";
+    # color = white;
+    label = "Observed decision               Response      ";
+    fontsize = 14;
+
+    subgraph cluster_y {
+        labeljust = "c";
+        style = "";
+        color = black;
+        fillcolor = lightgrey;
+        label = <<I>US valence<BR />or attitude?</I>>;
+        fontsize = 14;
+
+        subgraph cluster_31 {
+            labeljust = "c";
+            style = "bold,filled";
+            color = black;
+            fillcolor = lightgrey;
+            label = "Memory";
+            fontsize = 14;
+            
+            
+            node [shape = box, fontname = Helvetica, style = filled, fillcolor = lightgrey, width = 1.35, height = 0.5, color = "#808080"]
+            pleasant21 [label = "Pleasant", fontcolor = "#808080"]
+            unpleasant21 [label = "Unpleasant", fontcolor = "#808080"]
+        }
+
+        subgraph cluster_32 {
+            labeljust = "c";
+            style = "bold,filled";
+            color = black;
+            fillcolor = lightgrey;
+            label = "Attitude";
+            fontsize = 14;
+            
+            
+            node [shape = box, fontname = Helvetica, style = filled, fillcolor = lightgrey, width = 1.35, height = 0.5, color = "#808080"]
+            pleasant22 [label = "Pleasant", fontcolor = "#808080"]
+            unpleasant22 [label = "Unpleasant", fontcolor = "#808080"]
+        }
+    }
+
+
+    subgraph cluster_b {
+        labeljust = "c";
+        style = "";
+        color = black;
+        fillcolor = lightgrey;
+        label = <<I>US valence<BR />or attitude?</I>>;
+        fontsize = 14;
+
+        subgraph cluster_41 {
+            labeljust = "c";
+            style = "filled";
+            fillcolor = lightgrey;
+            label = "Memory";
+            fontsize = 14;
+            
+            
+            node [shape = box, fontname = Helvetica, style = "bold,filled", fillcolor = white, width = 1.35, height = 0.5]
+            pleasant31 [label = "Pleasant"]
+            unpleasant31 [label = "Unpleasant"]
+        }
+
+        subgraph cluster_42 {
+            labeljust = "c";
+            style = "filled";
+            fillcolor = lightgrey;
+            label = "Attitude";
+            fontsize = 14;
+            
+            
+            node [shape = box, fontname = Helvetica, style = "bold,filled", fillcolor = white, width = 1.35, height = 0.5]
+            pleasant32 [label = "Pleasant"]
+            unpleasant32 [label = "Unpleasant"]
+        }
+    }
+  }
+
+
+  # Edges
+  edge [arrowhead = "normal", fontname = Helvetica]
+  cs1:pos -> memory11:s [lhead = cluster_0]
+  cs1:neg -> memory12:n [lhead = cluster_0, fillcolor = "white"]
+  memory11 -> direct [fillcolor = "grey"]
+  memory12 -> reverse [fillcolor = "grey"]
+  
+  direct:e -> pleasant
+  reverse:e -> unpleasant [fillcolor = "white"]
+  direct -> unpleasant:w [fillcolor = "white"]
+  reverse -> pleasant:w
+  
+  cs2:pos -> memory21:s [lhead = cluster_2]
+  cs2:neg -> memory22:n [lhead = cluster_2, fillcolor = "white"]
+  memory21 -> pleasant21 [lhead = cluster_31, fillcolor = "grey"]
+  memory22 -> unpleasant22 [lhead = cluster_32, fillcolor = "grey"]
+
+  pleasant21:se -> pleasant31:w [ltail = cluster_31]
+  unpleasant21:ne -> unpleasant31:w [ltail = cluster_31, fillcolor = "white"]
+  pleasant22:se -> pleasant32:w [ltail = cluster_32]
+  unpleasant22:ne -> unpleasant32:w [ltail = cluster_32, fillcolor = "white"]
+}

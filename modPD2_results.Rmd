@@ -1,0 +1,729 @@
+---
+title: "R Notebook"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    fig_caption: yes
+    keep_md: yes
+    number_sections: yes
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache=TRUE,message=FALSE,warning=FALSE)
+
+library("papaja")
+library(ggplot2)
+library(lemon)
+library(Matrix)
+library(ggmosaic)
+
+library(knitr)
+library(afex)
+options(contrasts=c('contr.sum', 'contr.poly'))
+afex_options(check_contrasts=FALSE, method_mixed="S")
+
+library(data.table)
+library(lme4)
+library(lmerTest)
+library(tidyverse)
+library(emmeans)
+
+
+### print an F test from mixed
+print_mixedF <- function(obj, term){
+  if (!any(row.names(obj$anova_table)==term)) term <- paste0("`",term,"`")
+  index <- which(row.names(obj$anova_table)==term)
+  outF <- paste0("$F(", obj$anova_table[index,1], ",", round(obj$anova_table[index,2], 2), ")=", round(obj$anova_table[index,3],2))
+  outp <- printp(obj$anova_table[index,4])
+  out <- paste0(outF, ", p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
+}
+
+#d <- read.csv(file="../modPD2/modPD2_alldata.csv")
+d <- readr::read_delim("./data/modPD2_alldata.csv", ",", escape_double = FALSE, trim_ws = TRUE)
+
+d$id <- factor(d$id)
+
+# remove this variable because it refers to the material-list files from which the subject's experiment was run, not to the actual subject (this is given in the id variable).
+# the lists for 1-8
+d$subject_nr <- NULL
+
+# new variables
+
+# selected valence in valmem
+d$pdval[d$pd_resp %in% c("A_neg", "M_neg")] <- "negative"
+d$pdval[d$pd_resp %in% c("A_pos", "M_pos")] <- "positive"
+d$vmval[d$vm < 0] <- "negative"
+d$vmval[d$vm > 0] <- "positive"
+
+d$vmpos <- 0
+d$vmpos[d$vmval=="positive"] <- 1
+
+d$pdpos <- 0
+d$pdpos[d$pdval=="positive"] <- 1
+
+d$Proportion.R <- 0
+d$Proportion.R[d$rkg == "R"] <- 1
+
+d$Proportion.G <- 0
+d$Proportion.G[d$rkg == "G"] <- 1
+
+d$Proportion.K <- 0
+d$Proportion.K[d$rkg == "K"] <- 1
+
+d$ecm <- 0
+d$ecm[d$ec_abs>median(d$ec_abs, na.rm = TRUE)] <- 1
+
+#table(d$ecm,d$us_valence)
+
+# EC effect magnitude (not direction) in postratings
+d$ecmag <- d$ec
+d$ecmag[d$us_valence=="negative"] <- -d$ec[d$us_valence=="negative"]
+names(d$ecmag) <- "EC (magnitude of change in direction of US valence)"
+
+# compute joint indicator of memory phenomenology: 
+# Confidence (0-2), Set1 choice (0 or 1), RKG response (0-2)
+#d$phen <- (d$vmconf-1) + d$Proportion.Set1 + (d$Proportion.R + 1 - d$Proportion.G)
+#plot(hist(d$phen)) # spike at 0 and flattening out: max at zero, median at 1
+
+# compute joint indicator of memory: maximal phenomenology is weighted equally strong as accuracy
+#d$mem <- d$phen + d$imcor*5
+
+# compute response button set choice as factor
+d$pdset <- factor(d$pdset, labels = c("Memory", "Attitude"))
+
+# data set of exp2
+d2 <- d
+
+## Additional variables
+
+d2$pdset[d2$resp_format=="Control"] <- NA
+d2$vmconff <- factor(4-d2$vmconf, labels=c("high", "medium", "low")) 
+#d2$vmconf2 <- factor(d2$vmconf==3) # binary, as in Exp.1
+d2$`Valence memory` <- relevel(factor(d2$vmcor, labels=c("incorrect", "correct")), ref="correct")
+#d2$phen_ <- d2$phen<3
+#d2$`Subjective memory` <- factor(d2$phen_, labels=c("high", "low"))
+d2$Pairing <- 0
+d2$Pairing[d2$us_valence!="none"] <- 1
+
+## Pretty labels
+
+d2$`PD Response` <- d2$pdset
+d2$`Proportion pleasant` <- d2$Proportion.pleasant
+
+## correct := matches pre-rated valence
+d2$pdcor_Att_ <- d2$Proportion.pleasant
+d2$pdcor_Att_[d2$cstype=="negative"] <- 1-d2$Proportion.pleasant[d2$cstype=="negative"]
+d2$pdcor_Att_[d2$resp_format=="Exclusion"] <- 1-d2$pdcor_Att_[d2$resp_format=="Exclusion"]
+#table(dpd2$pdcor_Att, dpd2$cstype, dpd2$Proportion.pleasant, dnn=c("cor","cs", "pos"))
+
+## Compute exclusion criterion for participants who failed the PD training test
+
+d2$include <- (d2$PD_practice_correct==1 | d2$resp_format=="Control")
+#table(d2$include, d2$Instruction)
+#length(unique(d2$id[d2$include==FALSE])) # n=13
+#length(unique(d2$id[d2$include==TRUE])) # n=110
+
+## factors from characters etc.
+
+d2$Confidence <- factor(d2$vmconff, levels=c("low","medium","high"), ordered=TRUE)
+d2$RKG <- factor(d2$rkg, levels=c("G","K","R"), ordered=TRUE)
+d2$Identity_memory <- factor(d2$imcor)
+d2$Valence_memory <- factor(d2$vmcor)
+d2$CS_Valence <- factor(d2$cstype, ordered=TRUE)
+d2$US_Valence <- factor(d2$us_valence, ordered=TRUE)
+d2$Material <- factor(d2$material)
+d2$Instruction <- factor(d2$resp_format)
+d2$case_no <- d2$X1
+d2$Proportion.Memory <- d2$Proportion.Set1
+
+
+## arrange vars by groups/tasks
+d2 <- subset(d2, select=c(case_no, include
+# IDs: id, cs
+      , id, cs
+# IVs (factors): Instruction, material, cs_valence, US_Valence
+      , Instruction, Material, CS_Valence, US_Valence, Pairing #cstype, us_valence, resp_format, material
+# practice
+      , PD_practice_runs, PD_practice_correct, RK_practice_runs, RKprac_correct #RKprac_errors, RK_practice_correct, 
+# ratings: numeric
+      , prerating, prerating_RT, postrating, postrating_RT, ec, ecmag
+# PD: rt, acc, button-set (factor, pretty-label, numeric DV),  acc,  pleasant (factor, pretty-label), pdcor_Att_ (???)
+      ,pd_RT,pdcor,  `PD Response`,pdset,Proportion.Memory,   Proportion.pleasant,`Proportion pleasant`,  pdcor_Att_ # pd_resp, pd_correct, pdpos
+# valmem: acc (factor & numeric DV),  pleasant (factor & binary numeric DV)
+      , Valence_memory,vmcor,  vmpos,vmval # vm,vm_RT,vm_correct, `Valence memory`,
+# confidence: ordered factor
+      , Confidence # vmconf,vmconff,vmconf2, conf, 
+# RKG: ordered factor
+      , RKG # rkg, rkg_RT
+# idmem: as factor & binary numeric DV 
+    , Identity_memory, imcor #im_correct, im_resp, im_opt, im_RT
+))
+
+save(d2, file="./data/modPD2_d2.RData")
+#write.csv(d2, file="./data/modPD2_d2.csv")
+
+## all participants who entered the PD conditions
+
+dpd <- subset(d2, Instruction!="Control")
+
+## Exclude participants who failed the PD training test
+
+d2 <- subset(d2, include==TRUE)
+
+## Compute frequently used data subsets
+
+d2p <- subset(d2, US_Valence!="none")
+d2pd <- subset(d2, Instruction != "Control")
+d2pdp <- subset(d2pd, US_Valence!="none")
+
+d2u <- subset(d2, US_Valence=="none")
+d2ux <- subset(d2u, Instruction!="Exclusion")
+
+# PD responses with Set1 (vs Set2)
+d2pd1 <- subset(d2pd, pdset == "Memory")
+d2pd2 <- subset(d2pd, pdset == "Attitude")
+
+# of these, only paired CSs
+d2pd1p <- subset(d2pd1, US_Valence!="none") 
+d2pd2p <- subset(d2pd2, US_Valence!="none") 
+
+# of these, only nonpaired CSs
+d2pd1n <- subset(d2pd1, US_Valence=="none")
+d2pd2n <- subset(d2pd2, US_Valence=="none")
+
+
+```
+
+
+## Results
+
+```{r explore-participants}
+
+## PD instruction test
+
+#length(unique(d2$id)) # n=123
+# table(dpd$PD_practice_correct)/sum(table((dpd$PD_practice_correct))) # 84% correct, 8% half, 7% none
+pd_prac <- table(dpd$PD_practice_correct)[3]/sum(table((dpd$PD_practice_correct))) # 84% correct
+pd_runs <- table(dpd$PD_practice_runs)/sum(table(dpd$PD_practice_runs)) # one third needed 1, one third 2, and one third 3 runs
+#table(dpd$PD_practice_correct, dpd$Instruction)
+
+## RKG instruction test:
+
+rk_prac <- table(d$RKprac_correct)[2]/sum(table((d$RKprac_correct))) # 93%
+rk_runs <- table(d$RK_practice_runs)/sum(table((d$RK_practice_runs))) # one third needed 1, one third 2, and one third 3 runs
+
+## Mem vs. Att responses: nice unimodal dist.
+
+bs_freq <- table(dpd$id, dpd$pdset)
+#hist(bs_freq[,2])
+#hist(bs_freq[,1])
+
+
+
+
+```
+
+<!-- **TODO: check whether valent-CS and Exclusion data are (not) used consistently** -->
+
+As in Experiment 1, we focus here on the PD results relevant to the study's three main goals.
+Full results on the effects of the experimental factors on evaluative ratings and memory measures are reported in the Appendix.
+
+### Validity of modified procedure
+
+We expected the memory manipulation to be reflected in a higher proportion of Memory responses for paired target CSs as compared to non-paired distractor CSs.
+The attitude manipulation should increase the consistency between Attitude responses and pre-learning evaluations.
+
+#### Proportion of Memory responses
+
+The modified PD instructions asked participants to use the Memory set if they remember US valence, and the Attitude set if they do not.
+Here we investigated the effect of manipulated variables on the proportion of Memory set responses.
+
+```{r pdset-exp2, fig.cap="Left: Proportion of Memory responses for paired CS; Right: Proportion of pre-rating-consistent Attitude responses for nonpaired stimuli."}
+
+par(mfrow=c(1,2))
+
+pdsetP <- afex::aov_ez(id="id", data=d2pd, within=c("CS_Valence", "Pairing"), between=c("Material","Instruction"), dv="Proportion.Memory", fun_aggregate = mean)
+em_Pairing <- apa_print(emmeans::emmeans(pdsetP, ~Pairing))
+em_Cond <- apa_print(emmeans::emmeans(pdsetP, ~Instruction, by="Pairing"))
+
+
+## nonpaired stimuli only: 
+
+pdsetn <- afex::aov_ez(id="id", data=subset(d2pd, US_Valence=="none"), within=c("CS_Valence"), between=c("Material","Instruction"), dv="Proportion.Memory", fun_aggregate = mean)
+## no effects
+minp_nonpaired <- round(min(pdsetn$anova_table$`Pr(>F)`),2)
+#apa_barplot(id="id", data=subset(dpd, US_Valence=="none"), factors=c("Material","CS_Valence"), dv="Proportion.Set1", intercept=c(.13,.18))
+## were "remembered" in 15% (faces) - 20% (gogos) of cases
+## without them, the US_Valence main effects, and the Material:usvalence interaction, are just barely sig., and the CS_Valence:usval- and Material:CS_Valence:usval- intratcionts disappear
+## but a strong Material effect emerges
+
+## paired CSs only (slightly diff. 3/4way-interaction for the pd_practice_correct=1 subset):
+
+pdset <- afex::aov_ez(id="id", data=subset(d2pd, US_Valence!="none"), within=c("CS_Valence", "US_Valence"), between=c("Material","Instruction"), dv="Proportion.Memory", fun_aggregate = mean)
+## CS_Valence .0001, Material .0005, Material:CS_Valence .0001;; Material:Instruction:CS_Valence .01;; usvalence .05, Material:usvalence .04; (Material:Instruction:CS_Valence:US_Valence .03)
+d2pd$`CS Valence` <- d2pd$CS_Valence
+d2pd$`US Valence` <- d2pd$US_Valence
+d2pd$`Proportion of Memory responses` <- d2pd$Proportion.Memory
+apa_lineplot(id="id", data=subset(d2pd), factors=c("CS Valence","US Valence"), dv="Proportion of Memory responses", args_legend=list(x="top"))
+
+
+## Material: more "remember" for faces than gogos
+em_material <- apa_print(emmeans::emmeans(pdset, ~Material))
+
+## CS_Valence: more "remember" for valent than neutral CSs
+em_CS_Valence_ <- emmeans::emmeans(pdset, ~CS_Valence)
+em_CS_Valence_c <- apa_print(pairs(em_CS_Valence_))
+em_CS_Valence <- apa_print(em_CS_Valence_)
+
+## material:CS_Valence: face advantage only for neg & neutral (both p<.001), not for positive CSs (p=.55) (all other effects within CS_Valence subgroups ns)
+em_material_CS_Valence_ <- emmeans::emmeans(pdset, ~CS_Valence, by=c("Material"))
+em_material_CS_Valence_c <- apa_print(pairs(em_material_CS_Valence_))
+em_material_CS_Valence <- apa_print(em_material_CS_Valence_)
+### faces: CS_Valence main effect p=.002 (neg > neut/pos)
+### gogos: CS_Valence main effect p<.0001 (pos > neg/neut), US_Valence effect p=.006 (more "remember" for neg. USs)
+
+## material:Instruction:CS_Valence:
+
+## material:CS_Valence effect sig. under Inclusion (p<.0001) but not Exclusion (p=.06) 
+## Inclusion: CS_Valence .01 (neg/pos > neutral), material .003 (face>gogo), material:CS_Valence .0001 (face: neg > pos/neut; gogo: pos > neg/neut), material:usvalence .02 (gogos: neg > pos)
+## Exclusion: CS_Valence .007 (neg/pos > neutral), material .05 (face>gogo), material:CS_Valence .06
+## respformat:CS_Valence: gogos .08, faces .16 (after excluding instruction-error-Ss: gogos .13, faces .13)
+## respformat:material: negative .06, neutral .23, positive .94
+
+## sep. by material: --> faces: CS_Valence (neg>pos=neut); gogos: CS_Valence (pos>neg=neut), US_Valence (neg>pos)
+
+## sep. by Instruction: --> both Incl & Excl: material, CS_Valence, material:CS_Valence, material:usvalence ()
+## sep. by Instruction (without excluding insruction-failers): --> 
+### Incl: material .003 [faces>gogos], CS_Valence .01, material:CS_Valence .0001 [face: neg>neupos; gog: pos>negneu], material:usvalence .02 [neg>pos bei gogos]
+### Excl: material .05 [face>gog], CS_Valence .007 [posneg>neu], material:CS_Valence .06 [faces: nix; gogo: posneg>neu]
+
+## US_Valence .05: neg > pos
+em_US_Valence <- apa_print(emmeans::emmeans(pdset, ~US_Valence))
+
+## material:US_Valence .04: neg > pos nur für gogos
+em_material_US_Valence <- apa_print(emmeans::emmeans(pdset, ~US_Valence, by="Material"))
+
+
+### Figure from next chunk:
+d2pd2n$`Proportion consistent` <- d2pd2n$pdcor_Att_
+apa_lineplot(id="id", data=subset(d2pd2n, CS_Valence!="neutral"), factors=c("Instruction", "Material"), dv="Proportion consistent", use="all.obs", intercept=.5, args_legend = list(x="bottomright"), ylim=c(.5,1))
+
+
+```
+
+We computed a 2 (Material) x 2 (PD Instruction) x 3 (CS Valence) x 2 (Pairing) ANOVA of the proportions of Memory PD responses.
+As expected, we found paired CSs to be "remembered" more often than nonpaired stimuli (Figure \@ref(fig:pdset-exp2)):
+The strongest effect reflected the (expected) finding that paired CSs indeed showed a higher proportion of Memory responses (`r em_Pairing$estimate$X1`) than nonpaired stimuli (`r em_Pairing$estimate$X0`), `r apa_print(pdsetP)$full_result$Pairing`.
+
+<!-- The proportion of Memory responses for paired CSs is displayed in Figure \@ref(fig:pdset-exp2). -->
+For paired CSs, we added US Valence as a factor to the ANOVA described above. 
+We found a main effect of Material, `r apa_print(pdset)$full_result$Material`, reflected more Memory responses for faces (`r em_material$estimate$faces`) than toys (`r em_material$estimate$gogos`).
+A main effect of CS Valence, `r apa_print(pdset)$full_result$CS_Valence`, reflected more Memory responses for valent (positive: `r em_CS_Valence$estimate$positive`; or negative: `r em_CS_Valence$estimate$negative`) than neutral CSs (`r em_CS_Valence$estimate$neutral`).
+The two-way interaction of these two factors, `r apa_print(pdset)$full_result$Material_CS_Valence`, reflected the finding that, for faces, Memory responses were more frequent for negative CSs (`r em_material_CS_Valence$estimate$negative_faces`) as compared to neutral or positive CSs (neutral: `r em_material_CS_Valence$estimate$neutral_faces`, positive: `r em_material_CS_Valence$estimate$positive_faces`); whereas for toys, Memory responses were more frequent for positive CSs (`r em_material_CS_Valence$estimate$positive_gogos`) as compared to negative or neutral CSs (negative: `r em_material_CS_Valence$estimate$negative_gogos`, neutral: `r em_material_CS_Valence$estimate$neutral_gogos`). 
+The remaining three effects that were significant at $\alpha=.05$ were of smaller magnitude.
+A main effect of US valence, `r apa_print(pdset)$full_result$US_Valence`, indicated more Memory responses for CSs paired with negative (`r em_US_Valence$estimate$negative`) than positive USs (`r em_US_Valence$estimate$positive`).
+This was qualified by an interaction with Material, `r apa_print(pdset)$full_result$Material_US_Valence`, indicating that this negative-US advantage was restricted to the toys.
+Finally, a three-way interaction emerged between Material, PD condition, and CS Valence, `r apa_print(pdset)$full_result$Material_Instruction_CS_Valence`, pointing to a qualification of the above-described two-way Material by CS Valence interaction, which was significant under Inclusion but not Exclusion instructions.
+For nonpaired stimuli, no significant effects were obtained (smallest $p=`r minp_nonpaired`$).
+
+#### Attitude responses as a function of pre-existing attitudes
+
+```{r pd2acc-exp2, fig.cap="Accuracy of PD Memory responses to paired CSs (left) and of Attitude responses to valent unpaired stimuli (right) as a function of Valence and Condition."}
+
+par(mfrow=c(1,2))
+
+
+
+## what about Attitude responses to valent stimuli?
+
+pdset2 <- aov_ez(id="id", data=subset(d2pd2), between=c("Instruction","Material"), within=c("CS_Valence"), dv="pdcor_Att_")
+## material .0006, CS_Valence .0001, material:CS_Valence .06
+pdset2n <- aov_ez(id="id", data=subset(d2pd2, US_Valence=="none"), between=c("Instruction","Material"), within=c("CS_Valence"), dv="pdcor_Att_")
+## material .0007, CS_Valence .0001, resp_fprmat:csteype .08
+pdset2v <- aov_ez(id="id", data=subset(d2pd2, US_Valence=="none" & CS_Valence!="neutral"), between=c("Instruction","Material"), within=c("CS_Valence"), dv="pdcor_Att_")
+## material .02
+em2_material <- apa_print(emmeans(pdset2v, ~Material))
+
+em2_ <- emmeans(pdset2v, "1")
+
+em2_resp_format_ <- emmeans(pdset2v, ~Instruction)
+em2_resp_format_c <- apa_print(pairs(em2_resp_format_))
+em2_resp_format <- apa_print(em2_resp_format_)
+
+em2_resp_format_CS_Valence_ <- emmeans(pdset2v, ~Instruction, by="CS_Valence")
+em2_resp_format_CS_Valence_c <- apa_print(pairs(em2_resp_format_CS_Valence_))
+em2_resp_format_CS_Valence <- apa_print(em2_resp_format_CS_Valence_)
+
+
+```
+
+
+Figure \@ref(fig:pdset-exp2) (right) shows Attitude responses to valent nonpaired stimuli.
+An Attitude response was "correct" or consistent when it matched the pre-rated valence category (i.e., Attitude responses are a valid measure of participants' attitudes if they reflect their independently obtained evaluations). 
+We computed a 2 (Material) x 2 (PD Instruction) x 2 (CS Valence) ANOVA of the accuracy of PD Attitude responses to valent nonpaired stimuli.
+Overall, accuracy was relatively high (81%).
+<!-- As in Experiment 1, it was somewhat higher under Inclusion (`r em2_resp_format$estimate$Inclusion`) than Exclusion instructions (`r em2_resp_format$estimate$Exclusion`); despite the comparable absolute effect, this time the difference was not significant, `r em2_resp_format_c$full_result` (follow-up tests showed it was restricted to negative CSs, `r em2_resp_format_CS_Valence_c$full_result$negative_Exclusion_Inclusion`). -->
+An effect of Material, `r apa_print(pdset2v)$full_result$Material`, reflected higher accuracy for faces (`r em2_material$estimate$faces`) than toys (`r em2_material$estimate$gogos`).
+No other effects were significant (smallest $p=.21$).
+
+Taken together, the results in this first section again confirm the validity of the modified procedure for assessing subjective memory and attitudes:
+The pairing manipulation affected subjective memory (i.e., more "remember" decisions for paired than nonpaired stimuli);
+and the attitude manipulation was quite accurately reflected in Attitude responses.
+
+<!-- TODO: not fully selective; discuss crossover influences: pre-existing-attitude manipulation affected Memory responses; but not for nonpaired stimuli? does the memory manipulation affect attitude responses? -->
+
+### Testing assumptions: Introspective accuracy
+
+#### "Remembered" US valence for unpaired stimuli
+
+Replicating the introspective false alarms found in Experiment 1, the results of the last section have already shown a substantial rate of false introspective "remember" decisions for non-paired stimuli:
+Participants used the Memory responses (i.e., indicated remembering US valence) for approximately 14% of stimuli that had in fact never been paired with USs.
+
+<!-- #### US valence memory for "remembered" CSs (i.e., Memory responses) -->
+
+#### "Remembered" US valence for paired stimuli
+
+To further assess the validity of "remember" introspection we investigated the accuracy of Memory responses to paired CSs (i.e., whether the response matched the actual US's valence).
+Figure \@ref(fig:pd1acc-exp2) (left) depicts accuracy as a function of CS Valence and US Valence.
+Overall, mean accuracy of Memory responses was approximately 70% (95% *CI:* .66, .74), somewhat lower than in Experiment 1 and clearly less than perfect.
+
+```{r pd1acc-exp2, fig.cap="Left: Accuracy of PD Memory responses for the subset of paired CSs with Memory responses. Right: Valence-memory accuracy for paired CSs."}
+
+par(mfrow=c(1,2))
+
+
+## slightly different with the pdprac-perfect subset: Instruction:Material interaction ns!
+
+pdset1 <- afex::aov_ez(id="id", data=d2pd1p, within=c("CS_Valence", "US_Valence"), between=c("Instruction", "Material"), dv="pdcor")
+## dv pdcor: CS_Valence:usvalence .0001;; usvalence .02; ; material:usvalence .02
+## use lmm to avoid excluding ca. 15 cases with missing values
+#pdset1m <- afex::mixed(data=dpd1p, pdcor~ CS_Valence * US_Valence * Instruction * material + (CS_Valence*US_Valence|id)) # failed to converge
+#pdset1m <- afex::mixed(data=dpd1p, pdcor~ CS_Valence * US_Valence * Instruction * material + (1|id)) # complexer ones were singular
+
+em_ <- emmeans(pdset1, "1")
+# overall    0.7 0.0199 50     0.66     0.74
+
+## usvalence .02:
+em_US_Valence <- apa_print(emmeans(pdset1, ~US_Valence))
+
+## material:usvalence .02 (faces: ns; gogos: .002)
+em_material_US_Valence_ <- emmeans::emmeans(pdset1, ~US_Valence, by=c("Material"))
+em_material_US_Valence_c <- apa_print(pairs(em_material_US_Valence_))
+em_material_US_Valence <- apa_print(em_material_US_Valence_)
+
+## Instruction:material .03
+em_material_resp_format_ <- emmeans::emmeans(pdset1, ~Instruction, by=c("Material"))
+em_material_resp_format_c <- apa_print(pairs(em_material_resp_format_))
+em_material_resp_format <- apa_print(em_material_resp_format_)
+em_resp_format_material_ <- emmeans::emmeans(pdset1, ~Material, by=c("Instruction"))
+em_resp_format_material_c <- apa_print(pairs(em_resp_format_material_))
+em_resp_format_material <- apa_print(em_resp_format_material_)
+
+pdset1f <- afex::aov_ez(id="id", data=subset(d2pd1p, Material=="faces"), within=c("CS_Valence", "US_Valence"), between=c("Instruction"), dv="pdcor")
+pdset1g <- afex::aov_ez(id="id", data=subset(d2pd1p, Material=="gogos"), within=c("CS_Valence", "US_Valence"), between=c("Instruction"), dv="pdcor")
+#apa_barplot(id="id", data=dpd1p, factors=c("Material","Instruction"), dv="pdcor", use="all.obs", intercept=.5)
+
+#apa_barplot(id="id", data=dpd1p, factors=c("CS_Valence", "US_Valence"), dv="pdcor", use="all.obs", intercept=.5)
+#apa_barplot(id="id", data=dpd1p, factors=c("US_Valence","CS_Valence"), dv="pdcor", use="all.obs", intercept=.5, args_legend=list(x="top"))
+##
+#apa_lineplot(id="id", data=dpd1p, factors=c("US_Valence","CS_Valence"), dv="pdcor", use="all.obs", intercept=.5, args_legend=list(x="top"))
+d2pd1p$`CS Valence` <- d2pd1p$CS_Valence
+d2pd1p$`US Valence` <- d2pd1p$US_Valence
+d2pd1p$`PD Accuracy` <- d2pd1p$pdcor
+apa_lineplot(id="id", data=d2pd1p, factors=c("CS Valence","US Valence"), dv="PD Accuracy", use="all.obs", intercept=.5, args_legend=list(x="bottom"))
+
+## dv proportion.plesant: CS_Valence .0001, usvalence .0001;; material .02, resp_fpormat:material:usvalence .03
+
+
+# with only the paired CSs, much fewer cases had to be excluded
+pdset1p <- afex::aov_ez(id="id", data=d2pd1p, within=c("CS_Valence", "US_Valence"), between=c("Material","Instruction"), dv="Proportion.pleasant", fun_aggregate = mean)
+#apa_lineplot(pdset1p)
+#apa_lineplot(id="id", dpd1p, factors=c("CS_Valence","US_Valence"), dv="Proportion.pleasant", use="complete.obs")
+## main effect of US valence
+
+## expliring material effect
+#pdset1p <- afex::aov_ez(id="id", data=subset(dpd1p, Instruction=="Inclusion"), within=c("CS_Valence", "US_Valence"), between=c("material"), dv="Proportion.pleasant", fun_aggregate = mean)
+#apa_lineplot(id="id", data=subset(dpd1p, Instruction=="Inclusion"), factors=c("material","US_Valence"), dv="Proportion.pleasant", use="complete.obs")
+
+# pdset1p_RT <- afex::aov_ez(id="id", data=dpd1p, within=c("CS_Valence", "US_Valence"), dv="pd_RT", fun_aggregate = mean)
+# apa_lineplot(pdset1p_RT, ylim=c(3000,5000))
+
+# inclusion vs. exclusion difference in the biasing effect of CS valence on Set1 responses?
+# apa_lineplot(id="id", data=dpd1, factors=c("CS_Valence", "US_Valence", "Instruction"), dv="Proportion.pleasant", use="all.obs", intercept=.5)
+
+
+## Figure from next chunk:
+d2p$`CS Valence` <- d2p$CS_Valence
+d2p$`US Valence` <- d2p$US_Valence
+d2p$`Valence memory Accuracy` <- d2p$vmcor
+apa_lineplot(data = subset(d2p), id="id", factors=c("CS Valence","US Valence"), dv="Valence memory Accuracy", intercept=.5, args_legend=list(x="bottom"))
+
+```
+
+In a 2 (Material) x 2 (PD Instruction) x 2 (US Valence) x 3 (CS Valence) ANOVA of accuracy of Memory responses, the most prominent effect was a CS Valence by US Valence interaction, `r apa_print(pdset1)$full_result$CS_Valence_US_Valence`.
+It reflected the finding that Memory responses were most accurate when CS Valence matched US Valence; 
+it decreased for neutral CSs; 
+and it further decreased (to only slightly above chance-level accuracy) for CSs of mismatching valence.
+This suggests a strong affect-as-information effect in which participants used their evaluations of the CSs to infer the valence of the paired USs---not only when they were uncertain and believed to be lacking memory (i.e., for Attitude responses), but also for the subset of CSs for which participants believed to "remember" US valence.
+
+Additional effects of smaller magnitude include a main effect of US valence, `r apa_print(pdset1)$full_result$US_Valence`, reflecting the overall better accuracy for CSs paired with positive than negative US.
+It was qualified by a two-way interaction with Material, `r apa_print(pdset1)$full_result$Material_US_Valence`, indicating that the US Valence effect was restricted to the toy material (positive: `r em_material_US_Valence$estimate$positive_gogos`; negative: `r em_material_US_Valence$estimate$negative_gogos`).
+```{r}
+# Finally, a two-way interaction of Material with PD condition, `r apa_print(pdset1)$full_result$resp_format_material`, suggests a reduction of accuracy under Exclusion for toys, `r em_material_resp_format_c$statistic$gogos_Exclusion_Inclusion`, but not faces, `r em_material_resp_format_c$statistic$faces_Exclusion_Inclusion`.
+```
+
+<!-- Figure \@ref(fig:pdacc-exp2) (left panel) shows accuracy of Memory responses for paired CSs: -->
+<!-- Mean accuracy was approximately 70%, far below perfect performance. -->
+<!-- Again replicating Experiment 1, a substantial proportion (at least 30%) of Memory responses to paired CSs were introspective false alarms. ^[Assuming again a .5 guessing tendency in the absence of memory, the 30% error rate suggests that, of these 70%, another 30 percentage points represent lucky guesses, so that only the remaining 40 percentage points represent cases with veridical memory.] -->
+
+
+#### Objective US memory for "non-remembered" US valence
+
+
+```{r pd2-usmem2, fig.cap="Accuracy of US identity memory (left) and US valence memory (right) for the subset of paired CSs with Attitude responses."}
+
+par(mfrow=c(1,2))
+
+## Is there veridical memory for paired CSs with PD Attitude responses?
+
+#### US ID memory for paired CSs
+
+## is idmem above chance for Attitude?
+
+dd_above5 <- d2pd2p
+dd5_ <- aggregate(dd_above5$imcor, by=list(dd_above5$id, dd_above5$Instruction), FUN=mean)
+im_above5 <- apa_print(t.test(x=dd5_$x, mu=.5))
+
+imcorm <- afex::mixed(data = d2pd2p, imcor ~ US_Valence * CS_Valence * Instruction * Material + (US_Valence|cs) + (US_Valence*CS_Valence|id), method="S", progress=FALSE)
+
+
+d2pd2p$`Identity memory accuracy` <- d2pd2p$imcor
+papaja::apa_lineplot(data = d2pd2p, id="id", factors=c("Instruction", "Material"), dv="Identity memory accuracy", fun_aggregate = mean, intercept=.5, args_legend=list(x="bottomright"))
+
+em_im <- emmeans(imcorm, "1")
+#  overall  0.675 0.0204 71    0.634    0.715
+em_im_rm_ <- emmeans(imcorm, ~Instruction, by="Material")
+em_im_rm_c_ <- pairs(em_im_rm_)
+
+
+## vm
+
+
+## is valmem above chance for Attitude?
+
+dd_above5 <- d2pd2p
+dd5_ <- aggregate(dd_above5$vmcor, by=list(dd_above5$id, dd_above5$Instruction), FUN=mean)
+vm_above5 <- apa_print(t.test(x=dd5_$x, mu=.5))
+
+
+### all paired, with confidence
+
+## conf3
+#vmcorm_ <- afex::mixed(data = d2pd, vmcor ~ US_Valence * CS_Valence * Instruction * material + pdset * vmconff + (US_Valence*CS_Valence|id), method="S", progress=FALSE)
+## failed to converge
+#vmcorm_ <- afex::mixed(data = d2pd, vmcor ~ US_Valence * CS_Valence * Instruction * Material + pdset * Confidence + (US_Valence|cs) + (US_Valence+CS_Valence|id), method="S", progress=FALSE)
+## failed to converge
+vmcorm__ <- afex::mixed(data = d2pdp, vmcor ~ US_Valence * CS_Valence * Instruction * Material + pdset * Confidence + (US_Valence|cs) + (US_Valence*CS_Valence|id), method="S", progress=FALSE)
+## preferred
+#anova(vmcorm_,vmcorm__)
+# Model: vmcor ~ US_Valence * CS_Valence * Instruction * material + pdset * 
+# Model:     vmconff + (US_Valence | cs) + (US_Valence * CS_Valence | id)
+# Data: d2pd
+#                                    Effect         df         F p.value
+# 1                              US_Valence   1, 73.80      2.21    .142
+# 2                                  CS_Valence   2, 92.18      0.25    .779
+# 3                             Instruction   1, 66.86      0.23    .635
+# 4                                material   1, 68.25      0.41    .526
+# 5                                   pdset 1, 1824.53   9.29 **    .002
+# 6                                 vmconff 2, 1836.86 11.87 ***   <.001
+# 7                       US_Valence:CS_Valence   2, 76.27 21.94 ***   <.001
+# 8                  US_Valence:Instruction   1, 75.36      0.45    .506
+# 9                      CS_Valence:Instruction   2, 88.99      0.63    .534
+# 10                    US_Valence:material   1, 73.94      2.11    .151
+# 11                        CS_Valence:material   2, 90.37      0.80    .451
+# 12                   Instruction:material   1, 66.68      1.97    .165
+# 13                          pdset:vmconff 2, 1838.70    2.74 +    .065
+# 14          US_Valence:CS_Valence:Instruction   2, 74.46      1.59    .210
+# 15             US_Valence:CS_Valence:material   2, 76.21    4.44 *    .015
+# 16        US_Valence:Instruction:material   1, 75.40      1.88    .175
+# 17            CS_Valence:Instruction:material   2, 89.41      1.23    .298
+# 18 US_Valence:CS_Valence:Instruction:material   2, 74.44      1.13    .328
+#
+
+
+d2pdp$`Valence memory accuracy` <- d2pdp$vmcor
+apa_lineplot(data=subset(d2pdp), id="id", dv="Valence memory accuracy", factors=c("PD Response","Confidence"), use = "all.obs", ylim=c(.4,1), intercept=.5)
+
+#em_vmcorm_pd <- emmeans(vmcorm_, ~pdset)
+em_vmcorm_conf <- emmeans(vmcorm__, ~Confidence) 
+em_vmcorm_ <- emmeans(vmcorm__, ~Confidence | pdset) 
+# pdset = 1:
+#  vmconff emmean     SE   df lower.CL upper.CL
+#  high     0.792 0.0213  366    0.750    0.834
+#  medium   0.560 0.0229  452    0.515    0.605
+#  low      0.491 0.0336 1187    0.425    0.557
+# 
+# pdset = 2:
+#  vmconff emmean     SE   df lower.CL upper.CL
+#  high     0.616 0.0816 1789    0.456    0.776
+#  medium   0.451 0.0325 1088    0.388    0.515
+#  low      0.478 0.0215  365    0.435    0.520
+
+
+## follow-up on CS_Valence:usval
+## only Memory
+#vmcorm_1 <- afex::mixed(data = subset(d2pd, pdset==1), vmcor ~ US_Valence * CS_Valence * Instruction * material + vmconff + (US_Valence*CS_Valence|id), method="S", progress=FALSE)
+## only Attitude
+#vmcorm_2 <- afex::mixed(data = subset(d2pd, pdset==2), vmcor ~ US_Valence * CS_Valence * Instruction * material + vmconff + (US_Valence*CS_Valence|id), method="S", progress=FALSE)
+
+
+# output of mixed model for identity memory
+pom1 <- print_mixedF(imcorm, term = "Material")
+pom2 <- print_mixedF(imcorm, term = "Instruction:Material")
+pom3 <- print_mixedF(imcorm, term = "US_Valence:Instruction:Material")
+
+```
+
+To test whether veridical memory is present when participants experienced "not remembering" the US, we focused on the cases with Attitude responses.
+<!-- , or merely weak(er) memories (i.e., below a subjective "remember" threshold)? -->
+For these, we analyzed subsequent US valence and US identity memory accuracy.
+<!-- To avoid problems due to an unbalanced ANOVA design (i.e., empty cells resulting from our selection of a subset of the data), we used linear mixed models in these analyses. -->
+Overall, US identity memory accuracy was successfully increased in comparison to Experiment 1 (see Appendix).
+Figure \@ref(fig:pd2-usmem2) (left) shows US identity memory accuracy for the paired CSs classified as "not remembered" (i.e., Attitude responses), which was substantially above chance, `r im_above5$full_result`.
+
+We analyzed identity-memory accuracy for the subset of Attitude responses in a 2 (PD Condition) x 2 (Material) x 2 (US Valence) x 3 (CS Valence) mixed model with random person slopes for the within-subject factors.^[In this and some of the subsequently reported mixed models, the random-effects variance-covariance matrix had less than full rank. This suggests that a simpler random-effects structure may exist for these models that would render the models less complex and allow for more powerful tests. However, identifying such a simpler structure is not straightforward in complex models when no single model term can be identified as responsible; and the issue is not readily addressed by dropping the problematic terms. Because the random-effects structure we specified was justified by the design, we decided to retain it without engaging in post-hoc simplification attempts.]
+A Material main effect reflected better memory for faces than toys, `r pom1 #apa_print(imcor)$full_result$Material`; it was qualified by an interaction with PD Condition, `r pom2 #apa_print(imcor)$full_result$Instruction_Material`, suggesting reduced memory for toys under Exclusion as compared to Inclusion `r apa_print(em_im_rm_c_)$full_result$gogos_Exclusion_Inclusion`.
+An additional three-way interaction of US Valence with PD Condition and Material, `r pom3`, indicated that the two-way interaction was weaker for CSs paired with positive USs and stronger for CSs with negative USs.
+
+<!-- Figure \@ref(fig:pd1acc-exp2) (right) shows US Valence memory accuracy. -->
+<!-- The CS Valence by US Valence interaction reported above for the PD Memory responses is also evident here, $F(2, 69.85)=23.34, p<.0001$, suggesting that the valence-memory task was also susceptible to attitude-as-information effects, and that this is true for both Memory and Attitude subsets. -->
+
+```{r}
+
+# print output of vm mixed model
+pvm1 <- print_mixedF(vmcorm__, term = "US_Valence:CS_Valence")
+pvm2 <- print_mixedF(vmcorm__, term = "US_Valence:CS_Valence:Material")
+pvm3 <- print_mixedF(vmcorm__, term = "pdset")
+pvm4 <- print_mixedF(vmcorm__, term = "Confidence")
+pvm5 <- print_mixedF(vmcorm__, term = "pdset:Confidence")
+
+```
+
+
+Overall, valence-memory accuracy of Attitude responses was at chance, `r vm_above5$full_result`, whereas it was above chance in Experiment 1.
+This result is not directly comparable to Experiment 1, however, because in that study valence-memory accuracy could only be computed when participants were somewhat confident of their response (i.e., when they did not respond "don't know").
+We therefore entered confidence into the analysis of valence-memory accuracy, using a 2 (PD Condition) x 2 (Material) x 2 (US Valence) x 3 (CS Valence) mixed model, with random person slopes for the within-subject factors, to which we added PD Response (Memory vs. Attitude) and Confidence (low, medium, high) as well as their interaction as covariates (i.e., we did not include their interaction effects with the experimental manipulations).
+<!-- TODO FA: Why was response set included when we are really only interested in attitude responses? Would there be any effects if the memory-set responses were exchluded? -->
+As for the PD Memory responses, we obtained again a CS Valence by US Valence interaction (shown in Figure \@ref(fig:pd1acc-exp2), right panel),  `r pvm1`, that reflected attitude-as-information effects.
+^[The CS Valence by US Valence interaction was found for both Memory and Attitude subsets. In the overall analysis, it was additionally modulated by a three-way interaction with Material,  `r pvm2`.]
+As shown in Figure \@ref(fig:pd2-usmem2) (right), valence-memory accuracy was increased for Memory over Attitude responses,  `r pvm3`, and for high- over medium- and low-confidence responses, `r pvm4`; their interaction was not significant, `r pvm5`.
+<!-- These results suggest that, given high confidence, valence-memory accuracy for Attitude responses was increased to above-chance levels. -->
+<!-- Note, however, that the CI of the high-confidence estimate, `r apa_print(em_vmcorm_)$estimate$high_2` included the .5 chance level, so that strong conclusions cannot be drawn. -->
+
+Summing up briefly, while Experiment 1 showed robust above-chance valence memory for Attitude responses but had overall chance-level identity memory,
+Experiment 2 failed to provide unequivocal evidence for above-chance valence memory for Attitude responses, but yielded robust above-chance identity memory.
+
+<!-- In Experiment 2, the US Valence memory task was a 6-point confidence scale (ranging from "sure pleasant" to "sure unpleasant"); different from that in Experiment 1 (with the options "pleasant", "unpleasant", and "don't know"). -->
+<!-- The "don't know" option in Experiment 1 was available when confidence was low; higher confidence was therefore likely when one of the other two options was selected; and this coincided with above-chance accuracy. -->
+<!-- In Experiment 2, confidence was directly rated by participants (i.e., by selecting of the "high", "medium", or "low"-confidence responses). -->
+<!-- To parallel the binary (low- vs. high-confidence) data structure in Experiment 1, we combined the low- and medium-confidence responses in Experiment 2 and compared them to high-confidence responses.  -->
+<!-- To avoid problems due to an unbalanced ANOVA design (i.e., empty cells resulting from our selection of a subset of the data), we used linear mixed models in these analyses. -->
+<!-- A conventional ANOVA could not be conducted because of the unbalanced design (resulting in empty cells and list-wise missing values) when the Response Button Set and Confidence variables are considered. -->
+<!-- We used a linear mixed model with random intercepts and random slopes for the CS Valence by US Valence design (i.e., a maximal model as specified by the study design as recommended by Barr et al.) and Kenward-Rogers $p$-values.  -->
+<!-- The fixed-effect terms were the two between-subjects factors and the two within-subjects factors, as well as all of their interactions; Confidence was entered as a covariate. -->
+<!-- The strongest effect was the CS Valence by US Valence interaction, $F(2, 70.84) = 10.78$, $p<.0001$ (illustrated in Figure \@ref(fig:pd2-usmem2), right panel):  -->
+<!-- For initially neutral CSs, accuracy was approximately at chance-level and not affected by US valence. -->
+<!-- For initially valent CSs, accuracy was increased when US valence matched CS valence; and decreased to chance- or below-chance levels when US valence mismatched CS valence.  -->
+<!-- This suggests that participants may have used their pre-experimental evaluations to inform their US memory responses (perhaps via an attitude-as-information heuristic). -->
+<!-- A main effect of CS Valence, $F(2, 64.62) = 3.56$,$p=.03$, reflected higher accuracy for negative than positive CSs (with neutral CSs in between). -->
+<!-- A linear mixed model analysis showed that confidence helped account for Valence-memory accuracy: -->
+<!-- It was significantly higher for high- than low-confidence responses (which were at chance). -->
+<!-- Note, however, that the CI of the high-confidence estimate included the .5 chance level, so that strong conclusions cannot be drawn. -->
+<!-- ^[When Confidence was treated as a factor (i.e., allowed to enter into interactions with the within-subject factors CS Valence and US Valence), the Confidence effect was still significant (paired comparison: `r #em_vmcory_c$full_result`) and the CI of the high-confidence accuracy estimate no longer included chance, `r #em_vmcory_estimate_TRUE`.] -->
+<!-- So while Experiment 1 showed robust above-chance valence memory for Attitude responses but had overall chance-level identity memory, -->
+<!-- Experiment 2 fails to find clear evidence above-chance valence memory for Attitude responses, but found robust above-chance identity memory. -->
+
+We can conclude that we replicated the observation from Experiment 1 of less-than-perfect introspection:
+Participants claimed to "remember" US Valence for stimuli that were never paired with a US;
+they made a quite substantial proportion of errors on their Memory responses for paired CSs;
+and the above-chance US memory performance among Attitude CSs replicated the presence of introspective misses.
+<!-- , which proves highly problematic for the validity of the original PD procedure. -->
+
+### Testing assumptions: Invariance
+
+As in Experiment 1, we again probed the invariance assumption in three different ways, namely
+with regard to accuracy of participants' understanding of the instructions,
+subjective memory decisions,
+and the difficulty (RT and accuracy) of PD responses.
+
+#### Understanding of PD instructions
+
+The PD instructions were again difficult to understand: 
+About one third of participants (i.e., `r round(100*pd_runs[3])` %) required all three instruction-test runs; and only  `r round(100*pd_prac)` % of items were correctly answered.
+As in Experiment 1, instruction-test performance was comparable across Inclusion and Exclusion.
+Note that the RKG format, in contrast, was comparably well understood, with only `r round(100*rk_runs[3])` % requiring a second repetition, and a rate of `r round(100*rk_prac)` % of correct responses.
+
+#### Proportion of Memory responses under Inclusion versus Exclusion
+
+In Experiment 1, "remember" responses were more frequent under Exclusion than Inclusion instructions.
+This asymmetry did not replicate:
+In Experiment 2 there were comparable proportions of "remember" decisions under Inclusion (`r em_Cond$estimate$Inclusion_X1`) and Exclusion instructions (`r em_Cond$estimate$Exclusion_X1`).
+
+#### Difficulty of Inclusion versus Exclusion
+
+<!-- ##### RT  -->
+
+```{r pd-rt2, fig.cap="RT of PD responses"}
+
+par(cex=1.0)
+
+# exclude extremely long RTs
+cutoff <- fivenum(d2pd$pd_RT)[4]+3*IQR(d2pd$pd_RT, na.rm = TRUE)
+d_sel <- subset(d2pd, pd_RT<=cutoff & Instruction!="Control") # & PD_practice_correct == 1)
+#hist(d_sel$pd_RT)
+
+a.pdrt2 <- afex::aov_ez(data = subset(d_sel), id="id", between=c("Instruction", "Material"), within=c("pdset"), dv="pd_RT")
+
+## (overall RTs tend to be longer under Exclusion)
+## RTs longer for Set 2 ('attitude' responses)
+## this is especially so under Exclusion
+
+#papaja::apa_barplot(a.pdrt, args_legend=list(x="topleft"))
+#papaja::apa_lineplot(data = subset(d_sel), id="id", factors=c("pdset","Instruction"), dv="pd_RT", args_legend=list(x="topleft"))
+
+#papaja::apa_barplot(data = subset(d_sel), id="id", factors=c("Material","pdset"), dv="pd_RT", args_legend=list(x="topleft"))
+
+```
+
+
+In Experiment 1, the Exclusion task was more difficult, as indicated by longer RTs and reduced accuracy of Attitude responses.
+RT in the modified PD task of Experiment 2 was analyzed in a 2 (PD Instruction) x 2 (Material) x 2 (PD Response) ANOVA.
+Replicating Experiment 1, RT for PD responses was longer under Exclusion conditions, `r apa_print(a.pdrt2)$full_result$Instruction`. 
+This effect again tended to be more pronounced for Attitude than Memory responses, `r apa_print(a.pdrt2)$full_result$Instruction_pdset`.
+^[An additional two-way interaction between Material and PD Response, `r apa_print(a.pdrt2)$full_result$Material_pdset`, reflected the finding that for faces, responses were faster for Memory than Attitude responses, whereas for toys, responses were faster for Attitude than Memory responses.]
+<!-- ##### Accuracy -->
+In Experiment 1, attitude judgments of valent stimuli were less likely to match pre-rated evaluations under Exclusion than Inclusion for the subset of participants who performed least accurately on the PD Training test.
+As stated above, Experiment 2 excluded those participants who failed to reach perfect accuracy on the PD Training test; there was no longer a difference in accuracy as a function of PD Condition.
+Thus, in Experiment 2 effects of an increased difficulty of Exclusion were restricted to the RT data.
+
+As in Experiment 1, additional Inclusion-Exclusion differences were found:
+Although the overall proportion of Memory responses was not affected by PD Condition, the factor entered into a three-way interaction with Material and CS Valence.
+Relatedly, PD Condition interacted with Material in an analysis of the accuracy of PD Memory responses, reflecting reduced memory accuracy under Exclusion for toys but not faces.
+This reduced memory accuracy under Exclusion for the toy material was replicated on the identity-memory measure collected after the PD procedure.
+
+Taken together, although the effect on the overall proportion of Memory responses was not replicated, performance under the Exclusion instructions was again worse than under Inclusion, suggesting greater difficulty of the former.
+
+
+## Summary and Discussion
+
+Experiment 2 confirmed that (1) the modified procedure adequately reflects memory and attitude manipulations (i.e., subjective *remember* states were more likely for paired than non-paired CSs and associated with above-chance memory; and Attitude responses reflected pre-learning evaluative ratings); that (2) mnemonic introspection was not perfect (i.e., substantial proportions of introspective false alarms as well as introspective misses were reliably obtained); and that (3) cognitive processes differed between Inclusion and Exclusion (i.e., longer RT under Exclusion especially for Attitude responses).
+<!-- TODO FA: Admittedly, I’m not familiar with the discussion of the RT effects in exclusion instructions by Jan and others, but are prolonged response times indicative of *interesting* differences in cognitive processes? The additional processing step of inverting the attitude is a difference in the cognitive processes that would be expected to increase RT but is it also indicative a consequential violation of the invariance assumption? -->
+
+We may conclude at this point that core assumptions of the PD procedure and model were found to be violated, and that PD results therefore cannot be reliably interpreted in terms of the assumed cognitive processes.
+In particular, Attitude responses do not reliably reflect the absence of memory, and so the PD *A*>0 finding should not be interpreted as reflecting EC without (objective) memory.
+
+
