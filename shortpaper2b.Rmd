@@ -254,7 +254,7 @@ For instance, observable mnemonic decisions at the item level allow us to empiri
 <!-- Combining information in this way across different outcome dimensions can yield richer result patterns that are more informative for comparisons of single- versus dual-process models than the group-level A>0 result: -->
 <!-- For instance, researchers can probe whether learning effects associated with CSs in different states of (subjective) awareness do indeed show qualitatively different result patterns [i.e., crossed double dissociations, two-dimensional state-trace patterns; @dunn_discovering_1988; @dunn_remember-know_2004; @schmidt_criteria_2006] as they are postulated by dual-process models of attitude learning [@gawronski_implicit_2014;@jones_implicit_2009; @sweldens_evaluative_2010]. -->
 
-### summary
+### Summary
 
 The proposed novel procedure is highly similar to the UCVM task (it can be seen as replacing the one-stage task with three response option by a two-stage task, adding a binary CS evaluation only for the *I don't remember* case). 
 It is even more similar to the PD task (here, the task remains the same, only the response-mapping in the *I don't remember* case is adapted).
