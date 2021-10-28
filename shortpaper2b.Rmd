@@ -91,39 +91,28 @@ Here we propose and validate a novel assessment procedure for evaluations and me
 
 Assessments of CS-US pairing memory are most informative and relevant if they meet certain criteria [@shanks_1994]. 
 Amongst those criteria is the requirement that they measure the information that is critical in producing the effect in question. 
-To consciously produce an EC effect, one must remember the valence of the specific US(s) that has been paired with a given CS. 
-The criterion is therefore ideally met by assessments that are made at the level of the specific CS item (as opposed to aggregating across items and classifying participants as aware or unaware), as has been argued by @pleyers_2007; and that focus on memory for US valence (instead of, e.g., the ability to discriminate the US from other USs of the same valence) as does the valence-memory assessment proposed by @stahl_respective_2009 which asks participants to indicate, for each CS, whether it had previously been paired with pleasant or unpleasant USs. Below we first introduce this measure in more detail.
-Next, we show how, by jointly meeting both of above criteria, it becomes susceptible to an artifact based on an attitude-as-information heuristic [@hutter_dissociating_2012; @bar-anan_etal]; and we describe a second assessment procedure that was introduced to solve this problem.
+To consciously produce an EC effect, one must remember the valence of the specific US(s) that has been paired with a given CS; 
+the information criterion is therefore ideally met by assessments that are made at the level of the specific CS item (as opposed to aggregating across items and classifying participants as aware or unaware), as has been argued by @pleyers_2007; and that focus on memory for US valence (instead of, e.g., the ability to discriminate the US from other USs of the same valence) as does the valence-memory assessment proposed by @stahl_respective_2009 which asks participants to indicate, for each CS, whether it had previously been paired with pleasant or unpleasant USs. Below we first introduce this measure in more detail.
+Next, we describe a second assessment procedure that more directly aims at obtaining an estimate of *EC in the absence of memory for US valence*.
 Finally, we highlight the limitations of both procedures, and propose a novel assessment procedure that removes those limitations.
 
 
 ### A simple procedure for the assessment of memory for US valence
 
 To follow up on @pleyers_2007' argument that, to optimize the information criterion, awareness should be assessed at the level of the individual CS-US pair, @stahl_respective_2009 assessed which features of the US participants would need to remember to produce EC effects.
-They used a two-stage memory task: 
-It asked participants to indicate, first, whether a given CS had been paired with pleasant or unpleasant US images; to respond correctly at this stage, participants need to remember only the US's valence.
-At a second stage, participants were presented with a set of US images of the same valence as the correct US, only one of which had indeed paired with the CS; to select the correct US, participants need to remember not only US valence but at least one identifying feature.
-They found that the first-stage data (i.e., memory for US valence) predicted the EC effect, and that the data from the second stage (i.e., memory for US identity) did not add to that prediction.
-In short, memory for US valence was found to be necessary for EC.
+They combined two memory tasks: 
+The *valence-memory* task asked participants to indicate, whether a given CS had been paired with pleasant or unpleasant US images; to respond correctly at this stage, participants need to remember only the US's valence.
+In the *identity-memory* task, participants were presented with a set of US images of the same valence as the correct US, only one of which had indeed paired with the CS; to select the correct US, participants need to remember not only US valence but at least one identifying feature.
+They found that valence memory predicted the EC effect, and that memory for US identity did not add to that prediction.
 The valence-memory task was then expanded to also include a third, "I don't know", option that allowed participants to report their lack of memory and avoided the need to resort to heuristics (i.e., the *unforced choice valence-memory task*, or UCVM task).
 Furthermore, the self-reported evaluations were complemented by affective-priming measures. 
 Consistently across three experiments, an EC effect on both measures was found only when participants correctly remembered US valence. 
 No EC effects were found with incorrect memory reports, nor when participants reported not remembering US valence.
 
-### The attitude-as-information problem
-
-By focusing on the individual CS and memory for US valence, this measure becomes susceptible to a bias based on attitude-as-information that may mask unaware evaluative learning (if it exists):
-Assuming they lack memory, participants may nevertheless use their (unconsciously acquired) attitudes towards the CS to inform their memory judgments [@hutter_dissociating_2012; @bar-anan_etal].
-Specifically, when participants lack memory but are nevertheless asked to select either of the "pleasant" or "unpleasant" responses, they may respond on the basis on their feelings toward the CS (e.g., "the CS feels pleasant, so it must have been paired with positive USs").
-Participants would tend to respond "pleasant USs" in response to pleasant CSs, and this response pattern would then be falsely interpreted as indicating that the EC effect was accompanied by CS-US contingency memory.
-Thus, the heuristic would mask truly unaware EC effects (if such effects exist), thereby falsely suggesting that they are accompanied by memory for US valence.
-As a consequence, when forcing participants to guess, it may become impossible to obtain evidence in favor of dual-process accounts using CS-level valence-memory tasks.
-Note that this problem is limited to the initial two-option valence-memory task; it does not apply to the unforced version of the valence-memory task that allows participants to indicate their lack of memory.
-
 
 ### A process-dissociation procedure for separating US valence memory from evaluations in the absence of memory
 
-A second approach to addressing the attitude-as-information heuristic was aimed at separating participants' explicit memory for US valence from their attitude towards the CS in the absence of such explicit memory [@hutter_dissociating_2012].
+A second approach aims at separating participants' explicit memory for US valence from their attitude towards the CS in the absence of such explicit memory [@hutter_dissociating_2012].
 In this procedure, participants indicate for each CS
 <!-- A trial of this PD procedure (illustrated in Fig. \@ref(fig:PD-inclusion)) presents participants with a CS and asks them to indicate  -->
 (1) whether the CS had previously been paired with pleasant or unpleasant USs (by selecting either the "pleasant" or "unpleasant" response); or, if participants cannot remember the valence of the US, they indicate (2) whether they find the CS pleasant or unpleasant (via the same "pleasant" or "unpleasant" responses; Figure \@ref(fig:PD-inclusion)).
@@ -131,7 +120,9 @@ Participants thus perform a two-stage task:
 First, they decide whether they remember US valence or not.
 The outcome of this decision determines how to proceed in the second stage---report the memory judgment from the first stage (if they remember US valence); or perform and report an attitude judgment (if they don't remember US valence).
 
-Importantly, participants do not indicate the outcome of their decision in any way, so that the researcher has no way to tell whether the given participant remembered the specific CS-US pair or not; the data become informative only after they are aggregated across trials and participants, and compared across two conditions based on a process-dissociation (PD) logic.
+Importantly, however, the 'remember' decision remains unobservable (see Figure xy). 
+Participants do not indicate the outcome of that decision in any way, so that the researcher has no way to tell whether the given participant felt they remembered the specific CS-US pair or not, and hence, whether their response reflects memory for US valence or an evaluation of the CS.
+The data become informative only after they are aggregated across trials and participants, and compared across two conditions based on a process-dissociation (PD) logic.
 The PD procedure was originally developed by Jacoby [@jacoby_process_1991; for review see @yonelinas_processdissociation_2012] to separate explicit and implicit memory.
 Instead of assuming the existence of process-pure "explicit" and "implicit" tasks, he acknowledged that each task may involve both implicit and explicit processes.
 The PD procedure aimed at separating the contribution of two latent processes by contrasting, within the same task, performance under two different instruction conditions:
@@ -178,18 +169,90 @@ Briefly, although the effect appears to be small (and perhaps contingent on unkn
 
 ## A novel procedure for assessing US valence memory and evaluations
 
-The two procedures introduced above avoid forcing participants to guess [@stahl_respective_2009, @hutter_dissociating_2012].
-Only if they feel they do are they asked to indicate which US valence (pleasant or unpleasant) they remember.
-Both procedures thereby avoid pressuring participants into reporting a memory they do not feel confident about, and thereby address the attitude-as-information problem.
-
-Yet, each of these two procedures comes with its specific limitation.
+The procedures introduced above come with specific limitations.
 On the one hand, the UCVM task assesses only US valence memory. 
 CS evaluations need to be collected on a separate rating task; such separate assessment requires a second retrieval process and thereby increases measurement error.
 This is less problematic in the PD task, which assesses both remembering as well as CS evaluations, but note that the latter are collected only in the absence of remembering; for 'remember' cases, CS evaluations are also lacking.
 On the other hand, the UCVM obtains CS-level results, whereas the data collected by the PD task are interpretable only at the group aggregate level (i.e., parameter estimates computed across the *inclusion* and *exclusion* groups); researchers do not learn about mnemonic judgments or evaluations of specific CSs, a restriction that severely limits the usefulness of PD data.
-Below we introduce a novel task that provides CS-level data by only slightly modifying the response-mapping part of the PD procedure; it thereby combines the advantages (and eliminates the limitations) of the UCVM and PD procedures.
+Here we introduce a novel task that provides CS-level data on memory and evaluations by only slightly modifying the response-mapping part of the PD procedure; it thereby combines the advantages (and eliminates the limitations) of the UCVM and PD procedures.
 
-### intro, description, figure
+### Adapting the PD task's response-mapping rule
+
+The most severely limiting factor of the PD task is that it provides a group-level estimate (of EC in the absence of memory), instead of person-, item-, or response-level measures.
+This is because the procedure conflates memory and attitude judgments by mapping both onto the same response (Figure\ \@ref(fig:pd-procedure-diagram)A).
+Although participants are instructed to decide whether they remember the US valence or not, the outcome of this decision is made covertly and thus cannot be observed:
+On any given trial the “pleasant” or “unpleasant” response could reflect either a memory judgment or an attitude judgment; the researcher has no way of knowing which.
+The mapping of both judgments onto the same response effectively turns the---in-principle observable and verifiable---memory decision into a latent variable.
+Only by aggregating the data---first across items, then across participants, separately for each instruction condition---and then relying on the estimates provided by the MPT model equations do we obtain a (rather indirect and coarse) group-level estimate of the proportion of responses that reflect an attitude in the absence of US valence memory.
+
+(ref:pd-procedure-diagram) Schematic comparison of the two-stage tasks in the original process dissociation (PD) procedure (**A**) and our minimally modified PD procedure (**B**) under inclusion instructions.
+In both procedures, participants first introspect whether they remember US valence or not.
+If they do remember US valence, they report their memory judgment; if they do not remember US valence, they report an attitude judgment.
+While the decision to report either a memory or attitude judgment remains unobserved in the original procedure it is observed as the choice between Memory and Attitude button sets in our modified procedure.
+Rounded boxes with dashed lines represent unobservable and those with solid  lines observed task components.
+Bold rectangles represent observable response options at each task stage.
+Black and white arrows represent paths for positively and negatively paired CSs, respectively; grey arrows represent common paths.
+
+```{dot, engine="dot", pd-procedure-diagram, code = readLines("./fig/modpd.dot"), fig.align = 'center', out.width = "0.75\\textwidth", fig.cap = "(ref:pd-procedure-diagram)", fig.ext = "pdf", fig.env = "figure*"}
+```
+
+We introduce a minimal modification of the procedure---more specifically, of the response-mapping rule---that removes this limitation and renders participants' introspective decision observable.
+The modification is illustrated in Figure \@ref(fig:modPD) and Figure\ \@ref(fig:pd-procedure-diagram)B:
+We introduce a second set of "pleasant"/"unpleasant" buttons, and we designated one for memory judgments and the other for attitude judgments.
+Whenever participants decide that they remember US valence, they are instructed to use the Memory response buttons (in the upper half of the screen) to report the outcome of their subsequent memory judgment.
+If they decide that they do not remember, they are instructed to use the Attitude response buttons (in the lower half of the screen) to report the outcome of their subsequent attitude judgment.
+Thus, participants communicate their introspective decisions in an indirect and unobtrusive way by their use of the Memory or Attitude button set.
+
+
+(ref:modPD) The modification introduces a second set of response buttons. Participants still engage in the two-stage task (i.e., they first determine whether they remember US valence or not; then they report a memory judgment if they remember, or an attitude judgment if they don't).
+The critical difference is that participants report the memory judgment using the Memory buttons (top), and the attitude judgment using the Attitude buttons (bottom), thus rendering their introspective decision observable.
+ 
+
+```{r modPD, fig.cap="(ref:modPD)", fig.env = "figure*", fig.align = 'center'}
+knitr::include_graphics(path="./fig/figure2_suggestion.jpg")
+```
+
+The new procedure introduces a minimal modification of an auxiliary part (i.e., response mapping) of the original PD procedure. 
+It is similar to the original procedure in most respects:
+It prescribes the same two-stage decision procedure, consisting of an initial introspective memory decision, the outcome of which determines whether a memory or attitude judgment is required in the second stage; and it specifies a mapping of response category (*pleasant* versus *unpleasant*) onto physical response (keyboard or mouse buttons) that varies depending on the outcome of the first-step introspective decision.
+It differs from the original procedure only with regard to the mapping of response categories to response buttons: 
+The original procedure requires participants to select either the standard response mapping (under inclusion conditions, or in case of a memory judgment under the attitude-exclusion condition) 
+<!-- FN: or in case of an attitude judgment under the memory-exclusion condition)  -->
+or the reversed response mapping (in case of an attitude judgment under the attitude-exclusion condition).
+<!-- ; FN: or in case of a memory judgment under the memory-exclusion condition, see original paper). -->
+In contrast, the modified procedure always uses the standard response mapping and simply requires participants to select either the Memory buttons (in case of a memory judgment) or the Attitude buttons (in case of an attitude judgment).
+^[It might be argued that the modified response-mapping rules are not only unproblematic, but that they in fact represent an improvement in that they render the response mappings of both judgments more comparable: In the original PD, the standard mapping was required in 3 out of 4 cases; it might thereby have obtained the status of a habitual default, against which an active choice was required in the 4th case (i.e., absence of memory experience under Exclusion instructions). In the modified procedure, such a default is absent; it distinguished two cases of comparable status.]
+
+
+### The assets of the modified PD
+
+The proposed minor procedural modification renders introspective (metacognitive) decisions observable at the response level: 
+It is recorded whether the Memory or Attitude responses were used.
+This has several advantages.
+
+First, because the mnemonic decision is observable, it is no longer necessary to infer it indirectly from parameter estimates of an MPT model.
+Without the need for the MPT model, the assessment procedure can be simplified: 
+Because it is no longer necessary to contrast the inclusion versus exclusion response patterns, the between-subject instruction manipulation can be omitted. 
+This makes the modified procedure more efficient and flexible. 
+For example, it can be used in within-participant designs that allow for more stringent experimental control as well as higher statistical power.
+
+Second, the CS-level information enables more fine-grained analyses and rigorous tests.
+EC effects can be scrutinized at the item-within-person instead of the group level (i.e., the novel procedure respects the information criterion).
+In addition, the data can be fruitfully related to the outcomes of other measures obtained from the same participant, for instance to
+<!-- outcomes of the PD's memory and attitude judgments (e.g., for testing the PD's assumption of introspective accuracy), or to -->
+additionally administrated evaluative (e.g., evaluative ratings, evaluative priming effects) or (objective) memory measures (e.g., of US valence and US identity).
+For instance, observable mnemonic decisions at the item level can help to empirically assess the accuracy of participants' metacognitive judgments (i.e., the proportion of "remember" cases in which correct US valence memory was indeed present).
+Relating response-level responses to other measures further allows for investigating a wide range of research questions regarding the memory-evaluation relation.
+
+<!--(e.g., regarding the level of US identity or source memory; correlations between memory and EC; negative-EC effects indicative of the affect-as-information artefact; or factors suspected of affecting mnemonic experiences such as valence and arousal).-->
+<!-- The fact that subjective mnemonic states are indicated for manifest subsets of the data (i.e., individual items within a person) allows for analyzing these identified subsets further to determine whether they reflect the operation of qualitatively distinct processes. -->
+
+<!-- Interesting questions regarding the correlation memory states and EC are, for example, whether EC is related to the vivid recollection of pairings and/or to the successful retrieval of source details. -->
+<!-- Conversely, one can address the question whether subjective "remember" judgments (and/or accurate memory) are related to stimulus evaluations. -->
+<!-- They may also inform the conditions under which certain introspective heuristics or biases are used (e.g., whether the attitude-as-information artifact reflects a heuristic used under uncertainty or a memory distortion). -->
+<!-- More generally, response-level measures can be related to other person-level (e.g., surveillance accuracy, working memory, need-to-evaluate), item properties (e.g., valence, salience norms), as well as response-level measures (e.g., pre-and post-experimental CS evaluations, ratings of evocativeness, objective measures of US memory). -->
+<!-- Combining information in this way across different outcome dimensions can yield richer result patterns that are more informative for comparisons of single- versus dual-process models than the group-level A>0 result: -->
+<!-- For instance, researchers can probe whether learning effects associated with CSs in different states of (subjective) awareness do indeed show qualitatively different result patterns [i.e., crossed double dissociations, two-dimensional state-trace patterns; @dunn_discovering_1988; @dunn_remember-know_2004; @schmidt_criteria_2006] as they are postulated by dual-process models of attitude learning [@gawronski_implicit_2014;@jones_implicit_2009; @sweldens_evaluative_2010]. -->
 
 ### summary
 
@@ -201,25 +264,73 @@ To empirically support the new procedure in a manner comparable to that of the t
 To do so, the studies varied whether a CS was paired with a US or not, hence manipulating US memory. 
 They also varied whether a CS was neutral or valenced, thereby manipulating CS attitudes. 
 We assessed whether the memory manipulations were adequately reflected in the proportion of 'remember' responses, and whether the attitude manipulations were adequately reflected in CS evaluations in the absence of memory.
+In addition, as explained next, we used the novel procedure to further explore regularities in the relation between memory and evaluative judgments.
 
-## 'Remember' reports, confidence, and accuracy
 
-The above procedures - the established ones as well as the new one - rely on participants' judgments about whether or not they 'remember US valence'.
+## The memory-evaluation relation
+
+The correlational approach to assessing pairing memory and evaluation implies that the data can be explained by two causal directions:
+If memory and evaluations are correlated, this may be because memory influences evaluations, or because evaluations influence memory reports.
+
+### Memory influences evaluations: Both responses are based on common representations
+
+Memory-evaluation correlations arise naturally if both are based on a single common representation.
+Assume, for instance, that the CS-US pairing episodes are encoded as instances in a global-matching memory model (@aust_etal; @stahl_aust_2018).
+When asked to indicate the valence of the US that was paired with a given CS, then participants could probe their memory with the features of the CS (and the relevant context) and try to determine the valence of those episodes.
+Similarly, when asked to evaluate a given CS, they may attempt to retrieve from memory an integrated summary of the valences of the episodes in which they encountered that CS.
+Put differently, both mnemonic and evaluative judgments compute summary assessments of the same underlying information (albeit perhaps in different ways).
+If both judgments are indeed based on the same underlying representation, they should be found to correlate as long as the underlying information is indeed the same (i.e., for initially unfamiliar and neutral CSs).
+
+<!-- Memory may also influence evaluative judgments if both rely in principle on distinct representations, but an evaluation is lacking in a given situation. -->
+<!-- If participants remember that a given CS was paired with a pleasant US, but they do not find that CS pleasant, they may nevertheless evaluate it positively in a subsequent rating task because they may think that the experimenter expects them to. -->
+<!-- Another cause may he the 'pleasant' response on the memory task that may prime a corresponding response on a subsequent evaluative task. -->
+
+
+### Evaluations influence memory: The attitude-as-information problem
+
+Memory-evaluation correlations may, however, also arise if they are based on two distinct representations.
+In particular, valence-memory measures are susceptible to a bias based on attitude-as-information that may mask unaware evaluative learning (if it exists):
+Assuming they lack memory, participants may nevertheless use their (unconsciously acquired) attitudes towards the CS to inform their memory judgments [@hutter_dissociating_2012; @bar-anan_etal].
+Specifically, when participants lack memory but are nevertheless asked to select either of the "pleasant" or "unpleasant" responses, they may respond on the basis on their feelings toward the CS (e.g., "the CS feels pleasant, so it must have been paired with positive USs").
+Participants would tend to respond "pleasant USs" in response to pleasant CSs, and this response pattern would then be falsely interpreted as indicating that the EC effect was accompanied by CS-US contingency memory.
+Thus, the heuristic would mask truly unaware EC effects (if such effects exist), thereby falsely suggesting that they are accompanied by memory for US valence.
+As a consequence, when forcing participants to guess, it may become impossible to obtain evidence in favor of dual-process accounts using CS-level valence-memory tasks.
+^[Note that this problem is limited to the initial two-option valence-memory task; it does not apply to the unforced version of the valence-memory task that allows participants to indicate their lack of memory.]
+
+Evidence for attitude-as-information...
+
+Negative EC effects & their attribution to the attitude-as-info heuristic...
+
+Note that the procedures introduced above all avoid forcing participants to guess [@stahl_respective_2009, @hutter_dissociating_2012].
+Only if they feel they do are they asked to indicate which US valence (pleasant or unpleasant) they remember.
+All three procedures - UCVM, PD, and modPD - thereby avoid pressuring participants into reporting a memory they do not feel confident about, and thereby address the attitude-as-information problem.
+In other words, their estimates of EC in the absence of remembering should not be susceptible to this artifact.
+
+
+### 'Remember' reports, confidence, and accuracy
+
+The above procedures rely on participants' judgments about whether or not they 'remember US valence'.
 This is adequate if the goal is to allow participants to readily report their lack of memory, and to avoid forcing participants to engage in guessing heuristics that may distort results.
 It is also adequate if one is interested in participants' ability to use their own memory to selectively control persuasive influences:
 Control strategies must rely on the (sometimes incomplete or erroneous) information that is available to the participant (i.e., the contents of their memory), even if successful control in a given situation will depend on whether that information is accurate or not.
 
 Of course, a participant's 'remember' decisions are not directly reflective of whether (or not) they actually do remember (i.e., the amount of mnemonic evidence, or the accuracy of their US valence report).
-Whether a participant reports her memory or evaluation of a given CS is determined by her introspective mnemonic decision "I (don't) remember US valence for this CS"---a decision that involves placing a criterion on a continuum of evidence, and that may not always be well-calibrated. 
-In other words, participants may indicate that they remember US valence yet falsely report it (a 'false alarm'); and/or participants may indicate that they do not remember US valence despite having a considerable amount of mnemonic information available to their memory judgment (a 'miss').
+Whether a participant reports her memory or evaluation of a given CS is determined by her introspective (or metacognitive) decision "I (don't) remember US valence for this CS"---a decision that involves placing a criterion on a continuum of evidence, and that may not always be well-calibrated. 
+In other words, participants may indicate that they remember US valence yet incorrectly report it (a metacognitive 'false alarm'); and/or they may indicate that they do not remember US valence despite having a considerable amount of mnemonic information available to their memory judgment (a metacognitive 'miss').
 
-It is therefore likely that some participants, for some CSs, will falsely report having no memory when they in fact have substantial mnemonic evidence of the US's valence; in other cases, they will erroneously report what they confidently consider to be an accurate memory when they in fact don't recall US valence. 
-Such cases of discrepancy between participants' introspective mnemonic decisions (memory confidence) and their memory performance may help illuminate the processes underlying mnemonic and evaluative judgments.
+It is therefore likely that some participants, for some CSs, will falsely indicate 'not remembering' when they in fact have substantial mnemonic evidence of the US's valence; in other cases, they will erroneously report what they confidently consider to be an accurate memory when they in fact don't recall US valence. 
+Such cases of discrepancy between participants' introspective mnemonic decisions (i.e., memory confidence) and their memory performance may help illuminate the processes underlying mnemonic and evaluative judgments.
 In addition to validating the novel procedure, we will therefore study the role of memory confidence and accuracy in the correlation between mnemonic and evaluative judgments.
-In particular, we were interested in whether the finding of an inverted or negative EC effect is associated with low confidence (as would be predicted if it reflects a heuristic used in the absence of memory), or with high confidence (as would be predicted if it reflected high-confidence false memories).
+In particular, we will explore whether participants rely on the attitudes towards the CSs especially when they do not remember US valence, and less so when they do, as assumed by the attitude-as-information heuristic.
+Alternatively, mnemonic and evaluative judgments might be correlated regardless of the level of memory for initially neutral CSs, as would be suggested if both judgments relied on a common underlying representation.
+
+<!-- In particular, we were interested in whether the finding of an inverted or negative EC effect is associated with low confidence (as would be predicted if it reflects a heuristic used in the absence of memory), or with high confidence (as would be predicted if it reflected high-confidence false memories). -->
 
 
-# Methods
+# Overview of present studies
+
+We report two experiments that (a) validate the novel assessment procedure by manipulating memory and evaluations, and (b) explore the relation between memory and evaluative judgments by relating the data to those of additional evaluative and memory measures.
+
 
 # Experiment 1
 
@@ -327,6 +438,24 @@ As a final deviation from the procedure of Experiment 1, participants were not g
 ```
 
 # General Discussion
+
+## Related research
+
+### Recognition memory/RKG
+
+### Waroquier et al.
+
+### Source memory
+
+### Implicit learning
+
+## Outlook
+
+The novel procedure is analogous to established memory measures such as the Remember-Know task in that it assesses introspective mnemonic judgments (i.e., 'remember' judgments) and relates them to memory performance (i.e., the accuracy of old/new or pleasant/unpleasant judgments).
+It is also analogous to subjective awareness tasks used in implicit learning research that aim at separating participants' awareness about different types of knowledge (i.e., judgment knowledge versus structural knowledge).
+These analogies allow relating the results from both of those fields to those to be obtained with the proposed procedure in the EC domain.
+They also suggest possibly fruitful adaptations and extensions (e.g., assess more than two different mnemonic states; control for confidence).
+
 
 \newpage
 
