@@ -34,9 +34,9 @@ draft             : no
 documentclass     : "apa6"
 classoption       : "jou"
 output            : 
-  papaja::apa6_pdf:
-    number_sections: false
   papaja::apa6_word:
+    number_sections: false
+  papaja::apa6_pdf:
     number_sections: false
 authornote: |
   Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jeremy Bena, and Adrien Mierop, UCLouvain.

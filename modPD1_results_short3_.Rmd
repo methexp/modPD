@@ -213,8 +213,8 @@ It varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and 
 Separate analyses for paired and nonpaired stimuli showed, for both item types, effects of Valence (paired: `r apa_print(x1p)$full_result$Valence1`; nonpaired: `r apa_print(x1np)$full_result$Valence1`).
 Importantly, they also showed interactions of Valence with Response-Set (paired: `r apa_print(x1p)$full_result$Valence1_pdset1`; nonpaired: `r apa_print(x1np)$full_result$Valence1_pdset1`), indicating that Valence differentially affects Memory and Attitude responses. 
 We therefore investigated the effect of Valence separately for each of the four subsets of the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude).
-The corresponding aggregate counts are given in the four 2-by-2 quadrants of Table 1 (one for each combination of the Pairing and Mem/Att variables).
 
+The corresponding aggregate counts are given in the four 2-by-2 quadrants of Table 1 (one for each combination of the Pairing and Mem/Att variables).
 The top left quadrant (i.e., Memory judgments for paired stimuli) is relevant for evaluating accuracy of Memory responses.
 It shows frequencies (and proportions, in parentheses) of 'pleasant' (Val:+) and 'unpleasant' (Val:-) responses for CSs, which were paired either with positive (CS.p) or negative (CS.n) USs.
 Memory judgments for paired stimuli were affected by (and quite accurately reflected) actual US valence, `r apa_print(x1pM)$full_result$Valence1`.
