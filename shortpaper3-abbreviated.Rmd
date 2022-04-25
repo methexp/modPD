@@ -2,16 +2,26 @@
 title             : "Introducing a Two Buttons Sets Procedure for Advancing the Study of Retrieval Awareness in Evaluative Conditioning Effects."
 shorttitle        : "Two Buttons Sets Procedure"
 author: 
-  - name          : "First Author"
+  - name          : "Christoph Stahl"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "my@email.com"
+    address       : "Herbert-Lewin-Str. 2, D-50931 Cologne, Germany"
+    email         : "christoph.stahl@uni-koeln.de"
+  - name          : "Frederik Aust"
+    affiliation   : "1"
+  - name          : "Jeremy Bena"
+    affiliation   : "2"
+  - name          : "Olivier Corneille"
+    affiliation   : "2"
+  - name          : "Adrien Mierop"
+    affiliation   : "2"
 affiliation:
   - id            : "1"
     institution   : "University of Cologne"
-keywords          : "keywords"
-wordcount         : "X"
+  - id            : "2"
+    institution   : "UCLouvain"
+keywords          : "memory, attitudes, evaluative conditioning"
+wordcount         : "9383"
 bibliography      : ["methexp.bib","r-references.bib"]
 always_allow_html: true
 floatsintext      : yes
@@ -29,8 +39,8 @@ output            :
   papaja::apa6_word:
     number_sections: false
 authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-  Enter author note here.
+  Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jeremy Bena, and Adrien Mierop, UCLouvain.
+  Preparation of this article was supported by an FRS-FNRS grant (T.0061.18) awarded to Olivier Corneille and DFG grant STA 1269/3-2 to Christoph Stahl.  
 abstract: |
   One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
   
@@ -245,7 +255,7 @@ Figure \@ref(fig:modPD1) gives an overview of the experimental procedure.
 <!-- Exp. 1 had a 2 x 2 (repeated measures) design: Valence (positive vs. negative) x Pairing (critical/paired vs. control/unpaired). The 24 most neutrally pre-rated face stimuli (for a given participant) were selected as neutral CSs (12 were paired with positive USs, and 12 with negative USs); the 16 most extremely rated ones (8 positive, 8 negative) were used as valenced control CSs. US valence memory was assessed using the per-item task (Stahl et al., 2009). -->
 <!-- Experiment 2 had a 2 (TBS task: present vs. absent) x 2 (material: faces vs. figures) x 2 (US: positive, non-paired, negative) x 3 (CS valence: positive, neutral, negative) design (the last 2 factors were within-subjects). The 24 most neutral and the 18 most valent stimuli (9 positive, 9 negative) were selected (42 in total; CSs: 16 neutral, 6 positive, 6 negative; non-paired foils: 8 neutral, 3 positive, 3 negative). Of the CSs, half of each subset were paired with USs of each valence. A given CS was paired twice with each of 4 different USs of the same valence. US valence memory was assessed using confidence ratings followed by remember/know/guess judgments. -->
 
-```{r modPD1, fig.cap="(ref:procedure-caption)", fig.env = "figure*", fig.align = 'center', out.width = "1\\textwidth"}
+```{r procedure, fig.cap="(ref:procedure-caption)", fig.env = "figure*", fig.align = 'center', out.width = "1\\textwidth"}
 knitr::include_graphics(path="./fig/TBS-procedure-abbreviated.png")
 ```
 
@@ -299,7 +309,7 @@ The TBS responses (i.e., choice of Memory vs. Attitude response-button sets; ple
 
 
 
-```{r eval=TRUE, child="modPD1_results_short3.Rmd"}
+```{r modPD1-results, eval=TRUE, child="modPD1_results_short3.Rmd"}
 ```
 
 
@@ -393,7 +403,7 @@ Deviating from Experiment 1, evaluative ratings were collected on a 20-point (in
 <!-- The instructions for these ratings were adapted from @wais_remember-know_2008. -->
 <!-- As a final deviation from the procedure of Experiment 1, participants were not given a *don't know* response option in the US identity memory test to parallel the absence of such an option in the US valence memory test; instead, in case of uncertainty, they were instructed to guess. -->
 
-```{r eval=TRUE, child="modPD2_results_short3.Rmd"}
+```{r modPD2-results, eval=TRUE, child="modPD2_results_short3.Rmd"}
 ```
 
 
