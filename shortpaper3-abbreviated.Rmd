@@ -34,9 +34,9 @@ draft             : no
 documentclass     : "apa6"
 classoption       : "jou"
 output            : 
-  papaja::apa6_word:
-    number_sections: false
   papaja::apa6_pdf:
+    number_sections: false
+  papaja::apa6_word:
     number_sections: false
 authornote: |
   Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jeremy Bena, and Adrien Mierop, UCLouvain.
@@ -60,34 +60,6 @@ library("papaja")
 # Seed for random number generation
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
-
-
-### print an F test from mixed
-print_mixedF <- function(obj, term){
-  if (!any(row.names(obj$anova_table)==term)) term <- paste0("`",term,"`")
-  index <- which(row.names(obj$anova_table)==term)
-  outF <- paste0("$F(", obj$anova_table[index,1], ",", round(obj$anova_table[index,2], 2), ")=", round(obj$anova_table[index,3],2))
-  outp <- printp(obj$anova_table[index,4])
-  out <- paste0(outF, ", p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
-}
-
-
-### print a Wald test for logistic regression
-print_logistic <- function(obj, term){
-  #term <- paste0(term,"1")
-  s <- summary(obj) # create summary object, pick coefficients
-  c <- s$coefficients # create summary object, pick coefficients
-  #index <- which(grepl(term,row.names(c))) # select line for term
-  index <- which(term==row.names(c)) # select line for term
-  res <- c[index,] #
-  outOR <- paste0("$OR=", printnum(exp(res[1])), "$") # OR
-  outSE <- paste0("$SE_{OR}=", printnum(exp(res[2])), "$") # OR
-  outz <- paste0("$z=", printnum(res[3]), "$" )
-  outp <- printp(res[4])
-  result <- paste0(outOR, ", ", outSE, ", ", outz, ", $p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
-  return(result)
-}
-# print_logistic(x1, "Valence1")
 
 ```
 
@@ -155,7 +127,7 @@ Because of this contamination issue, studies have attempted to minimize, control
 In studies relying on per-item procedures, the contribution of affect-as-information was dealt with by introducing an “I don’t remember” response option in the memory task. 
 In doing so, researchers avoided pressuring participants into reporting a CS-US pairing memory they did not feel confident about. 
 In Process Dissociation studies, the issue does not apply anymore because participants are not forced to guess the US valence: if participants do not remember the US valence, they should indicate their attitude, not memory response. 
-Finally, studies by Bar-Anan and colleagues [@bar-anan_effect_2014;@bar-anan_evaluative_2014] also provide relevant information to this debate. These authors manipulated attitudes experimentally before assessing how they affected US valence memories. 
+Finally, studies by Bar-Anan and colleagues [@bar-anan_effect_2014; @bar-anan_evaluative_2010] also provide relevant information to this debate. These authors manipulated attitudes experimentally before assessing how they affected US valence memories. 
 Participants’ memory reports were biased toward their evaluation of the CS, which is consistent with the use of an affect-as-information heuristic. 
 However, these authors found this bias to be absent from guessing and vague-memory cases; contrary to their expectations, it was restricted to cases where participants claimed to have clear memory of a pairing. 
 These authors concluded that “evaluation influenced memory judgement in a way that participants experienced as clear memory, although it was only a reconstructed memory judgment based on evaluative information rather than true memory traces of past events.” (p.1042).
