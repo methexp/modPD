@@ -1,0 +1,606 @@
+---
+title             : "Introducing a Two Buttons Sets Procedure for Advancing the Study of Retrieval Awareness in Evaluative Conditioning Effects."
+shorttitle        : "Two Buttons Sets Procedure"
+author: 
+  - name          : "First Author"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+affiliation:
+  - id            : "1"
+    institution   : "University of Cologne"
+keywords          : "keywords"
+wordcount         : "X"
+bibliography      : ["methexp.bib","r-references.bib"]
+always_allow_html: true
+floatsintext      : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+documentclass     : "apa6"
+classoption       : "jou"
+output            : 
+  papaja::apa6_pdf:
+    number_sections: false
+  papaja::apa6_word:
+    number_sections: false
+authornote: |
+  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+  Enter author note here.
+abstract: |
+  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
+  
+  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
+  
+  One sentence clearly stating the **general problem** being addressed by  this particular study.
+  
+  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
+  
+  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
+  
+  One or two sentences to put the results into a more **general context**.
+  
+  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
+  
+  
+  <!-- https://tinyurl.com/ybremelq -->
+---
+
+```{r setup, include = FALSE}
+# Install remotes package if necessary
+#if(!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+
+# Install the stable development version from GitHub
+#remotes::install_github("crsh/papaja")
+
+library("papaja")
+
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+
+```
+
+<!-- TODO: -->
+
+<!-- I think we'll have (1) to explain to the editor why we dropped the exclusion condition and hypothesis testing that comes with it (reason: sake of conciseness and coherence), and (2) add that we are not aiming at salami-slicing and that we would be happy to report these additional questions and findings in the manuscript if the editor wants us to (but that this may be at the risk of making the manuscript much more complex and heavier). -->
+
+
+Over the past two decades, a wealth of evaluative conditioning studies have advanced our understanding of the role of awareness in evaluative responses. In evaluative conditioning studies, a change in the evaluation of a conditioned stimulus (or CS) may be observed following its pairing with an affective stimulus (or US). Among others, two questions were addressed in this literature: whether the conscious encoding of the CS-US pairings is necessary for an evaluative conditioning effect to be elicited, and whether the conscious retrieval of the CS-US pairings is required at the evaluation stage. Research generally supports the need of awareness at the encoding stage (i.e., when participants are presented with the CS-US pairings). For instance, when signal strength is low or when a secondary task prevents the successful encoding of the CS-US pairings, an evaluative conditioning effect is unlikely to be elicited (for a recent review, see Corneille & Stahl, 2019). However, it is still not entirely clear whether the conscious retrieval of the US valence is required at the evaluation stage (i.e., when one evaluates the CS.) Whether people need conscious US retrieval as they evaluate the CSs is important for both theoretical reasons (e.g., to inform memory model or the role of memory processes in evaluative conditioning) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
+
+In this introduction, we provide an overview and discussion of how research has addressed the retrieval awareness question and what conclusions were derived from two main procedures: per-item and process dissociation procedures. In a second step, we introduce a novel procedure that combines the advantages of the two prior procedures. In the empirical section, we validate the new procedure and use it to provide firmer conclusions on the retrieval awareness question. In doing so, we also shed additional light on the role of affect-as-information processes. In the general discussion, we summarize the main insights of the new procedure introduced here, and we explain how it can be used in future research for advancing attitude research.
+
+## A short overview of research on the retrieval awareness question
+
+Recent research has used two categories of procedures to answer whether people need to consciously retrieve CS-US pairings for EC effects to be observed. A first line of research relied on per-item procedures. A second line of research made use of a process dissociation procedure.
+
+The per-item rationale consisted of examining if evaluative conditioning effects are found for CSs that participants prove unable to pair with the identify or the valence of their associated US in a separate memory task. 
+As also true for any awareness measure, assessments of CS-US pairing memory are most informative and relevant if they meet certain criteria (shanks_1994?).
+Among those criteria is the information criterion: the requirement that assessments tap memory for those bits of information that are critical in producing the effect in question. 
+The information criterion is ideally met (1) by assessments made at the level of the specific CS item (as opposed to aggregating across items and classifying participants as aware or unaware and (2) by assessing memory for US valence (rather than US identity). 
+When relying on per-item procedures, researchers generally find no EC effect for CSs associated with incorrect memory reports in a separate memory task (e.g., pleyers_2007, stahl_respective_2009). 
+In addition, memory for US valence rather than memory for US identity is critical to the obtention of evaluative conditioning effects (stahl_respective_2009). 
+More recently, however, Waroquier et al. (2020) found evaluative conditioning effects in the absence of the phenomenology of remembering the US valence. 
+Hence, turning to phenomenological measures rather than to memory performance measures points to different conclusions.
+While per-item procedures meet the information criterion, they however fail to meet the immediacy criterion: the requirement that awareness should be assessed at the time when the relevant cognitive process occurs (i.e., the one participants' awareness is about), not later (Mitchell et al.).
+In per-item procedures, evaluations of all stimuli are typically elicited in a rating task, whereas memory is assessed in a different, independent task.
+
+In contrast to per-item procedures, Process Dissociation procedures aimed at separating, this time at the aggregate level and within a single task, participants’ conscious memory for US valence from their attitude towards the CS in the absence of such explicit memory (hutter_dissociating_2012?). 
+In process dissociation procedures, participants indicate for each CS whether the CS was paired with pleasant or unpleasant USs (by selecting either a “pleasant” or “unpleasant” response). 
+Alternatively, if participants cannot remember the valence of the US, they have to indicate whether they find the CS pleasant or unpleasant (using the same set of “pleasant” or “unpleasant” responses). 
+Participants thus perform a two-stage decision within a single task. 
+First, they decide whether they remember US valence or not. The outcome of this decision determines how to proceed in the second stage—report the memory judgment from the first stage (if they remember US valence) or perform and report an attitude judgment (if they don’t remember US valence). 
+Using multinomial processing modelling, these procedures found a small but significantly above-0 estimate for a parameter that was interpreted as indicative of US-consistent evaluations without conscious CS-US pairing memory. 
+As classically achieved in process dissociation procedures (jacoby_process_1991?; for review see yonelinas_processdissociation_2012?), this was done by comparing response frequencies in conditions where attitudes towards the CSs and memory for their paired US valence operated synergistically (inclusion condition) versus antagonistically (exclusion condition).
+	
+Both per-item and process dissociation procedures have delivered valuable insights in evaluative learning research. 
+These procedures, however, come with some limitations.
+One important limitation applying to per-item procedures is that they involve a sequential measurement of CS evaluations and US memory. 
+These multiple assessments imply additional measurement error. 
+This is less of a problem in the process dissociation procedure as it involves a unique measurement for each CS. 
+However, contrary to per-item procedures, data collected in process dissociation procedures are interpretable only at the group aggregate level (i.e., parameter estimates computed across inclusion and exclusion groups, based on data aggregated across items and persons). 
+In doing so, these procedures do not conform to the information criterion. 
+In addition, process dissociation procedures do not deliver information about memory judgments or evaluations of specific CSs. 
+This restriction prevents addressing additional research questions requiring to relate memory states to evaluations at the item level (see also the general discussion). 
+	
+Here, we introduce a new procedure that makes the best of the two previous approaches while overcoming some of their limitations. 
+Before doing so, however, it is important to discuss how these and complementary approaches have dealt with a decision heuristic that may contaminate memory assessments: the affect-as-information heuristic.
+	
+## The affect-as-information bias and how it was dealt with
+
+Our current retrieval awareness question is concerned with whether CS evaluations elicited by a CS-US pairing procedure depend on the conscious retrieval of US valence. 
+However, this question can be reliably answered only if memory reports are uncontaminated by CS evaluations. 
+This is where affect-as-information comes into play. 
+When participants lack memory but are nevertheless asked to select a “pleasant” or “unpleasant” response, they may respond on the basis of their feelings toward the CS (e.g., “the CS feels pleasant, so it must have been paired with positive USs”). 
+This response pattern may then be mistakenly interpreted as indicating that an EC effect was accompanied by CS-US contingency memory. 
+As a result, researchers are at risk of rejecting from the “US-unaware” category those CSs for which no conscious US memory existed but for which “false memory” was rather inferred from CS evaluation. 
+Hence, affect-as-information can make per-item analyses too conservative a test for the possibility of evaluative conditioning effects in the absence of conscious retrieval.
+	
+As a side comment, the affect-as-information heuristic may explain reversed evaluative conditioning effects sometimes found for  CSs with incorrect valence-memory responses (i.e., evaluative shifts and memory judgments inconsistent with actual US valence). 
+The effect is assumed to be based on pre-experimental CS attitudes that are opposite to the valence of the US. 
+If memory is absent for those CSs, then participants may use their pre-existing attitude to inform both their US memory judgment—leading to an incorrect valence-memory response—and their CS evaluations—leading to an evaluative effect opposite to the US’s valence (i.e., reversed EC). 
+Such reversed evaluative conditioning effects for CS with incorrect memory responses were found in Stahl et al. (2009, Experiment 3; meta-analysis of Experiments 2–4).
+	
+Because of this contamination issue, studies have attempted to minimize, control, or assess the role of affect-as-information in the measurement of CS memory. 
+In studies relying on per-item procedures, the contribution of affect-as-information was dealt with by introducing an “I don’t remember” response option in the memory task. 
+In doing so, researchers avoided pressuring participants into reporting a CS-US pairing memory they did not feel confident about. 
+In Process Dissociation studies, the issue does not apply anymore because participants are not forced to guess the US valence: if participants do not remember the US valence, they should indicate their attitude, not memory response. 
+Finally, studies by Bar-Anan and colleagues (2014) also provide relevant information to this debate. These authors manipulated attitudes experimentally before assessing how they affected US valence memories. 
+Participants’ memory reports were biased toward their evaluation of the CS, which is consistent with the use of an affect-as-information heuristic. 
+However, these authors found this bias to be absent from guessing and vague-memory cases; contrary to their expectations, it was restricted to cases where participants claimed to have clear memory of a pairing. 
+These authors concluded that “evaluation influenced memory judgement in a way that participants experienced as clear memory, although it was only a reconstructed memory judgment based on evaluative information rather than true memory traces of past events.” (p.1042).
+These findings importantly suggest that participants may rely on affect-as-information decision making, but not necessarily to overcome vague memories.
+
+In sum, attitudes may bias memory measures even—or especially—when participants are confident of their memories and experience them as clear recollections. 
+Yet, the findings reported by Bar-Anan and colleagues (2014) were based on old/new recognition judgments of specific CS-US pairs instead of valence-memory judgments, and so it is unclear how they affect valence-memory measures. 
+As we validate the new procedure we propose here, we will be able to provide answers to this complementary question.
+	
+## Introducing the two buttons sets procedure (TBS)
+
+
+(ref:task-displays) Task displays of the per-item valence-memory task (left), the process-dissociation task (center), and the TBS task (right).
+
+```{r task-displays, fig.cap="(ref:task-displays)", fig.env = "figure*", fig.align='center', out.width="100%"}
+knitr::include_graphics(path="./fig/modPD_task_displays.png")
+```
+
+We introduce here a new procedure: the two buttons sets procedure (or TBS). 
+The structure of the TBS is displayed on Fig 1. 
+For the sake of clarity, we also display on Fig 1 the per-item and process dissociation procedures. 
+Contrary to the original process dissociation procedure, the TBS introduces two sets of “pleasant”/“unpleasant” response buttons.
+The first set is designated for memory judgments. 
+The second set is designated for attitude judgments. 
+Whenever participants decide that they remember US valence, they are instructed to use the Memory responses set (in the upper half of the screen) to report the outcome of their memory judgment. 
+Alternatively, if they decide that they do not remember, participants are instructed to use the Attitude responses set (in the lower half of the screen) to report the outcome of their attitude judgment. 
+
+
+The distinctive feature of the TBS is that it renders metacognitive decisions (i.e., whether participants feel they remember the US valence or whether they evaluate the CS in the absence of such retrieval experience) observable at the item-within-person level (see Fig. 2). 
+This has three important advantages. 
+First, because the memory decision is unveiled, it is no longer necessary to infer it indirectly from parameter estimates of a multinomial processing tree model, as is the case in the process dissociation approach. 
+In turn, the between-subject instruction manipulation can be omitted so that a single group of participants is sufficient. 
+This makes the modified procedure more efficient and flexible. 
+For example, it can be used in within-participant designs that allow for more stringent experimental control as well as higher statistical power. 
+Second, contrary to the per-item procedure but similar to the original process dissociation procedure, the immediacy criterion is met and the error measurement issue originating from multiple assessments of evaluation and memory is reduced. 
+This is because a single measurement (either for US memory or for CS evaluation) is involved for each individual CS. 
+Third, the CS-level information enables finer-grained analyses and more rigorous tests; most importantly, EC effects can be scrutinized at the item-within-person instead of the group level; hence, the TBS respects the information criterion. 
+
+
+
+(ref:pd-procedure-diagram) Schematic comparison of the two-stage tasks in the process-dissociation (**A**) and TBS tasks (**B**). In both the process-dissociation and TBS tasks, participants first introspect whether they remember US valence or not. If they do remember US valence, they report their US-valence memory judgment; if they do not remember US valence, they report an attitude judgment. While the decision to report either a memory or attitude judgment remains unobserved in the process-dissociation task (A), it is observed as the choice between Memory and Attitude button sets in the TBS task (B). Panels with dashed lines represent unobservable latent states; those with solid lines observed task components. Bold rectangles represent observable response options at each task stage. Black and white arrows represent paths for positively and negatively paired CSs, respectively; grey arrows represent common paths.
+
+```{dot, engine="dot", pd-procedure-diagram, code = readLines("./fig/modpd.dot"), fig.align = 'center', out.width = "0.75\\textwidth", fig.cap = "(ref:pd-procedure-diagram)", fig.ext = "pdf", fig.env = "figure*"}
+```
+
+To sum up, the TBS combines the advantages and reduces the limitations of the previous per-item and process-dissociation procedures by introducing slight but highly significant departures from these two procedures. 
+The TBS is highly similar to the per-item procedure: It can be seen as extending it to a binary CS evaluation limited to the I don’t remember cases (which by definition exclude the contribution of affect-as-information processes). 
+The TBS is even more similar to the original process dissociation procedure. 
+Here, the two procedures remain the same, except that the TBS is augmented by a second set of “pleasant”/“unpleasant” buttons dedicated to the “I don’t remember” cases. 
+This adaptation of the original process dissociation procedure allows memory and evaluation analyses at the item-within-person levels. 
+In doing so, the TBS simplies the original process dissociation procedure and provides important insights into metacognitive processes involved in participants’ decisions at the item level (i.e., which CS evaluation was associated with which phenomenological state of remembering). 
+	
+These assets are helpful for examining the retrieval awareness and affect-as-information questions. As we will discuss in the general discussion, they are also helpful for addressing complementary questions. TBS data can be fruitfully related to the outcomes of other measures obtained from the same participant, for instance, evaluative (e.g., ratings) or (metacognitive) memory measures (e.g., Remember-Know-Guess or confidence judgments). Relating response-level responses to other measures allows investigating a wider range of research questions regarding the memory-evaluation relations. Observable memory decisions at the item level also allows assessing the accuracy of participants’ memory judgments (e.g., the proportion of “I don’t remember” cases in which correct US memory is nevertheless present).
+
+<!-- [Perhaps a summary comparative Table featuring advantages of TBS relative to per-item and process dissociation procedures on the various dimensions we discussed above would be helpful] -->
+
+<!-- per-item: information +, immediacy - -->
+<!-- pd: information -, immediacy + -->
+<!-- tbs: info +, immediacy + -->
+
+We now turn to the empirical section, where we validate the TBS and use it to address our current retrieval awareness and affect-as-information questions.
+
+
+<!-- Importantly, however, the results of the first-stage 'remember' decision remains unobservable in the VM/A task (see Figure \@ref(fig:pd-procedure-diagram)A).  -->
+
+<!-- According to the approach by Hütter et al., the two-stage task is performed under one of two different instruction conditions (Figure \@ref(fig:PD-inclusion)B):  -->
+
+
+
+<!-- (ref:modPD) The novel VM/A task introduces a second set of response buttons. Participants still engage in the two-stage task (i.e., they first determine whether they remember US valence or not; then they report a memory judgment if they remember, or an attitude judgment if they don't). -->
+<!-- The critical difference is that participants report the memory judgment using the Memory buttons (top), and the attitude judgment using the Attitude buttons (bottom), thus rendering their introspective decision observable. -->
+ 
+ 
+# Overview of present studies
+
+To empirically support the new TBS procedure in a manner comparable to that of the established tasks, we ran two validation studies.
+The studies varied whether a CS was paired with a US or not, hence manipulating US memory. 
+They also varied whether a CS was neutral or valenced, thereby manipulating CS attitudes. 
+<!-- We assessed whether the memory manipulations were adequately reflected in the proportion of 'remember' responses, and whether the attitude manipulations were adequately reflected in CS evaluations in the absence of memory. -->
+<!-- In addition, we used the TBS procedure to explore regularities of the relation between mnemonic and evaluative judgments, namely the attitude-as-information bias. -->
+In addition to this validation part, we used the TBS procedure to investigate the retrieval awareness question (i.e., can evaluative conditioning effects be observed in the absence of conscious US Valence memory?) and whether attitudes contaminate memory measures (i.e., affect-as-information bias).
+
+An additional goal of the present line of research was to compare the TBS with the process-dissociation procedures with a focus on testing the process-dissociation approach's underlying assumptions.
+To mirror the process-dissociation procedure, in addition to the standard TBS instruction condition we also ran a group that worked on a TBS variant of the Exclusion instruction, and we collected additional memory measures at the end of the study.
+<!-- The exclusion condition is not required by the modified PD procedure but was originally included to allow for testing the invariance assumption of the PD approach. -->
+The present article does however not address this issue, and the data from that condition were not included in the analyses reported below, hence we omitted the TBS Exclusion condition and the memory measures from the empirical section (the data from these conditions and measures will be reported elsewhere and made available in the OSF repository).
+
+In sum, the present study aims at (1) gathering empirical support for the validity of the TBS procedure, and (2) further exploring the attitude-as-information bias.
+
+<!-- Towards these goals, we conducted two experiments that manipulated both memory and attitudes to show that these manipulations are adequately reflected in the metacognitive memory and attitude measures provided by the TBS task, and to probe for attitude-consistent memory judgments. -->
+
+<!-- As a third goal, we aimed at informing strategies for controlling persuasive influences. -->
+<!-- In applied contexts, strategies for controlling persuasive influences must rely on memory or metamemory judgments (such as those assessed in the present tasks) because these are typically the only pieces of information available in everyday situations. -->
+<!-- It is therefore important to study the validity of these judgments in persuasion contexts in order to evaluate their usefulness in different types of control strategies. -->
+<!-- Experiment 2 additionally collected additional memory measures that allowed us to explore the usefulness of metamemory judgments for informing control strategies.  -->
+
+
+# Experiment 1
+
+Experiment 1 probes the validity of the TBS task by manipulating both CS-US pairing memory and CS attitudes (within subjects) to test whether the manipulations selectively affect the Memory-set and Attitude-set responses.
+CS stimuli were selected individually on the basis of a given participant's pre-study ratings.
+To manipulate pairing memory, only the neutrally pre-rated CSs (but not the valent foils) were paired with USs during learning.
+This should affect the frequency of Memory-set responses for the neutral CSs (compared to the valent foils).
+To manipulate CS attitudes, the most valent (positive and negative) foil stimuli were compared (that were not paired with USs during learning):
+For these stimuli, Attitude-set responses should reflect pre-rated attitudes.
+Figure \@ref(fig:modPD1) gives an overview of the experimental procedure.
+
+(ref:procedure-caption) General procedure of Expts. 1 and 2. CS items were pre-rated and then assigned to within-subject conditions. After the learning phase, the TBS task was administered, followed by post-learning ratings.
+<!-- and memory measures (US valence and US identity). In Exp.1, US valence memory was assessed using the per-item task (Stahl et al., 2009); in Exp.2, US valence memory was assessed using confidence ratings followed by remember/know/guess judgments. -->
+<!-- Exp. 1 had a 2 x 2 (repeated measures) design: Valence (positive vs. negative) x Pairing (critical/paired vs. control/unpaired). The 24 most neutrally pre-rated face stimuli (for a given participant) were selected as neutral CSs (12 were paired with positive USs, and 12 with negative USs); the 16 most extremely rated ones (8 positive, 8 negative) were used as valenced control CSs. US valence memory was assessed using the per-item task (Stahl et al., 2009). -->
+<!-- Experiment 2 had a 2 (TBS task: present vs. absent) x 2 (material: faces vs. figures) x 2 (US: positive, non-paired, negative) x 3 (CS valence: positive, neutral, negative) design (the last 2 factors were within-subjects). The 24 most neutral and the 18 most valent stimuli (9 positive, 9 negative) were selected (42 in total; CSs: 16 neutral, 6 positive, 6 negative; non-paired foils: 8 neutral, 3 positive, 3 negative). Of the CSs, half of each subset were paired with USs of each valence. A given CS was paired twice with each of 4 different USs of the same valence. US valence memory was assessed using confidence ratings followed by remember/know/guess judgments. -->
+
+```{r modPD1, fig.cap="(ref:procedure-caption)", fig.env = "figure*", fig.align = 'center', out.width = "1\\textwidth"}
+knitr::include_graphics(path="./fig/TBS-procedure-abbreviated.png")
+```
+
+
+## Method
+
+For the present studies, we report how we determined our sample size, all data exclusions (if any), all manipulations (except the inclusion/exclusion factor, as explained above), and all measures in the study (except the memory measures that were collected after the TBS and post-rating blocks, as explained above).
+The study was registered prior to data collection and analysis (see osf.io/rkb3w; deviating from the preregistration, the present article does not report the analyses involving the inclusion/exclusion factor).
+Materials, data, and analysis scripts are available at osf.io/b8w9j [@stahl_moving_2020].
+
+
+### Participants and Design
+
+The study realizes a 2 x 2 design with repeated measures: Valence (positive vs. negative) x Pairing (critical/paired vs. control/unpaired).
+We collected a sample of $N$=60 participants (students at the Université catholique du Louvain), as this is approximately 2-3x the sample size recruited by @hutter_dissociating_2012 as recommended by the rule of thumb for replications by @simonsohn_small_2015.
+
+### Materials and Procedure
+
+We used the same materials as @hutter_dissociating_2012: A set of photographic images of faces served as CSs; a set of IAPS images served as USs.
+The face CSs were pre-rated by participants by positioning a cursor on a slider ranging from 'very unpleasant' (-100) to 'very pleasant' (+100).
+Of these faces, the 24 most neutrally pre-rated ones served as critical CSs (i.e., 12 paired with positive USs, 12 with negative USs).
+The 16 most extremely pre-rated faces (8 of each valence) were not presented during the learning phase but served as valent control stimuli.
+During learning, the 24 critical CSs were repeatedly paired with USs (i.e., each CS was presented once with one of 8 USs of the same valence).
+Dependent measures were collected for all 40 CS stimuli (i.e., the two sets of 24 critical/paired and 16 control/nonpaired face photographs).
+
+The procedure closely followed that of the @hutter_dissociating_2012 studies.
+First, participants pre-rated all 120 face stimuli.
+In the subsequent learning phase, CS and US images were presented side by side on the computer screen (positions were randomly selected for each trial).
+After learning, memory and attitude were assessed for all 40 CSs.
+The TBS task was implemented first.
+After instructions were given, instruction understanding was tested: 
+Participants were presented with descriptions of the possible combinations of memory and attitude states (one for each possible case), and were asked to select the corresponding response according to instructions.
+TBS was followed by post-learning evaluative ratings.
+<!-- Finally, memory for US valence and US identity were assessed:  -->
+<!-- Participants were asked to indicate (successively for each CS) whether it had previously been paired with pleasant or unpleasant USs; they could also report that they "don't know" the correct response. -->
+<!-- When assessing participants' US identity memory, we presented them with a set of 16 US images for a given CS, and asked them to select any one of the eight that had been paired with that CS during learning. -->
+
+### Data analysis
+
+As a manipulation check, the pre-post change in CS evaluations was computed (i.e., post-learning evaluation minus pre-learning evaluation) and submitted to a repeated-measures ANOVA to probe for US valence effects.
+The TBS responses (i.e., choice of Memory vs. Attitude response-button sets; pleasant vs. unpleasant response) were analyzed using logistic regression analyses, with by-person random intercepts and slopes for the experimental factors.
+<!-- To gauge data quality, participants' understanding of instructions was assessed before they engaged in the task. -->
+<!-- Overall, mean accuracy was approximately 75%. -->
+<!-- <!-- (i.e., participants responded correctly in 6 out of 8 cases). --> 
+<!-- To assess whether understanding of instructions affected the results, we split the sample into three subgroups according to the Training Accuracy variable. -->
+<!-- We separated participants at the median and the .5 accuracy level, thus creating high-, medium-, and low-accuracy subgroups (note that, as accuracy values could take on only 8 different values, equally sized subgroups could not be created; so we opted instead for meaningful cutoffs). -->
+<!-- <!-- (11 from Inclusion & 14 from the Exclusion condition).]  --> 
+<!-- Most results were unaffected by this variable; below we report all exceptions. -->
+<!-- The results of the US-identity memory task indicated change performance and showed no systematic effects of experimental manipulations; we therefore do not report these results in detail. -->
+^[We used `r cite_r("r-references.bib")` for all our analyses.]
+
+
+
+```{r eval=TRUE, child="modPD1_results_short3.Rmd"}
+```
+
+
+```{r eval=FALSE, child="modPD1_results_short2d_relating.Rmd"}
+```
+
+```{r eval=FALSE, child="modPD-paper-appendix-exp1-short2.Rmd"}
+```
+
+## Discussion
+
+Results of Experiment 1 largely confirmed expectations:
+First, the pairing manipulation was effective: a standard EC effect was found (along with a regression-to-the-mean effect for pre-experimentally valent stimuli), and the TBS procedure was successfully validated as a measure of memory as well as attitudes:
+The choice of Memory-set versus Attitude response-button set reflected participants' metacognitive *remember* judgments (i.e., robustly higher rates of memory Memory-set responses for paired than non-paired CSs); and Attitude-set responses reflected pre-learning evaluative ratings.
+
+Second, we replicated previous memory-evaluation relations:
+In line with Stahl et al, we found no EC in the absence of memory.
+<!-- ^[This finding was consistent across evaluative (pleasantness judgments, evaluative ratings) and measures (nVM/A, UCVM).] -->
+In line with Bar-Anan et al., we also found memory judgments for nonpaired stimuli to be biased by attitudes: 
+Participants' valence-memory responses tended to be consistent with their pre-experimental ratings towards these stimuli.
+This bias was obtained despite metacognitive 'remember' judgments, suggesting that participants were at least somewhat confident about their memories.
+<!-- When focusing on paired stimuli, we also replicated the related reversed-EC pattern reported by both Stahl et al and Bar-Anan et al.:  -->
+<!-- Whereas correct valence-memory responses were associated with standard EC effects, -->
+<!-- incorrect valence-memory responses were associated with reversed EC. -->
+<!-- Here, participants' valence-memory responses tended to be consistent with their pre-post-change in evaluative ratings (note that paired stimuli were neutral, so that this finding may reflect a phenomenon distinct from the effect of pre-existing attitudes on memory judgments). -->
+
+<!-- ***TODO: In the Appendix, we show that these findings (no EC without memory; attitude-consistent guessing in the presence of metacognitive 'remember' judgments) were corroborated by the data from the UCVM task.*** -->
+
+Note that Experiment 1 had several limitations.
+Perhaps most importantly, as in previous studies, pairing memory and (pre-existing) attitude were confounded: 
+Only neutrally pre-rated CSs were paired with (positive or negative) USs; valent CSs were never paired.
+This meant that we could not assess the simultaneous effects of pairing and pre-experimental attitudes on the same set of CSs.
+In addition, US identity memory was at chance; this was likely due to the relatively large number of unrepeated pairings. 
+^[Each specific CS-US pairing was presented only once, while each stimulus (CS or US) was also paired with other stimuli (i.e., each CS was paired with 8 different USs; each US was paired, on average, with 2 different CSs).]
+<!-- Third, the modified PD procedure is limited in that it obtains incomplete information about subjective memory states:  -->
+<!-- It assesses objective memory only in the "remember" state; and attitudes only in the "don't remember" state. -->
+<!-- Finally, although preregistered, we tested several assumptions of the original procedure (some in multiple tests), which may have inflated the probability to erroneously conclude that at least one assumption is violated. -->
+Experiment 2 addressed these limitations.
+
+# Experiment 2
+
+Experiment 2 examined the robustness of the findings from Experiment 1 and extended it in several ways: 
+First, memory and attitudes were manipulated in a fully orthogonal within-subjects design by independently varying CS valence (positive, neutral, negative) and US valence (positive, non-paired, negative).
+Second, new US material was used, and CS Material (human faces vs. toy figures) was additionally varied between subjects (this was done for generalization purposes; we did not expect any effects).
+<!-- Third, to explore the validity of metamemory judgments for use in control strategies, we assessed valence memory beyond the TBS, using additional confidence ratings and Remember-Know-Guess judgments. <!-- we replaced the UCVM task by more established memory measures, confidence rating and Remember-Know-Guess judgments:   Departing from Experiment 1, US valence memory was assessed using a 6-point confidence scale (ranging from "sure unpleasant" to "sure pleasant") as well as a remember/know/guess (RKG) judgment task.--> -->
+To control for carry-over effects on these measures from the TBS task, another group of participants was added that worked only on the latter two memory measures.
+^[As in Experiment 1, we collected data for an additional TBS Exclusion condition and administered additional memory measures at the end of the study; this information is omitted from the Results section; and the data will be reported elsewhere and made available in the OSF repository.]
+
+(ref:modPD2-caption) Experiment 2 had a 2 (TBS task: present vs. absent) x 2 (material: faces vs. figures) x 2 (US: positive, non-paired, negative) x 3 (CS valence: positive, neutral, negative) design (the last 2 factors were within-subjects). Pre-ratings of CS pleasantness were followed by the learning phase, in which participants viewed CS-US pairs. After learning, the TBS task was implemented for the TBS-present group; the TBS-absent group skipped this task. Post-study evaluative ratings were finally collected.
+<!-- ; and US valence memory was assessed (confidence ratings followed by remember/know/guess ratings). US-identity memory was assessed last (4 of 8 USs options were foils). -->
+
+<!-- # ```{r modPD2, eval=FALSE, fig.cap="(ref:modPD2-caption)", fig.env = "figure*", fig.align = 'center', out.width = "1\\textwidth"} -->
+<!-- # knitr::include_graphics(path="./fig/ecopd-procedure-2.jpg") -->
+<!-- # ``` -->
+
+## Method
+
+<!-- The procedure of the preregistered Experiment 2 (osf.io/3mgvk) is illustrated in Figure \@ref(fig:modPD2). -->
+Material, data, and analysis scripts are available at osf.io/b8w9j.
+
+### Participants and Design
+
+Participants were randomly assigned to a 2 (*TBS*: present vs. absent) x 2 (*Material*: human faces vs. toy figures) between-subject design.
+The sample consisted of $N$=76 students from the University of Cologne ($n_{TBS-present}=36, n_{TBS-absent}=40$).
+^[The study aimed for $N=120$ participants (i.e., 20 in each of the six groups); after the final day of data collection a total of $N=123$ had participated.
+As in @hutter_dissociating_2012, but deviating from Exp. 1, participants ($n=13$) were excluded who failed to correctly implement the instructions even after reading them for the third time.
+The total sample consisted of $N=110$ participants (i.e., an additional n=34 completed a TBS-Exclusion condition not reported here).]
+Within subjects, *US Valence* (positive, neutral/non-paired, negative) and *CS Valence* (positive, neutral, negative), were manipulated orthogonally.
+ 
+
+### Material
+
+As in Experiment 1, images of faces were used as CSs (deviating from Exp.1, we selected only the first 100 from the set of 120 images).
+As additional CSs, we used 100 photographs of toy figures (*Gogo Crazy Bones*).
+As USs, we used 112 color images from the OASIS database (@kurdi_introducing_2017; 56 positive and 56 negative, with comparable arousal ratings).
+For a given participant, the most neutrally pre-rated 24 faces or toys as well as the 18 most valent faces or toys (9 positive, 9 negative) served as CSs.
+Of the 24 neutral CSs, 16 were paired with USs (8 positive, 8 negative).
+Of the initially valent CSs, 3 from each valence were paired with USs of each valence (i.e., 3 initially positive as well as 3 initially negative CSs were paired with positive USs; the other 3 from each valence set were paired with negative USs).
+The remaining 8 neutral CSs, together with 3 positive and 3 negative CSs, comprised the set of 14 non-paired control CSs.
+A set of four different USs was randomly assigned to and uniquely paired with each CS; each US was paired twice with that CS.
+Where possible, dependent measures were collected for all 42 CSs; US identity memory was not assessed for non-paired CSs.
+
+### Procedure
+
+The procedure closely followed that of Experiment 1. 
+Deviating from Experiment 1, evaluative ratings were collected on a 20-point (instead of 200-point) scale.
+^[Note that Exp. 2 was run in a different lab and implemented in a different programming environment.]
+<!-- In addition, memory for US valence was assessed as follows:  -->
+<!-- We presented CSs as cues and asked participants to indicate the valence of the paired USs on a 6-point scale ranging from "sure positive" to "sure negative". -->
+<!-- Immediately following their response, they were asked to introspect the basis of their response and indicate whether they (1) remembered the pairing, (2) knew the answer, or (3) guessed. -->
+<!-- The instructions for these ratings were adapted from @wais_remember-know_2008. -->
+<!-- As a final deviation from the procedure of Experiment 1, participants were not given a *don't know* response option in the US identity memory test to parallel the absence of such an option in the US valence memory test; instead, in case of uncertainty, they were instructed to guess. -->
+
+```{r eval=TRUE, child="modPD2_results_short3.Rmd"}
+```
+
+
+```{r eval=FALSE, child="modPD2_results_short2d_relating_.Rmd"}
+```
+
+## Discussion
+
+Confirming the manipulation's effectiveness, Experiment 2 again obtained a robust EC effect.
+In line with Experiment 1, results again confirmed that the TBS task adequately reflects memory and attitude manipulations (i.e., Memory-set responses separated paired from non-paired CSs; Attitude-set responses reflected pre-learning evaluative ratings).
+
+Experiment 2 replicated the attitude-as-information bias in memory judgments for nonpaired stimuli: 
+Participants were more likely to remember (un)pleasant USs being paired with pre-experimentally positive (negative) nonpaired stimuli. 
+<!-- This was true for Memory judgments on the novel task as well as subsequent valence-memory responses. -->
+Going beyond Experiment 1, here we orthogonally manipulated US Valence and CS Valence and found an effect of attitudes-as-information (i.e., CS Valence) not only for nonpaired foils but also for paired CSs.
+
+Experiment 2 also found no EC effect in the absence of memory on the TBS task: 
+Attitude-set judgments were not affected by US Valence.
+In addition, for those CSs for which participants indicated that they do not remember US valence by using the Attitude-set responses, pre-post evaluative change as measured by evaluative ratings also failed to reflect US Valence.
+<!-- However, EC-without-memory effects were found when classification was based on responses on the subsequent confidence and RKG measures. -->
+<!-- Below we report additional analyses that further explored this pattern. -->
+
+<!-- Experiment 2 failed to replicate the reversed-EC effects obtained in previous studies as well as in our Experiment 1. -->
+<!-- We discuss below the differences between studies that may have caused this discrepancy. -->
+
+Put differently, participants were able, to different degrees, to selectively use the two sources (CS and US) of valence in their judgments:
+On the one hand, US valence had a selective influence only on Memory-set but not Attitude-set judgments.
+On the other hand, the effects of CS valence (although less selective) were stronger on Attitude-set judgments (where they reflected valid responding in adherence with task instructions) than on Memory-set judgments (where they reflected an attitude-as-information bias). 
+
+
+# General Discussion
+
+In this general discussion, we first summarize the main insights of the new procedure introduced here.
+Next, we discuss its limitations, and we explain how it can be further improved and used to advance attitude research.
+
+## Main findings
+
+The present research introduced a new measurement procedure - the TBS task - for advancing the study of (potential) EC effects without retrieval awareness. In the introduction, we discussed the assets of the TBS relative to prior procedures. We validated this new task in two experiments, which additional provided insights into the influence of attitude-as-information processes typically found in retrieval-awareness studies. In this section, we discuss the main findings observed here in light of these main objectives.
+<!-- The present studies aimed to establish empirical support for the validity of the TBS task, and to assess whether EC can be found without retrieval awareness. -->
+<!-- We also aimed at better understanding the attitude-as-information bias typically found in retrieval-awareness studies. -->
+
+### Validity of TBS task
+
+Our first aim was to test the validity of the TBS task.
+In two experiments, we influenced memory by pairing some stimuli with USs, while other stimuli were never paired with USs; and we influenced attitudes by using stimuli pre-rated as pleasant or unpleasant.
+The manipulations of pairing memory were reflected in participants' metacognitive   judgments (i.e., their use of the Memory-set vs. Attitude-set), as well as their valence-memory reports when they used the Memory set.
+The manipulations of attitudes were reflected in participants' pleasantness judgments when they used the Attitude set.
+These results confirm a successful validation of the TBS task, comparable to the process-dissociation procedure [@hutter_dissociating_2012].
+
+### Evaluative conditioning and retrieval awareness
+
+Our second aim was to assess whether evaluative conditioning requires conscious retrieval of US valence.
+Using the TBS task, we obtained CS-level data on evaluations in the metacognitive absence of US memory. 
+While CS evaluations in the absence of retrieval awareness reflected preexisting attitudes (attesting to their validity), they were however consistently unaffected by US valence.
+In sum, both studies found no EC when participants' metacognitive judgments indicated memory for US valence to be absent.
+
+At first sight, this result is inconsistent with process-dissociation results, which have reported evidence for EC in the absence of US valence memory [@hutter_dissociating_2012].
+However, this apparent inconsistency can be resolved when a recent meta-analysis of such studies is considered.
+Across 12 PD studies [@mierop_does_2018], this analysis yielded an overall mean estimate of *A*=.07, 95% CI [.04, .11].
+First, this is a relatively small effect; it corresponds to approximately 1 out of the 24 CSs typically presented to a given participant being governed by the "EC in the absence of memory" branch of the MPT model.
+^[With estimates of *M* around .5, valence memory was present for about half of the CSs (i.e., 12 out of 24); of the remaining half, an average of 7% of responses was found to be consistent with the "EC-without-memory" pattern (i.e., 7% of 12 CSs amounts to less than 1 CS).]
+<!--Put differently, EC was found for approximately 7% *of those CSs for which no memory was present, are estimated to show EC effects in the absence of memory for US valence.-->
+Second, the meta-analysis also revealed substantial heterogeneity (I² = 56%), reflecting the fact that the confidence interval of *A* excluded zero in 5 out of 12 studies, whereas it included zero in the remaining 7 studies.
+In sum, while PD studies yield some meta-analytic evidence for the persistence of EC effects in the absence of US-valence memory, the effect is small and contingent on unknown enabling conditions.
+Given sample sizes comparable to (and considerably larger than some) previous studies, the present null results are unlikely to reflect lack of power. 
+It remains possible, of course, that EC in the absence of retrieval awareness will be found in other studies that realize (as yet elusive) critical enabling conditions.
+
+The finding of no EC in the absence of retrieval awareness is more in line with previous conclusions obtained with per-item procedures that also found no EC when participants indicated not remembering the valence of the paired US [@stahl_respective_2009].
+It is however at odds with a recent per-item result showing EC even when participants reported having no memory of US valence [i.e., when they indicated having randomly guessed whether the US's valence was positive or negative; @waroquier_distinguishing_2020].
+There are two important differences between the present studies and theirs that may account for the inconsistent result patterns.
+First, while the present TBS task allowed for only two different metacognitive states (i.e., participants could report either remembering or not-remembering), the task used by Waroquier et al. required a finer distinction of three or four metacognitive states (i.e., memory, intuition, familiarity, random guessing).
+On the one hand, such a fine-grained distinction may put too high a demand on participants [especially if instructions fail to clearly explain the different states; for a discussion in the context of the Remember/Know procedure see @migo_measuring_2012]. 
+On the other hand, a finer-grained distinction may be required to validly tap the different possible metacognitive states [e.g., structural vs. judgment knowledge; @dienes_unconscious_1995; @dienes_measuring_2005].
+As a second difference, while in the TBS task participants reported their metacognitive state simultaneously with the pleasant/unpleasant judgment, valence-memory and metacognitive attribution were assessed sequentially (Exp. 1) or even in separate blocks (Exp. 2) in the studies by Waroquier et al.
+With a delay between judgments, their retrieval awareness measure met the immediacy criterion less well than in the present TBS.
+One may, therefore, speculate that their results reflect the addition of noise to the evaluation-awareness relation, which could lead to an artificial "EC without awareness" pattern.
+Future research is needed to provide more conclusive responses to these questions.
+
+Whether, when, and through which processes EC effects can be found in the absence of retrieval awareness bears important theoretical implications. 
+The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage. 
+For these models, EC effects are contingent upon a successful retrieval of the CS-US pairings from memory. 
+Alternatively, Stimulus-Response models assume that the affective responses elicited by the US (rather than the US as such) is linked to the CS in long-term memory [for a recent discussion, see @corneille_associative_2019; see also @jones_implicit_2009; @sweldens_evaluative_2010]. 
+For these models, the retrieval of a CS directly elicits the learned affective response. 
+Hence, neither the encoding nor the retrieval of a CS-US pairing is required to observe EC effects.
+
+Stimulus-Response learning is thought to operate via a "direct transfer" of the US valence to the CS [e.g., @hutter_dissociating_2018; @sweldens_evaluative_2010] or via implicit misattribution. The latter is thought to occur when, at the learning stage, participants mistakenly attribute their affective response to the CS instead of attributing it to the US [e.g., @jones_implicit_2009]. 
+In turn, implicit misattribution processes are expected to operate under specific conditions that are conducive to confusability about the source of one's affective reaction [e.g., @jones_implicit_2009; @hutter_implicit_2013]. 
+These conditions were not met in the learning paradigms used for the present research. Recent evaluative conditioning research, however, casts doubts on the existence of stimulus-response learning in more conducive conditions. 
+In particular, evidence for unaware EC effects in the original paradigm [@olson_implicit_2001], failed to be supported in more recent studies that relied on this paradigm [@moran_incidental_2020 ; Kurdi et al., 2022 ]. 
+Another piece of evidence for stimulus-response learning, relating to source confusability, was also compromised in recent studies. 
+Specifically, implicit misattribution assumes stronger EC effects when US valence is mild rather than high. This is because a very valent US is unlikely to elicit confusion about the source of one's affective reaction. 
+Recent research failed to find evidence consistent with this rationale [@mierop_does_2018].
+
+### Attitude-as-information bias
+
+Correlations between US valence memory and evaluations do not necessarily reflect a dependence of EC effects on retrieval awareness. 
+For instance, when participants lack US valence memory, they may use their attitudes to inform their memory judgments; in that case, a potential "EC without memory" effect is masked.
+To circumvent this problem, per-item tasks have asked participants to indicate when they do not remember US valence (e.g., by responding "I don't remember"), and the process-dissociation and TBS tasks have asked them to report their attitudes (instead of US valence memory) whenever they feel they do not remember.
+However, more recently it was found that attitude-as-information bias may also affect metacognitive "remember" states [@bar-anan_effect_2014; @bar-anan_evaluative_2010], and here we assessed whether this is the case also for valence-memory judgments in the TBS task.
+In support of this possibility, Memory-set judgments of nonpaired foil stimuli were affected by participants' attitudes towards these stimuli.
+
+Thus, attitude-as-information bias was obtained for cases for which participants had a certain amount of confidence in their memory, as they indicated remembering US valence (i.e., used Memory-set responses on the TBS task), and despite the option to refrain from reporting US valence memory (i.e., they could have reported an Attitude-set or "don't remember" response).
+These observations are at odds with the suggestion that attitude-as-information bias stems from a heuristic used under uncertainty that is linked to forced responding; they are consistent with the findings reported by Bar-Anan et al. (2010, 2014) suggesting that cases of attitude-consistent responding may be experienced, subjectively, as true remembering.
+<!-- Thus, rather than reflecting a heuristic such as “I don’t remember the US, but I like the CS so it must have been paired with a pleasant US”, this phenomenon may reflect a different kind of attitude-as-information bias. One possibility is a heuristic in which the feeling of having a clear evaluation of a stimulus (regardless of its valence) is misattributed as a feeling of remembering of (or strong familiarity with) the stimulus.  -->
+<!-- Such a bias would be ecologically plausible in the sense that one's (positive or negative) evaluations are often accompanied with, or result from, (pleasant or unpleasant) experiences. -->
+<!-- The misattribution of pre-existing attitudes to a particular recent experiences may pose a threat to the validity of metacognitive judgments in guiding strategies to control our behavior. -->
+<!-- If we tend to falsely believe that our attitudes towards an object stem from a specific recent experiential source, then we may discount our (valid) attitudes and could allow less reliable sources of information guide our behaviors. -->
+Additional research is needed to address this phenomenon, and its consequences for the controllability of evaluative-conditioning influences on attitudes and behavior.
+
+
+
+<!-- ## Additional findings -->
+
+<!-- - asymmetric valence effects: stronger EC for positive USs (perhaps due to opposing mere-exposure effects) -->
+
+## Limitations and open questions
+
+The TBS is limited in that it (1) addresses only deliberate evaluations, (2) distinguishes only two metacognitive states, and (3) addresses only a very specific issue.
+Here we discuss these limitations and sketch possible ways to address them in future developments.
+
+### Deliberate evaluations
+
+The TBS relies on deliberate evaluations. 
+One may argue that conclusions may differ if using implicit attitude measures. 
+It is, unclear, however, on which basis "explicit" and "implicit" attitude measures should be distinguished from each other. 
+At present, the distinction reflects social convention rather than be grounded in a compelling empirical or theoretical rationale  [for a thorough discussion, see @corneille_implicit_2020].
+If "implicit" is understood as "automatic", then the TBS clearly allowed for the influence of unconscious (memory) processes. 
+This is also true for deliberate evaluations used in Process Dissociation studies.
+We note that the TBS could be adapted for addressing other features of automaticity, such as efficient responding, for example by requesting speeded evaluations.
+
+Another question is whether different conclusions may be reached when using physiological measures. 
+For instance, studies have claimed successful subliminal conditioning for salivating response but not for evaluations [@passarelli_augmenting_2022]. 
+Although recent research suggests the involvement of convergent evaluative learning processes for behavioral (direct or indirect) and physiological measures [@corneille_behavioral_2020], one should be open to the possibility that different learning or decision making processes are operating when specific physiological responses, or specific populations, are under consideration. 
+Likewise, one may speculate that behavioral measures capitalizing on preference rather than absolute evaluative judgments [@amd_dissociating_2020] may be more sensitive to memory-independent processes. 
+Finally, one should be careful not generalizing the conclusions reached here in the context of evaluative conditioning to other forms of implicit learning, such as reward learning [@leganes-fonteneau_avoiding_2021].
+
+### Rough metacognitive distinction
+
+The TBS distinguishes between only two different metacognitive states - remembering versus non-remembering; it does not allow participants to distinguish between different states of (not) having memory.
+In particular, several important dissociations have been made in previous research, for instance between remembering versus knowing [@wixted_continuous_2010], or structural versus judgment knowledge [@dienes_measuring_2005]. 
+The TBS task is however easily extended to allow for more fine-grained metacognitive distinctions.
+For instance, an extended TBS task could offer three button sets, one each for Remembering, Knowing, and Guessing, to address whether the EC-without-memory result obtained by @waroquier_distinguishing_2020 reflect an artifact due to lack of immediacy, or whether their more fine-grained metacognitive distinctions were better able to isolate the relevant cases than the present TBS task.
+
+### Going beyond the EC-without-memory issue
+
+The TBS was used here for addressing one very specific research question in attitude research, but it may be adapted for addressing other, similarly structured questions.
+For instance, there is a related issue in research on truth judgments, which depend on participants' memory for the statement in question:
+It is typically found that repeatedly presented statements are judged to be more valid  [@dechene_truth_2009]. 
+The TBS task could be adapted to assess validity instead of pleasantness, and separate validity judgments in the metacognitive presence versus absence of memory. 
+Previous research has suggested that it is not the factual repetition that increases validity judgments, but that instead a perceived repetition (i.e., a false alarm) is sufficient for an effect on validity [@bacon_credibility_1979; see also @mattavelli_truth_2021].
+In addition to providing a simple assessment of metamemory status, a parallel application of the TBS task to truth judgments could also help investigate whether similar judgment biases affect both types of ratings (e.g., whether statements perceived as more valid are also more likely to be judged 'remembered').
+Likewise, mere exposure effects may be revisited using the TBS. 
+In mere exposure studies, stimuli are preferred when participants have processed them earlier relative to when they are novel [@zajonc_attitudinal_1968]. 
+Many studies have supported the view that this preference may arise independently of a conscious recollection of the old status of the item [@zajonc_mere_2001], or even be compromised by conscious recollection [e.g., @bornstein_stimulus_1992; @newell_recognising_2007; @whittlesea_implicit_2001]. 
+Here too, the use of the TBS may be useful for shedding complementary light on these questions.
+
+
+<!-- ### Simultaneous assessment -->
+
+<!-- Reliability is higher when confidence ratings are provided simultaneously with type 1 choices [@guggenmos_measuring_2021]. -->
+<!-- Simultaneous assessments of choice and confidence are readily implemented for binary decisions (e.g., positive/negative, old/new, present/absent) by placing the two response options at the opposing ends of a one-dimensional confidence rating scale, as for example when assessing recognition judgments (using, e.g., a 6-point, confidence-graded scale (1 0 definitely not studied, 2 0 probably not studied, 3 0 maybe not studied, 4 0 maybe studied, 5 0 probably studied, and 6 0 definitely studied).  -->
+<!-- Alternatively, two distinct scales can be presented for the two options, as for example in a motion-detection study in which participants reported a left-(right-)ward motion by selection the left (right) scale, and indicated their confidence by the position on that scale (top: certain; bottom: guessing)[@zylberberg_influence_2016; @orchard_internal_2021]. -->
+<!-- These designs are conceptually identical, in that both represent a single confidence dimension, ranging from high confidence for one of the two response options, via an indifference point, to high confidence for the other option. -->
+
+<!-- ### Assessing two metacognitive dimensions simultaneously -->
+
+<!-- It is also possible to jointly tap more than one dimension. -->
+<!-- For instance, in addition to old/new recognition and confidence, Remember vs. Know experience has been accessed in some recognition memory studies [@ingram_recollection_2012]: -->
+<!-- Participants were presented with an old-new confidence scale that forked into two subscales on the "old" side of the scale, one to be used for recollection and another for familiarity experiences. -->
+<!-- This approach allowed controlling for confidence in comparing recollection-based with familiarity-based memories; it successfully discovered distinct associations with source memory accuracy, supporting the validity of metacognitive remember/know experiences.  -->
+<!-- The present approach could similarly be extended toward assessing both confidence and retrieval experience simultaneously. -->
+<!-- For instance, the binary "remember/don't remember" distinction could be replaced by a ternary "Remember/Know/don't remember or know" judgment; the binary "pleasant/unpleasant" choice replaced by continuous "pleasant-unpleasant" scales, tapping degree of confidence when assessing memory, and valence extremity when assessing attitudes. -->
+
+<!-- ### Addressing the limitation of conditional assessment -->
+
+<!-- The present task's conditional assessment of either US memory (when a person "remembers" US valence) or CS attitude (when they "don't remember") considerably restricts the available information. -->
+<!-- If possible, both US memory and CS attitude should be available for each CS-US pair. -->
+<!-- As one possible way towards this goal, the respective information missing in a given trial could be collected directly afterwards: -->
+<!-- For remembered pairings, participants would indicate their attitude towards the CS; for non-remembered pairings, participants would guess the US's valence. -->
+<!-- This would allow the present task to remain unchanged, but the varying prompts might lead to increased demands on participants. -->
+<!-- Another option would be to simplify the task to only elicit memory judgments (for both "remember" and "don't remember" cases), and to rely on the separate evaluative ratings as an attitude index. -->
+<!-- The downside of this approach would be the relative temporal separation of evaluative and metacognitive judgments, which would reduce the reliability of conclusions about evaluative effects in the absence of US valence memory. -->
+<!-- As a third option, CS evaluation and US memory judgment might be consistently combined in a single trial; this would require another modification of the present task but would keep its benefit of close temporal proximity of evaluative and metacognitive judgments. -->
+<!-- Future research should empirically explore these options. -->
+
+<!-- We are planning to explore this possibility in future studies. -->
+
+<!-- ### Measures of metacognition -->
+
+<!-- In further developing the assessment procedures, researchers should aim at obtaining data suitable for computing established numerical measures of metacognitive sensitivity and efficiency [e.g., meta-d'; @maniscalco_lau_2012; @barrett_Etal_2013; @guggenmoos_2021]. -->
+<!-- Such measures can then serve as a basis for a more rigorous analysis of the role of metacognition in the domain of attitude learning. -->
+
+
+# References
+
+```{r create_r-references}
+r_refs(file = "r-references.bib")
+```
+
+```{=tex}
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+```
+::: {#refs custom-style="Bibliography"}
+:::
+
+```{=tex}
+\endgroup
+```

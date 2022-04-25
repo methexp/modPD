@@ -1,0 +1,714 @@
+---
+output:
+  pdf_document:
+  html_document:
+    fig_caption: yes
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache=TRUE,message=FALSE,warning=FALSE)
+
+library("papaja")
+library(kableExtra)
+library(stringr)
+library(afex)
+set_sum_contrasts()
+
+# load data
+
+load(file="./data/modPD2.RData")
+d2 <- subset(d2, Instruction!="Exclusion")
+
+## prepare variables
+
+d2$ec <- d2$postrating - d2$prerating
+d2$`US Valence` <- d2$US_Valence
+d2$`CS Valence` <- d2$CS_Valence
+d2$`Evaluative change` <- d2$ec
+
+
+
+```
+
+```{r}
+
+
+### print an F test from mixed
+print_mixedF <- function(obj, term){
+  if (!any(row.names(obj$anova_table)==term)) term <- paste0("`",term,"`")
+  index <- which(row.names(obj$anova_table)==term)
+  outF <- paste0("$F(", obj$anova_table[index,1], ",", round(obj$anova_table[index,2], 2), ")=", round(obj$anova_table[index,3],2))
+  outp <- printp(obj$anova_table[index,4])
+  out <- paste0(outF, ", p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
+}
+
+
+### print a Wald test for logistic regression
+print_logistic <- function(obj, term){
+  #term <- paste0(term,"1")
+  s <- summary(obj) # create summary object, pick coefficients
+  c <- s$coefficients # create summary object, pick coefficients
+  #index <- which(grepl(term,row.names(c))) # select line for term
+  index <- which(term==row.names(c)) # select line for term
+  res <- c[index,] #
+  outOR <- paste0("$OR=", printnum(exp(res[1])), "$") # OR
+  outSE <- paste0("$SE_{OR}=", printnum(exp(res[2])), "$") # OR
+  outz <- paste0("$z=", printnum(res[3]), "$" )
+  outp <- printp(res[4])
+  result <- paste0(outOR, ", ", outSE, ", ", outz, ", $p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
+  return(result)
+}
+# print_logistic(x1, "Valence1")
+
+```
+
+
+## Results
+
+As in Experiment 1, we first report the results of a manipulation check (i.e., the effects of the experimental valence manipulations on evaluative ratings).
+Next, we analyzed the responses on the TBS task.
+
+<!-- ### Manipulation checks -->
+
+<!-- In this section, we first analyzed (as a manipulation check) whether evaluative ratings were affected by the pairing manipulation. -->
+<!-- Next, we describe the responses on the several memory tasks, and then test whether they were affected as predicted by the Pairing and Valence factors. -->
+
+### Evaluative conditioning
+
+To probe for EC effects, pre-post evaluative changes were entered into an ANOVA with all of the experimental factors (Table \@ref(tab:t2ec)).
+Figure \@ref(fig:ec2) illustrates pre-post evaluative changes as a function of Material, CS Valence, and US valence.
+
+```{r ec2, fig.cap="EC as a function of Material, CS Valence, and US Valence"}
+
+par(mfrow=c(1,2))
+ec2 <- aov_ez(data=d2, id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction","Material"))
+apa_beeplot(data=subset(d2), id="id", dv="Evaluative change", factors=c("CS Valence","US Valence","Material"), intercept=0, use = "all.obs", ylim=c(-6,6)) 
+ec2_out <- apa_print(ec2)
+
+ec2p <- aov_ez(data=subset(d2, US_Valence!="negative"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction","Material"))
+## neutral-positive: F=64, p<.001, eta=.092, keine Interaktion mit Material
+ec2pg <- aov_ez(data=subset(d2, US_Valence!="negative" & Material=="gogos"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
+ec2pf <- aov_ez(data=subset(d2, US_Valence!="negative" & Material=="faces"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
+
+ec2n <- aov_ez(data=subset(d2, US_Valence!="positive"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction","Material"))
+## neutral-negative: F=7, p=.01, eta=.009, Interaktion mit Material
+ec2ng <- aov_ez(data=subset(d2, US_Valence!="positive" & Material=="gogos"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
+ec2nf <- aov_ez(data=subset(d2, US_Valence!="positive" & Material=="faces"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
+
+```
+
+We found robust US valence effects, `r ec2_out$full_result$US_Valence`.
+Compared with nonpaired stimuli, pairing with pleasant USs clearly increased liking, `r apa_print(ec2p)$full_result$US_Valence`, whereas the reduction by unpleasant USs was considerably smaller,  `r apa_print(ec2n)$full_result$US_Valence`.
+
+We also found strong regression to the mean for pre-experimentally valent CSs (i.e., CSs selected because they were initially most negative were later evaluated more positively; and vice versa), `r ec2_out$full_result$CS_Valence`.
+Interactions with Material indicated that both effects were stronger for toy figures than faces (CS Valence: `r ec2_out$full_result$Material_CS_Valence`; US Valence: `r ec2_out$full_result$Material_US_Valence`).
+While the increase in liking was found for both materials (faces: `r apa_print(ec2pf)$full_result$US_Valence`, toys: `r apa_print(ec2pg)$full_result$US_Valence`), the reduction by unpleasant USs was limited to toy figures, `r apa_print(ec2ng)$full_result$US_Valence`, and absent from faces `r apa_print(ec2nf)$full_result$US_Valence`.
+Interestingly, the US valence effect was not modified by CS valence, `r ec2_out$full_result$CS_Valence_US_Valence`: 
+In contrast to the widespread notion that EC works best for neutral CSs, the EC effect was of the same magnitude for valent and neutral CSs.
+^[It could be argued that unfamiliar toy figures are more neutral than human faces, and so the larger EC effect for the toys could be taken to support that notion, albeit applied to classes of materials varied between participants, not variations between CSs within participants.]
+<!-- As another unexpected finding, the EC effect for faces was restricted to positive USs; there was no difference in evaluations between face CSs paired with negative USs and those not paired at all (this was not the case for the toy figures). -->
+
+### Validation of the Two-button-sets procedure
+
+The responses in the TBS task are given descriptively and in a condensed form in Table \@ref(tab:freqtable2), which is structured as in Exp. 1 for ease of reference by pairing status and valence (positive vs. negative; neutral foils are not shown, and data are collapsed across all other factors).
+<!-- More detailed analyses are reported in the Appendix and will be summarized below. -->
+
+```{r freqtable2}
+
+## frequencies
+
+p <- with(subset(d2, Pairing=="paired"), table(pdset)) 
+np <- with(subset(d2, Pairing=="nonpaired"), table(pdset)) 
+p_ <- c(rep(paste0(p[1], " (", printp(p[1]/sum(p[1:2]),2),")"),2)
+        , rep(paste0(p[2], " (", printp(p[2]/sum(p[1:2]),2),")"),2))
+np_ <- c(rep(paste0(np[1], " (", printp(np[1]/sum(np[1:2]),2),")"),2)
+        , rep(paste0(np[2], " (", printp(np[2]/sum(np[1:2]),2),")"),2))
+
+p_ <- c(p[1], paste0(" (", printp(p[1]/sum(p[1:2]),2),")")
+        , p[2], paste0(" (", printp(p[2]/sum(p[1:2]),2),")"))
+np_ <- c(np[1], paste0(" (", printp(np[1]/sum(np[1:2]),2),")")
+        , np[2], paste0(" (", printp(np[2]/sum(np[1:2]),2),")"))
+
+ppos <- with(subset(d2, Pairing=="paired" & US_Valence=="positive"), table(pdset,pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+ppos_ <- c(ppos[1,2], ppos[1,1], ppos[2,2], ppos[2,1])
+
+pneg <- with(subset(d2, Pairing=="paired" & US_Valence=="negative"), table(pdset,pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+pneg_ <- c(pneg[1,2], pneg[1,1], pneg[2,2], pneg[2,1])
+
+nppos <- with(subset(d2, Pairing=="nonpaired" & CS_Valence=="positive"), table(pdset,pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+nppos_ <- c(nppos[1,2], nppos[1,1], nppos[2,2], nppos[2,1])
+
+npneu <- with(subset(d2, Pairing=="nonpaired" & CS_Valence=="neutral"), table(pdset,pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+npneu_ <- c(npneu[1,2], npneu[1,1], npneu[2,2], npneu[2,1])
+
+npneg <- with(subset(d2, Pairing=="nonpaired" & CS_Valence=="negative"), table(pdset,pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+npneg_ <- c(npneg[1,2], npneg[1,1], npneg[2,2], npneg[2,1])
+
+ppos__ <- c( paste0(ppos_[1], " (", printp(ppos_[1]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(ppos_[2], " (", printp(ppos_[2]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(ppos_[3], " (", printp(ppos_[3]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")")
+            ,paste0(ppos_[4], " (", printp(ppos_[4]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")"))
+
+pneg__ <- c( paste0(pneg_[1], " (", printp(pneg_[1]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(pneg_[2], " (", printp(pneg_[2]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(pneg_[3], " (", printp(pneg_[3]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")")
+            ,paste0(pneg_[4], " (", printp(pneg_[4]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")"))
+
+nppos__ <- c(paste0(nppos_[1], " (", printp(nppos_[1]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(nppos_[2], " (", printp(nppos_[2]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(nppos_[3], " (", printp(nppos_[3]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")")
+            ,paste0(nppos_[4], " (", printp(nppos_[4]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")"))
+
+npneu__ <- c(paste0(npneu_[1], " (", printp(npneu_[1]/sum(npneu_[1:2], npneu_[1:2]),digits = 2),")")
+            ,paste0(npneu_[2], " (", printp(npneu_[2]/sum(npneu_[1:2], npneu_[1:2]),digits = 2),")")
+            ,paste0(npneu_[3], " (", printp(npneu_[3]/sum(npneu_[3:4], npneu_[3:4]),digits = 2),")")
+            ,paste0(npneu_[4], " (", printp(npneu_[4]/sum(npneu_[3:4], npneu_[3:4]),digits = 2),")"))
+
+npneg__ <- c(paste0(npneg_[1], " (", printp(npneg_[1]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(npneg_[2], " (", printp(npneg_[2]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(npneg_[3], " (", printp(npneg_[3]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")")
+            ,paste0(npneg_[4], " (", printp(npneg_[4]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")"))
+
+freqtable2 <- data.frame("M" = c(rep("M",2), rep("A",2))
+                       , "CS"=p_ #c(rep(.64,2), rep(.36,2))
+                       , "Foil"=np_ #c(rep(.08,2), rep(.92,2))
+                       , "Val"=rep(c("+","-"),2)
+                       , "CS.p"=ppos__ #c(ppos[1,1], ppos[1,2], ppos[2,3], ppos[2,4])
+                       , "CS.n"=pneg__ #c(pneg[1,1], pneg[1,2], pneg[2,3], pneg[2,4])
+                       , "Foil.p"=nppos__ #c(nppos[1,1], nppos[1,2], nppos[2,3], nppos[2,4])
+                       #, "Foil.0"=npneu_ #c(nppos[1,1], nppos[1,2], nppos[2,3], nppos[2,4])
+                       , "Foil.n"= npneg__ #c(npneg[1,1], npneg[1,2], npneg[2,3], npneg[2,4])
+                  )
+
+kbl(freqtable2, booktabs=TRUE, align="c", caption="Response frequencies (proportions) on the TBS task, separated by pairing status and valence but collapsed across all other factors (Exp 2). ") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+# Chisq tests are reported for M responses to paired stimuli (memory accuracy), A responses to paired stimuli (EC without memory), M responses to nonpaired stimuli (attitude-consistent guessing), and A responses to nonpaired stimuli (pre-study attitudes).
+
+print_chisq <- function(d){
+  paste0("Chisq(",d$parameter,") = ", round(d$statistic,2), ", p = ", printp(d$p.value))
+}
+
+
+## chisq indep tests
+
+memsubj_test2 <- chisq.test(matrix(c(p,np), nrow=2))
+#memacc_test2 <- chisq.test(matrix(c(ppos[1,2:1], pneg[1,2:1]), nrow=2))
+#attval_test2 <- chisq.test(matrix(c(nppos[2,2:1], npneg[2,2:1]), nrow=2))
+#ec_wo_mem_test2 <- chisq.test(matrix(c(ppos[2,2:1], pneg[2,2:1]), nrow=2))
+#consbias_test2 <- chisq.test(matrix(c(nppos[1,2:1], npneg[1,2:1]), nrow=2))
+
+```
+<!-- The novel task asked participants to use the Memory buttons if they remember US valence, and the Attitude buttons if they do not. -->
+
+
+```{r exp2_logist}
+
+# M/A judments
+
+## build baseline model (random effects)
+
+#x2l_0 <- glmer(pdset ~ 1 + (1|id), family = binomial, data=subset(d2))
+#x2l_1 <- glmer(pdset ~ 1 + (1 +  CS_Valence|id), family = binomial, data=subset(d2))
+#anova(x2l_0, x2l_1) # adding csval does not help
+#x2l_1 <- glmer(pdset ~ 1 + (1 + US_Valence|id), family = binomial, data=subset(d2))
+#x2l_1b <- glmer(pdset ~ 1 + (1|id) + (0 + US_Valence|id), family = binomial, data=subset(d2))
+#anova(x2l_0, x2l_1) # adding usval does help
+#x2l_2 <- glmer(pdset ~ 1 + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#x2l_2b <- glmer(pdset ~ 1 + (0 + CS_Valence|id) + (0+US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#anova(x2l_1, x2l_2, x2l_2_)
+#x2l_3 <- glmer(pdset ~ 1 + (1 + CS_Valence * US_Valence|id), family = binomial, data=subset(d2))
+#anova(x2l_2, x2l_3) # random interactions do not help
+#x2l_ <- glmer(pdset ~ (1|id) + (0+Material|id) + (0 + CS_Valence|id) + (0 + US_Valence|id), family = binomial, data=subset(d2))
+#rePCA(x2l_2)
+
+#       npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+# x2l_2   16 3294.2 3390.0 -1631.1   3262.2                     
+# x2l_3   46 3345.6 3620.9 -1626.8   3253.6 8.6495 30          1
+
+## winning model: (1 + CS_Valence + US_Valence|id)
+## full model: (1 + CS_Valence * US_Valence|id)
+
+## all items
+
+#x2l0 <- glmer(pdset ~ Material*US_Valence*CS_Valence + (1 + CS_Valence * US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+x2l0 <- glmer(pdset ~ Material*US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2l0) # usvalQ, csvalQ, mat:usvalL, mat:csvalL
+#plot_model(x2l0, type="pred")
+## massive uvsalQ effect: paired more likely M (nonpaired CS more likely Att)
+## csvalQ: valenced more likely M
+#anova(x2l_2, x2l0)
+#plot_model(x2l0, type="pred", terms=c("Material", "US_Valence))
+# > summary(x2l0)
+# Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+#  Family: binomial  ( logit )
+# Formula: pdset ~ Material * US_Valence * CS_Valence + (1 + CS_Valence +      US_Valence | id)
+#    Data: subset(d2)
+# Control: glmerControl(optimizer = "bobyqa")
+# 
+#      AIC      BIC   logLik deviance df.resid 
+#   1705.2   1880.8   -819.6   1639.2     1479 
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -3.7652 -0.7076  0.1724  0.7233  3.2764 
+# 
+# Random effects:
+#  Groups Name         Variance Std.Dev. Corr                   
+#  id     (Intercept)  0.56117  0.7491                          
+#         CS_Valence.L 0.20426  0.4520    0.32                  
+#         CS_Valence.Q 0.18997  0.4359    0.13  0.49            
+#         US_Valence.L 0.05937  0.2437   -0.42 -0.10 -0.83      
+#         US_Valence.Q 1.17506  1.0840   -0.52 -0.34  0.57 -0.55
+# Number of obs: 1512, groups:  id, 36
+# 
+# Fixed effects:
+#                                     Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                          0.35059    0.15479   2.265  0.02351 *  
+# Material1                           -0.19132    0.14958  -1.279  0.20088    
+# US_Valence.L                         0.11938    0.12484   0.956  0.33895    
+# US_Valence.Q                        -2.36875    0.26321  -9.000  < 2e-16 ***
+# CS_Valence.L                        -0.07015    0.17138  -0.409  0.68229    
+# CS_Valence.Q                        -0.38957    0.13712  -2.841  0.00450 ** 
+# Material1:US_Valence.L              -0.25206    0.12459  -2.023  0.04306 *  
+# Material1:US_Valence.Q              -0.39988    0.24318  -1.644  0.10011    
+# Material1:CS_Valence.L               0.45895    0.16981   2.703  0.00688 ** 
+# Material1:CS_Valence.Q              -0.17437    0.13538  -1.288  0.19775    
+# US_Valence.L:CS_Valence.L            0.15563    0.23323   0.667  0.50458    
+# US_Valence.Q:CS_Valence.L           -0.01705    0.29805  -0.057  0.95439    
+# US_Valence.L:CS_Valence.Q            0.06428    0.16884   0.381  0.70343    
+# US_Valence.Q:CS_Valence.Q           -0.19607    0.23022  -0.852  0.39440    
+# Material1:US_Valence.L:CS_Valence.L  0.32041    0.23263   1.377  0.16841    
+# Material1:US_Valence.Q:CS_Valence.L  0.49810    0.28174   1.768  0.07707 .  
+# Material1:US_Valence.L:CS_Valence.Q  0.07063    0.16834   0.420  0.67481    
+# Material1:US_Valence.Q:CS_Valence.Q -0.14839    0.21925  -0.677  0.49853    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation matrix not shown by default, as p = 18 > 12.
+# Use print(x, correlation=TRUE)  or
+#     vcov(x)        if you need it
+# 
+# optimizer (bobyqa) convergence code: 0 (OK)
+# boundary (singular) fit: see ?isSingular
+# maxfun < 10 * length(par)^2 is not recommended.
+
+
+# unpaired only:
+x2l0u <- glmer(pdset ~ Material*CS_Valence + (1 + CS_Valence |id), family = binomial, data=subset(d2, Pairing=="nonpaired"), control=glmerControl(optimizer = "bobyqa"))
+#x2l0u0 <- glmer(pdset ~ 1 + (1 + CS_Valence |id), family = binomial, data=subset(d2, Pairing=="0"), control=glmerControl(optimizer = "bobyqa"))
+#x2l00 <- glmer(pdset ~ Material*CS_Valence + (1|id), family = binomial, data=subset(d2, Pairing=="0"))
+#summary(x2l0u) # no sig. fixed effects
+#anova(x2l0u0, x2l0u) # no loss in model fit by removing all fixed terms
+
+# paired only:
+x2l0p <- glmer(pdset ~ Material*US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired"), control=glmerControl(optimizer = "bobyqa"))
+#x2l0p0 <- glmer(pdset ~ Material*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="1"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2l0p) # mat, csvalQ, mat:CSvalL, (mat:USval)
+#plot_model(x2l0p, type="pred")
+## mat: faces more likely M
+## csvalQ: valenced  more likely M
+#anova(x2l0p0, x2l0p) # no loss in model fit by removing US_Valence factor; removing Maetrial or CSval hurts fit
+# > summary(x2l0p)
+# Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+#  Family: binomial  ( logit )
+# Formula: pdset ~ Material * US_Valence * CS_Valence + (1 + CS_Valence +      US_Valence | id)
+#    Data: subset(d2, Pairing == "1")
+# Control: glmerControl(optimizer = "bobyqa")
+# 
+#      AIC      BIC   logLik deviance df.resid 
+#   1314.2   1422.4   -635.1   1270.2      986 
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -1.8004 -0.7615 -0.4747  0.9359  2.9855 
+# 
+# Random effects:
+#  Groups Name         Variance Std.Dev. Corr             
+#  id     (Intercept)  0.40876  0.6393                    
+#         CS_Valence.L 0.11551  0.3399    0.63            
+#         CS_Valence.Q 0.26270  0.5125    0.54  0.99      
+#         US_Valence.L 0.05503  0.2346   -0.92 -0.89 -0.83
+# Number of obs: 1008, groups:  id, 36
+# 
+# Fixed effects:
+#                                     Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                         -0.61268    0.13609  -4.502 6.74e-06 ***
+# Material1                           -0.34305    0.13597  -2.523  0.01164 *  
+# US_Valence.L                         0.12002    0.12341   0.973  0.33079    
+# CS_Valence.L                        -0.11482    0.17756  -0.647  0.51786    
+# CS_Valence.Q                        -0.46161    0.14777  -3.124  0.00179 ** 
+# Material1:US_Valence.L              -0.25490    0.12297  -2.073  0.03819 *  
+# Material1:CS_Valence.L               0.63112    0.17456   3.615  0.00030 ***
+# Material1:CS_Valence.Q              -0.21668    0.14761  -1.468  0.14214    
+# US_Valence.L:CS_Valence.L            0.17633    0.23094   0.764  0.44514    
+# US_Valence.L:CS_Valence.Q            0.06807    0.16787   0.405  0.68513    
+# Material1:US_Valence.L:CS_Valence.L  0.32035    0.23015   1.392  0.16395    
+# Material1:US_Valence.L:CS_Valence.Q  0.06955    0.16723   0.416  0.67748    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation of Fixed Effects:
+#                  (Intr) Matrl1 US_Vl.L CS_V.L CS_V.Q Mt1:US_V.L M1:CS_V.L M1:CS_V.Q US_V.L:CS_V.L US_V.L:CS_V.Q
+# Material1         0.088                                                                                        
+# US_Valenc.L      -0.235  0.022                                                                                 
+# CS_Valenc.L       0.160 -0.084 -0.181                                                                          
+# CS_Valenc.Q       0.523  0.063 -0.156   0.185                                                                  
+# Mtr1:US_V.L       0.023 -0.227  0.141  -0.050  0.027                                                           
+# Mtr1:CS_V.L      -0.074  0.131 -0.053   0.143 -0.084 -0.181                                                    
+# Mtr1:CS_V.Q       0.062  0.522  0.024  -0.094  0.100 -0.151      0.153                                         
+# US_V.L:CS_V.L    -0.066 -0.028 -0.032  -0.006 -0.074 -0.123      0.062    -0.031                               
+# US_V.L:CS_V.Q    -0.004  0.026  0.504  -0.082 -0.004  0.097     -0.042     0.040    -0.028                     
+# M1:US_V.L:CS_V.L -0.032 -0.061 -0.129   0.069 -0.037 -0.044      0.017    -0.068     0.151        -0.114       
+# M1:US_V.L:CS_V.Q  0.028  0.004  0.099  -0.041  0.043  0.499     -0.080     0.005    -0.109         0.126       
+#                  M1:US_V.L:CS_V.L
+# Material1                        
+# US_Valenc.L                      
+# CS_Valenc.L                      
+# CS_Valenc.Q                      
+# Mtr1:US_V.L                      
+# Mtr1:CS_V.L                      
+# Mtr1:CS_V.Q                      
+# US_V.L:CS_V.L                    
+# US_V.L:CS_V.Q                    
+# M1:US_V.L:CS_V.L                 
+# M1:US_V.L:CS_V.Q -0.038          
+# optimizer (bobyqa) convergence code: 0 (OK)
+# boundary (singular) fit: see ?isSingular
+
+
+# paired, by material:
+x2l0pf <- glmer(pdset ~ US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired" & Material=="faces"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2l0pf) # faces: csvalL, csvalQ
+#plot_model(x2l0pf, type="pred") # negative & valenced more likely M
+x2l0pg <- glmer(pdset ~ US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired" & Material=="gogos"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2l0pg) # faces: usvalL, csvalL
+#plot_model(x2l0pg, type="pred") # negative USs, positive CSs more likely M
+
+
+
+# pleas/unpleas judgments
+
+## build baseline model (ranef)
+
+#x2m_0 <- glmer(Proportion.pleasant ~ 1 + (1|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#x2m_1 <- glmer(Proportion.pleasant ~ 1 + (1 + CS_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#x2m_1b <- glmer(Proportion.pleasant ~ 1 + (1 + US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#x2m_2 <- glmer(Proportion.pleasant ~ 1 + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#x2m_3 <- glmer(Proportion.pleasant ~ 1 + (1 + CS_Valence * US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#anova(x2m_0, x2m_1, x2m_2, x2m_3)
+
+## winning model: (1 + CS_Valence + US_Valence|id)
+
+## all items
+d2$Proportion.pleasant <- d2$pdval == "positive"
+
+x2m_ <- glmer(Proportion.pleasant ~ Material*US_Valence*CS_Valence*pdset + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2m_) # a lot of sig. effects
+#plot_model(x2m_, type="pred", terms=c("pdset","US_Valence","CS_Valence"))
+#plot_model(x2m_, type="pred", terms=c("US_Valence","CS_Valence","pdset"))
+#plot_model(x2m_, type="pred", terms=c("pdset","US_Valence","Material"))
+# > summary(x2m_)
+# Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+#  Family: binomial  ( logit )
+# Formula: Proportion.pleasant ~ Material * US_Valence * CS_Valence * pdset +  
+#     (1 + CS_Valence + US_Valence | id)
+#    Data: subset(d2)
+# Control: glmerControl(optimizer = "bobyqa")
+# 
+#      AIC      BIC   logLik deviance df.resid 
+#   1732.3   2003.7   -815.2   1630.3     1461 
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -5.6370 -0.6753 -0.1609  0.5929  4.0098 
+# 
+# Random effects:
+#  Groups Name         Variance Std.Dev. Corr                   
+#  id     (Intercept)  0.5760   0.7589                          
+#         CS_Valence.L 0.3761   0.6132   -0.24                  
+#         CS_Valence.Q 0.1509   0.3885    0.26 -0.10            
+#         US_Valence.L 0.1685   0.4105   -0.80 -0.23 -0.59      
+#         US_Valence.Q 0.1672   0.4089   -0.75  0.17  0.44  0.33
+# Number of obs: 1512, groups:  id, 36
+# 
+# Fixed effects:
+#                                             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                                 0.077523   0.164208   0.472  0.63685    
+# Material1                                  -0.150979   0.161448  -0.935  0.34971    
+# US_Valence.L                                0.726040   0.176301   4.118 3.82e-05 ***
+# US_Valence.Q                                0.234059   0.195876   1.195  0.23211    
+# CS_Valence.L                                1.945011   0.235609   8.255  < 2e-16 ***
+# CS_Valence.Q                                0.145902   0.156366   0.933  0.35078    
+# pdset1                                      0.255931   0.104572   2.447  0.01439 *  
+# Material1:US_Valence.L                     -0.250471   0.173957  -1.440  0.14991    
+# Material1:US_Valence.Q                      0.161385   0.195829   0.824  0.40988    
+# Material1:CS_Valence.L                      0.227546   0.227254   1.001  0.31669    
+# Material1:CS_Valence.Q                     -0.172566   0.152196  -1.134  0.25686    
+# US_Valence.L:CS_Valence.L                  -0.452720   0.333982  -1.356  0.17525    
+# US_Valence.Q:CS_Valence.L                  -0.558883   0.376109  -1.486  0.13729    
+# US_Valence.L:CS_Valence.Q                   0.202936   0.221406   0.917  0.35936    
+# US_Valence.Q:CS_Valence.Q                   0.093052   0.254729   0.365  0.71489    
+# Material1:pdset1                           -0.492260   0.104488  -4.711 2.46e-06 ***
+# US_Valence.L:pdset1                         0.905043   0.162776   5.560 2.70e-08 ***
+# US_Valence.Q:pdset1                         0.005975   0.187185   0.032  0.97454    
+# CS_Valence.L:pdset1                        -0.646623   0.207733  -3.113  0.00185 ** 
+# CS_Valence.Q:pdset1                        -0.022356   0.141811  -0.158  0.87474    
+# Material1:US_Valence.L:CS_Valence.L         0.056252   0.325859   0.173  0.86294    
+# Material1:US_Valence.Q:CS_Valence.L        -0.679735   0.366933  -1.852  0.06396 .  
+# Material1:US_Valence.L:CS_Valence.Q        -0.236449   0.218318  -1.083  0.27879    
+# Material1:US_Valence.Q:CS_Valence.Q         0.249305   0.253482   0.984  0.32535    
+# Material1:US_Valence.L:pdset1              -0.100704   0.162755  -0.619  0.53608    
+# Material1:US_Valence.Q:pdset1              -0.081021   0.187252  -0.433  0.66524    
+# Material1:CS_Valence.L:pdset1               0.205533   0.207616   0.990  0.32219    
+# Material1:CS_Valence.Q:pdset1              -0.278705   0.141906  -1.964  0.04953 *  
+# US_Valence.L:CS_Valence.L:pdset1            0.847026   0.331002   2.559  0.01050 *  
+# US_Valence.Q:CS_Valence.L:pdset1           -0.041167   0.366293  -0.112  0.91052    
+# US_Valence.L:CS_Valence.Q:pdset1           -0.157240   0.222578  -0.706  0.47991    
+# US_Valence.Q:CS_Valence.Q:pdset1            0.045589   0.256038   0.178  0.85868    
+# Material1:US_Valence.L:CS_Valence.L:pdset1  0.052085   0.330409   0.158  0.87474    
+# Material1:US_Valence.Q:CS_Valence.L:pdset1  0.020500   0.366045   0.056  0.95534    
+# Material1:US_Valence.L:CS_Valence.Q:pdset1 -0.279637   0.221711  -1.261  0.20721    
+# Material1:US_Valence.Q:CS_Valence.Q:pdset1 -0.214441   0.255277  -0.840  0.40089    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation matrix not shown by default, as p = 36 > 12.
+# Use print(x, correlation=TRUE)  or
+#     vcov(x)        if you need it
+# 
+# optimizer (bobyqa) convergence code: 0 (OK)
+# boundary (singular) fit: see ?isSingular
+# maxfun < 10 * length(par)^2 is not recommended.
+
+
+## nonpaired foils --> csval-effect, not modulated by pdset!
+
+x2mu <- glmer(Proportion.pleasant ~ Material*CS_Valence*pdset + (1 + CS_Valence|id), family = binomial, data=subset(d2, Pairing=="nonpaired"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2mu) # csvalL
+#plot_model(x2mu, type="pred")
+# > summary(x2mu)
+# Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+#  Family: binomial  ( logit )
+# Formula: Proportion.pleasant ~ Material * CS_Valence * pdset + (1 + CS_Valence |      id)
+#    Data: subset(d2, Pairing == "0")
+# Control: glmerControl(optimizer = "bobyqa")
+# 
+#      AIC      BIC   logLik deviance df.resid 
+#    579.1    655.1   -271.6    543.1      486 
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -3.3711 -0.6538 -0.2110  0.6437  4.0227 
+# 
+# Random effects:
+#  Groups Name         Variance Std.Dev. Corr       
+#  id     (Intercept)  1.2986   1.1396              
+#         CS_Valence.L 0.5423   0.7364   -0.03      
+#         CS_Valence.Q 0.1900   0.4359    0.65 -0.78
+# Number of obs: 504, groups:  id, 36
+# 
+# Fixed effects:
+#                               Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                   -0.10056    0.32657  -0.308   0.7581    
+# Material1                     -0.27669    0.29173  -0.948   0.3429    
+# CS_Valence.L                   2.67563    0.55156   4.851 1.23e-06 ***
+# CS_Valence.Q                   0.01363    0.35163   0.039   0.9691    
+# pdset1                         0.27848    0.21400   1.301   0.1932    
+# Material1:CS_Valence.L         0.85905    0.46019   1.867   0.0619 .  
+# Material1:CS_Valence.Q        -0.44614    0.30336  -1.471   0.1414    
+# Material1:pdset1              -0.40869    0.22046  -1.854   0.0638 .  
+# CS_Valence.L:pdset1           -0.51278    0.40787  -1.257   0.2087    
+# CS_Valence.Q:pdset1           -0.10495    0.27945  -0.376   0.7072    
+# Material1:CS_Valence.L:pdset1  0.21373    0.42436   0.504   0.6145    
+# Material1:CS_Valence.Q:pdset1 -0.17172    0.28768  -0.597   0.5506    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation of Fixed Effects:
+#             (Intr) Matrl1 CS_Vl.L CS_Vl.Q pdset1 Mt1:CS_V.L Mt1:CS_V.Q Mtr1:1 CS_V.L: CS_V.Q: M1:CS_V.L:
+# Material1    0.292                                                                                      
+# CS_Valenc.L -0.320 -0.259                                                                               
+# CS_Valenc.Q  0.676  0.294 -0.398                                                                        
+# pdset1       0.385  0.122 -0.115   0.248                                                                
+# Mtr1:CS_V.L -0.277 -0.236  0.461  -0.318  -0.152                                                        
+# Mtr1:CS_V.Q  0.305  0.583 -0.307   0.388   0.120 -0.325                                                 
+# Mtrl1:pdst1  0.217  0.511 -0.282   0.225   0.230 -0.213      0.386                                      
+# CS_Vlnc.L:1 -0.090 -0.111  0.423  -0.116  -0.172  0.184     -0.143     -0.147                           
+# CS_Vlnc.Q:1  0.208  0.094 -0.107   0.484   0.587 -0.138      0.167      0.194 -0.184                    
+# M1:CS_V.L:1 -0.242 -0.170  0.299  -0.284  -0.146  0.617     -0.214     -0.235  0.290  -0.152            
+# M1:CS_V.Q:1  0.189  0.311 -0.266   0.262   0.199 -0.208      0.641      0.612 -0.151   0.241  -0.236    
+# optimizer (bobyqa) convergence code: 0 (OK)
+# boundary (singular) fit: see ?isSingular
+
+
+## paired CSs - ***usval-effect modulated by pdset! (larger in Mem, absent in Att)***; also csval effect was modulated (smaller in Mem, larger in Att)
+
+x2mp <- glmer(Proportion.pleasant ~ Material*US_Valence*CS_Valence*pdset + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2mp) # csvalL, usvalL, mat:pdset, usvalL:pdset, csvalL:pdset, (mat:csvalQ:pdset,usvalL:csvalL:pdset)
+#plot_model(x2mp, type="pred") # csval & usval as expected
+#plot_model(x2mp, type="pred", terms=c("pdset","US_Valence"))
+#plot_model(x2mp, type="pred", terms=c("pdset","CS_Valence"))
+# > summary(x2mp)
+# Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+#  Family: binomial  ( logit )
+# Formula: Proportion.pleasant ~ Material * US_Valence * CS_Valence * pdset +  
+#     (1 + CS_Valence + US_Valence | id)
+#    Data: subset(d2, Pairing == "1")
+# Control: glmerControl(optimizer = "bobyqa")
+# 
+#      AIC      BIC   logLik deviance df.resid 
+#   1174.9   1342.1   -553.5   1106.9      974 
+# 
+# Scaled residuals: 
+#     Min      1Q  Median      3Q     Max 
+# -4.8576 -0.6630  0.1172  0.6075  2.7742 
+# 
+# Random effects:
+#  Groups Name         Variance Std.Dev. Corr             
+#  id     (Intercept)  0.3918   0.6259                    
+#         CS_Valence.L 0.5483   0.7405   -0.11            
+#         CS_Valence.Q 0.1702   0.4126    0.41  0.22      
+#         US_Valence.L 0.2035   0.4511   -0.77 -0.42 -0.12
+# Number of obs: 1008, groups:  id, 36
+# 
+# Fixed effects:
+#                                            Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                                 0.18004    0.15909   1.132  0.25776    
+# Material1                                  -0.09401    0.15496  -0.607  0.54406    
+# US_Valence.L                                0.71947    0.18103   3.974 7.06e-05 ***
+# CS_Valence.L                                1.73608    0.27411   6.333 2.40e-10 ***
+# CS_Valence.Q                                0.20884    0.17607   1.186  0.23557    
+# pdset1                                      0.27015    0.12141   2.225  0.02607 *  
+# Material1:US_Valence.L                     -0.24546    0.17836  -1.376  0.16876    
+# Material1:CS_Valence.L                     -0.03217    0.26401  -0.122  0.90302    
+# Material1:CS_Valence.Q                     -0.07068    0.17062  -0.414  0.67867    
+# US_Valence.L:CS_Valence.L                  -0.42293    0.33821  -1.250  0.21112    
+# US_Valence.L:CS_Valence.Q                   0.20243    0.22448   0.902  0.36716    
+# Material1:pdset1                           -0.50920    0.12115  -4.203 2.63e-05 ***
+# US_Valence.L:pdset1                         0.93199    0.16541   5.634 1.76e-08 ***
+# CS_Valence.L:pdset1                        -0.65410    0.24526  -2.667  0.00765 ** 
+# CS_Valence.Q:pdset1                        -0.01673    0.16390  -0.102  0.91869    
+# Material1:US_Valence.L:CS_Valence.L         0.04768    0.32970   0.145  0.88502    
+# Material1:US_Valence.L:CS_Valence.Q        -0.22821    0.22031  -1.036  0.30027    
+# Material1:US_Valence.L:pdset1              -0.12166    0.16449  -0.740  0.45951    
+# Material1:CS_Valence.L:pdset1               0.16647    0.24386   0.683  0.49484    
+# Material1:CS_Valence.Q:pdset1              -0.40501    0.16367  -2.475  0.01334 *  
+# US_Valence.L:CS_Valence.L:pdset1            0.85970    0.33671   2.553  0.01067 *  
+# US_Valence.L:CS_Valence.Q:pdset1           -0.12529    0.22509  -0.557  0.57778    
+# Material1:US_Valence.L:CS_Valence.L:pdset1  0.07937    0.33429   0.237  0.81233    
+# Material1:US_Valence.L:CS_Valence.Q:pdset1 -0.31064    0.22451  -1.384  0.16646    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Correlation matrix not shown by default, as p = 24 > 12.
+# Use print(x, correlation=TRUE)  or
+#     vcov(x)        if you need it
+# 
+# optimizer (bobyqa) convergence code: 0 (OK)
+# boundary (singular) fit: see ?isSingular
+# maxfun < 10 * length(par)^2 is not recommended.
+
+## paired, separate by pdset
+
+### top-left
+
+x2mpM <- glmer(Proportion.pleasant ~ Material*US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired" & pdset=="Memory"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2mpM) # mat, csvalL, usvalL, (mat:csvalQ, mat:usvalL:csvalQ)
+#plot_model(x2mpM, type="pred", terms=c("CS_Valence"))
+
+### bottom-left
+
+x2mpA <- glmer(Proportion.pleasant ~ Material*US_Valence*CS_Valence + (1 + CS_Valence + US_Valence|id), family = binomial, data=subset(d2, Pairing=="paired" & pdset=="Attitude"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2mpA) # csvalL
+#plot_model(x2mpA, type="pred", terms=c("CS_Valence"))
+
+
+
+## bottom-right: csval-effect
+
+x2muA <- glmer(Proportion.pleasant ~ Material*CS_Valence + (1 + CS_Valence|id), family = binomial, data=subset(d2, Pairing=="nonpaired" & pdset=="Attitude"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2muA) # csvalL
+#plot_model(x2muA, type="pred")
+
+
+## top right: csval-effect n.s. (variance is captured by random effect of CS_Valence)
+
+x2muM <- glmer(Proportion.pleasant ~ Material*CS_Valence + (1 + CS_Valence|id), family = binomial, data=subset(d2, Pairing=="nonpaired" & pdset=="Memory"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2muM) # csvalL n.s., p=.13
+#plot_model(x2muM, type="pred")
+
+#x2l2 <- glmer(Proportion.pleasant ~ Material*CS_Valence + (1|id), family = binomial, data=subset(d2, pdset=="Memory" & Pairing=="0"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x2l2) # csval sig., but much weaker
+#plot_model(x2l2, type="pred")
+
+
+```
+
+We first investigated the effect of manipulated variables on the proportion of Memory-set responses.
+We expected (and found) the memory manipulation to be reflected in a higher proportion of Memory-set responses for paired target CSs as compared to non-paired foil stimuli:
+The majority of paired CSs (60%) were judged 'remembered' (i.e., received Memory-set responses); only a minority (15%) of nonpaired foils was also falsely 'remembered' as having been paired with a US.
+^[In addition to confirming the effect of the memory manipulation, 
+<!-- `r print_logistic(x2l0,"US_Valence.Q")` -->
+a logistic regression analysis (which included random intercepts as well as random slopes for US and CS Valence) of the choice of Response Set (Memory vs. Attitude), with CS Valence, US Valence, and Material as predictors, indicated effects of all three experimental factors.
+We conducted separate analyses of paired CSs and nonpaired foils to simplify interpretation of these findings.
+For paired CSs, effects of Material and CS Valence were found, as well as interactions of Material with both valence factors.
+Valent CSs were more often judged 'remembered' than neutral CSs, `r print_logistic(x2l0p,"CS_Valence.Q")`.
+<!-- CSs paired with negative (vs. positive) USs received 'Memory' responses slightly more often `r print_logistic(x2l0p,"US_Valence.L")`. -->
+Faces were more often judged 'remembered' than toy figures, `r print_logistic(x2l0p,"Material1")`. 
+An additional Material x CS Valence interaction indicated that the 'Memory-set' advantage was observed for negative faces but positive toy figures, `r print_logistic(x2l0p,"Material1:CS_Valence.L")`. 
+Also, toy figures paired with negative (vs. positive) USs received 'Memory-set' responses somewhat more often, `r print_logistic(x2l0p,"Material1:US_Valence.L")`. 
+Neither Material (`r print_logistic(x2l0u,"Material1")`) nor CS Valence (linear: `r print_logistic(x2l0u,"CS_Valence.L")`, quadratic: `r print_logistic(x2l0u,"CS_Valence.Q")`) affected judgments of nonpaired foils (and the US Valence factor has only a single level for these items).]
+
+
+
+Next, we analyzed frequencies of "pleasant"/"unpleasant" responses for paired CSs as well as nonpaired foils. 
+Overall, these judgments were affected by main effects of US Valence (`r print_logistic(x2m_,"US_Valence.L")`) and CS Valence (`r print_logistic(x2m_,"CS_Valence.L")`).
+Importantly, the US Valence effect was again modulated by Response Set (i.e., it differed between Memory and Attitude-set responses, `r print_logistic(x2m_,"US_Valence.L:pdset1")`). 
+In addition, Response Set also interacted with CS Valence, with smaller CS Valence effects on Memory than Attitude judgments, `r print_logistic(x2m_,"CS_Valence.L:pdset1")`. 
+^[We also found a Response Set x Material interaction, `r print_logistic(x2m_,"Material1:pdset1")`.
+Additional effects included a main effect of Response Set, `r print_logistic(x2m_,"pdset1")`, as well as three-way interactions of response set with CS Valence x Material,  `r print_logistic(x2m_,"Material1:CS_Valence.Q:pdset1")`, and with CS Valence x US Valence,  `r print_logistic(x2m_,"US_Valence.L:CS_Valence.L:pdset1")`.]
+To break down these findings, we report separate analyses by item type (CSs vs. foils) and Response Set (Memory vs. Attitude), which jointly define the four quadrants of Table 2.
+
+We focused first on paired CSs, for which "pleasant"/"unpleasant" responses for paired CSs showed the same pattern of effects as obtained in the overall analyses reported above.
+Most importantly, the interaction of US Valence with Response Set (Memory vs. Attitude) was robustly significant, `r print_logistic(x2mp,"US_Valence.L:pdset1")`, suggesting that US Valence effect on judgments differed between Memory-set and Attitude-set responses.
+For paired stimuli, Memory-set judgments (top left quadrant) quite accurately reflected actual US valence (albeit with a somewhat a lower accuracy than in Experiment 1):
+When participants experienced remembering US valence for a paired stimulus, they were accurate in 70% of cases.
+The strongest effect on Memory-set judgments was exerted by US Valence, `r  print_logistic(x2mpM,"US_Valence.L")` (i.e., "pleasant" responses were more likely for CSs paired with pleasant USs). 
+Additional (smaller) effects were obtained for CS Valence, `r  print_logistic(x2mpM,"CS_Valence.L")` (with pleasant CSs more likely judged "pleasant", reflecting attitude-consistent guessing), and Material, `r  print_logistic(x2mpM,"Material1")` (with face CSs less likely to be judged "pleasant", perhaps reflecting the finding that pleasant face CSs were less likely classified using the 'Memory-set' responses).
+^[In addition, the above three-way interaction between Response Set, Material, and CS Valence was reflected here as a significant Material x CS_Valence interaction, `r print_logistic(x2mpM,"Material1:CS_Valence.Q")`.]
+
+### Is evaluative conditioning observed in the absence of conscious retrieval of the CS-US pairings?
+
+Next, Attitude-set judgments for paired CSs were analyzed, with a particular focus on whether or not they are influenced by US valence in a similar manner as were Memory-set judgments.
+However, as reflected in the bottom-left quadrant of Table 2, those CSs were not evaluated in accordance with US valence.
+In a logistic regression, only a CS Valence effect on these judgments was found, `r  print_logistic(x2mpA,"CS_Valence.L")` (with initially pleasant CSs more likely judged pleasant). 
+Importantly, replicating the absence of an EC-without-memory effect, US Valence did not affect these judgments, `r  print_logistic(x2mpA,"US_Valence.L")`.
+<!-- (z=.13, p=.9). -->
+
+### Is there evidence for an affect-as-information bias?
+
+Pleasantness judgments of nonpaired foils (i.e., stimuli not presented together with USs) varied only as a function of pre-experimental valence, `r  print_logistic(x2mu,"CS_Valence.L")`.
+For those (relatively few) foils for which participants falsely 'remembered' that a US had been paired with them (i.e., used the Memory response set; top right quadrant), they reported a US valence on the novel task that tended to be consistent with pre-experimental attitudes: 
+A stimulus falsely judged as having been paired with a US was evaluated in accordance with pre-existing attitudes in 72% of cases. 
+However, note that in a logistic regression of this relatively small subset of responses, the effect of pre-existing valence (while descriptively consistent with the overall analysis) was not significant, `r  print_logistic(x2muM,"CS_Valence.L")`.
+
+Focusing on the bottom right quadrant (i.e., Attitude-set judgments for nonpaired stimuli), it is apparent that judgments reflected pre-experimental attitudes, `r  print_logistic(x2muA,"CS_Valence.L")`:
+Participants consistently reported the attitude corresponding to their pre-study ratings in 84% of cases; besides a strong effect of CS Valence, the logistic regression analysis did not yield other significant predictors.
+
+
+<!-- ^[Note that absolute frequences for valenced foils are relatively small here due to the lower number of valenced as compared to neutral stimuli.] -->
+<!-- ^[Material did not affect these Attitude responses.] -->
+
+<!-- Taken together, the novel VM/A task has been successfully validated: 
+Participants' metamemory judgments were able to separate paired from nonpaired stimuli; Memory judgments were largely accurate; and Attitude judgments reflected participants' attitudes.-->
+
+<!-- We probed whether memory responses were systematically affected by participants' attitudes towards those stimuli. -->
+
+In sum, responses on the TBS task again appropriately reflected the memory and attitude manipulations.
+We replicated the absence of EC without memory (i.e., the effect of US Valence was limited to Memory-set responses).
+We also replicated the attitude-as-information bias (i.e., the effect of CS Valence), which was now obtained not only for nonpaired foils but also for paired CSs.
+

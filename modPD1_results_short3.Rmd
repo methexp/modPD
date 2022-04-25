@@ -1,0 +1,444 @@
+---
+editor_options:
+  chunk_output_type: console
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r prepare_variables, include=FALSE, echo = FALSE, warning=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
+
+library("papaja")
+library(kableExtra)
+library(stringr)
+library(afex)
+#library(emmeans)
+#library(tidyr)
+
+# load data
+
+load(file="./data/modPD1.RData")
+d1 <- subset(d1, Condition =="Inclusion")
+
+# prepare variables
+
+d1$Valence <- d1$typUS
+d1$`Pairing`[d1$typCS=="neutral"] <- "paired" 
+d1$`Pairing`[d1$typCS=="neg" | d1$typCS=="pos"] <- "nonpaired"
+d1p <- subset(d1, Pairing=="paired")
+d1np <- subset(d1, Pairing=="nonpaired")
+d1$`Evaluative change` <- d1$postrating - d1$prerating
+d1$`TBS Set` <- d1$pdset
+
+d1$pdcor <- FALSE
+d1$pdcor[d1$pdval == "pleasant" & d1$typUS == "pos"] <- TRUE
+d1$pdcor[d1$pdval == "unpleasant" & d1$typUS == "neg"] <- TRUE
+d1$pdcor_ <- as.numeric(d1$pdcor)
+
+# d1$`Evaluation consistent` <- NA
+# d1$`Evaluation consistent`[d1$typCS=="pos"] <- as.numeric(d1$postrating[d1$typCS=="pos"]>0)
+# d1$`Evaluation consistent`[d1$typCS=="neg"] <- as.numeric(d1$postrating[d1$typCS=="neg"]<0)
+
+### print a Wald test for logistic regression
+print_logistic <- function(obj, term){
+  #term <- paste0(term,"1")
+  s <- summary(obj) # create summary object, pick coefficients
+  c <- s$coefficients # create summary object, pick coefficients
+  #index <- which(grepl(term,row.names(c))) # select line for term
+  index <- which(term==row.names(c)) # select line for term
+  res <- c[index,] #
+  outOR <- paste0("$OR=", printnum(exp(res[1])), "$") # OR
+  outSE <- paste0("$SE_{OR}=", printnum(exp(res[2])), "$") # OR
+  outz <- paste0("$z=", printnum(res[3]), "$" )
+  outp <- printp(res[4])
+  result <- paste0(outOR, ", ", outSE, ", ", outz, ", $p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
+  return(result)
+}
+# print_logistic(x1, "Valence1")
+
+### print an F test from mixed
+print_mixedF <- function(obj, term){
+  if (!any(row.names(obj$anova_table)==term)) term <- paste0("`",term,"`")
+  index <- which(row.names(obj$anova_table)==term)
+  outF <- paste0("$F(", obj$anova_table[index,1], ",", round(obj$anova_table[index,2], 2), ")=", round(obj$anova_table[index,3],2))
+  outp <- printp(obj$anova_table[index,4])
+  out <- paste0(outF, ", p", ifelse(str_sub(outp,1,1)=="<", "", "="), outp, "$")
+}
+
+```
+
+
+## Results
+
+We first report results of a manipulation check (i.e., whether our procedure produced EC effects).
+The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without memory as well as the attitude-as-information bias.
+<!-- Third, we related the responses on the novel task to evaluative ratings. -->
+
+<!-- ### Manipulation checks -->
+
+<!-- Evaluations and memory judgments as a function of experimental factors -->
+<!-- Evaluations by Time (pre-post), Pairing, and Valence -->
+<!-- Memory by Pairing and Valence -->
+
+### Evaluative conditioning
+
+Evaluative change was computed as post-learning evaluation minus pre-learning evaluation and submitted to a 2 (Valence) x 2 (Pairing) repeated-measures ANOVA.
+Figure \@ref(fig:ec1appendix) shows the results.
+
+```{r ec1appendix, fig.cap="Left: EC effects (pre-post evaluative changes) as a function of Valence and Pairing. Right: EC effects for paired CSs as a function of Button Set (Memory vs. Attitude; see below)."}
+
+par(mfrow=c(1,2))
+par(cex = 1.0)
+
+#apa_lineplot(data=d1, id="Subject", dv="Evaluative change", factors=c("Valence","Pairing"), intercept=0, ylim=c(-25,25))
+ec1 <- aov_ez(data=d1, id="Subject", dv="Evaluative change", within=c("Valence","Pairing"), fun_aggregate = mean)
+ec1_out <- apa_print(ec1)
+
+apa_beeplot(data=d1, id="Subject", dv="Evaluative change", factors=c("Pairing","Valence"), intercept=0, ylim=c(-25,25))
+
+#library(ggplot2)
+#library(flexplot)
+#flexplot(prerating~Pairing + Valence, data=d1)
+#flexplot(postrating~Pairing + Valence, data=d1)
+#d1l <- pivot_longer(d1, c(prerating, postrating), names_to="Time", values_to = "Evaluation")
+#d1l$Time <- factor(d1l$Time, levels=c("prerating","postrating"), labels=c("pre", "post"), ordered=TRUE)
+#flexplot(Rating~Time + Valence | Pairing, data=d1l)
+#d1l$`Stimulus Type` <- factor(d1l$Pairing)
+
+# Plot Evaluations, to show regression-to-mean
+# sep. plots, then combined
+#apa_beeplot(data=subset(d1l, Pairing=="nonpaired"), id="Subject", dv="Evaluation", factors=c("Time","Valence"), intercept=0, ylim=c(-100,100))
+#apa_beeplot(data=subset(d1l, Pairing=="paired"), id="Subject", dv="Evaluation", factors=c("Time","Valence"), intercept=0, ylim=c(-50,50))
+
+# Plot EC for M vs. A (see below)
+#apa_beeplot(data=subset(d1l, Pairing=="paired" & Time=="post"), id="Subject", dv="Evaluation", factors=c("pdset","Valence"), intercept=0, ylim=c(-25,25))
+
+#apa_beeplot(data=subset(d1l, Pairing=="paired" & Time=="post"), id="Subject", dv="Evaluative change", factors=c("TBS Set","Valence"), intercept=0, ylim=c(-25,25))
+apa_beeplot(data=subset(d1, Pairing=="paired"), id="Subject", dv="Evaluative change", factors=c("TBS Set", "Valence"), intercept=0, ylim=c(-25,25))
+
+
+```
+
+EC was affected by Valence, `r ec1_out$full_result$Valence`, Pairing, `r ec1_out$full_result$Pairing`, as well as, most strongly, their interaction, `r ec1_out$full_result$Valence_Pairing`.
+<!-- Figure \@ref(fig:ec1appendix) shows that,  -->
+For nonpaired CSs, pre-post changes reflected regression to the mean: 
+The CSs with most extremely positive pre-ratings became less positive, and the CSs with most extremely negative pre-ratings became less negative.
+For paired CSs, pre-post evaluative changes reflected US valence (i.e., an EC effect): 
+Those paired with positive CSs became more positive, while those paired with negative USs became more negative.
+Interestingly, there was an asymmetry, with the positive larger than the negative shift.
+
+### Validation of the Two-button-sets procedure
+
+To show that the modified task adequately assesses metamemory judgments of CS-US pairings, and attitudes for cases in which participants do not remember CS-US pairings, we analyzed whether (1) pairing affects participants' Memory-set reports (which we expected to differ between paired versus nonpaired control CSs); (2) those memory reports are largely accurate; and (3) participants' pre-rated attitudes are consistently reflected in the Attitude button responses.
+
+
+```{r freqtable}
+
+## frequencies
+
+### Set selection: Mem vs. Att
+
+p <- with(subset(d1, Pairing=="paired"), table(pdset)) 
+np <- with(subset(d1, Pairing=="nonpaired"), table(pdset)) 
+p_ <- c(rep(paste0(p[1], " (", printp(p[1]/sum(p[1:2]),2),")"),2)
+        , rep(paste0(p[2], " (", printp(p[2]/sum(p[1:2]),2),")"),2))
+np_ <- c(rep(paste0(np[1], " (", printp(np[1]/sum(np[1:2]),2),")"),2)
+        , rep(paste0(np[2], " (", printp(np[2]/sum(np[1:2]),2),")"),2))
+
+p_ <- c(p[1], paste0(" (", printp(p[1]/sum(p[1:2]),2),")")
+        , p[2], paste0(" (", printp(p[2]/sum(p[1:2]),2),")"))
+np_ <- c(np[1], paste0(" (", printp(np[1]/sum(np[1:2]),2),")")
+        , np[2], paste0(" (", printp(np[2]/sum(np[1:2]),2),")"))
+
+## pleas/unpleas
+
+ppos <- with(subset(d1, Pairing=="paired" & Valence=="pos"), table(pdset, pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+ppos_ <- c(ppos[1,1], ppos[1,2], ppos[2,1], ppos[2,2])
+
+pneg <- with(subset(d1, Pairing=="paired" & Valence=="neg"), table(pdset, pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+pneg_ <- c(pneg[1,1], pneg[1,2], pneg[2,1], pneg[2,2])
+
+nppos <- with(subset(d1, Pairing=="nonpaired" & Valence=="pos"), table(pdset, pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+nppos_ <- c(nppos[1,1], nppos[1,2], nppos[2,1], nppos[2,2])
+
+npneg <- with(subset(d1, Pairing=="nonpaired" & Valence=="neg"), table(pdset, pdval)) # pdresp: 1,3=pleas, 2,4=unpl
+npneg_ <- c(npneg[1,1], npneg[1,2], npneg[2,1], npneg[2,2])
+
+ppos__ <- c( paste0(ppos_[1], " (", printp(ppos_[1]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(ppos_[2], " (", printp(ppos_[2]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(ppos_[3], " (", printp(ppos_[3]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")")
+            ,paste0(ppos_[4], " (", printp(ppos_[4]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")"))
+
+pneg__ <- c( paste0(pneg_[1], " (", printp(pneg_[1]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(pneg_[2], " (", printp(pneg_[2]/sum(ppos_[1:2], pneg_[1:2]),digits = 2),")")
+            ,paste0(pneg_[3], " (", printp(pneg_[3]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")")
+            ,paste0(pneg_[4], " (", printp(pneg_[4]/sum(ppos_[3:4], pneg_[3:4]),digits = 2),")"))
+
+nppos__ <- c(paste0(nppos_[1], " (", printp(nppos_[1]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(nppos_[2], " (", printp(nppos_[2]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(nppos_[3], " (", printp(nppos_[3]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")")
+            ,paste0(nppos_[4], " (", printp(nppos_[4]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")"))
+
+npneg__ <- c(paste0(npneg_[1], " (", printp(npneg_[1]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(npneg_[2], " (", printp(npneg_[2]/sum(nppos_[1:2], npneg_[1:2]),digits = 2),")")
+            ,paste0(npneg_[3], " (", printp(npneg_[3]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")")
+            ,paste0(npneg_[4], " (", printp(npneg_[4]/sum(nppos_[3:4], npneg_[3:4]),digits = 2),")"))
+
+## chisq indep tests
+
+memsubj_test <- chisq.test(matrix(c(p,np), nrow=2))
+memacc_test <- chisq.test(matrix(c(ppos[1,1:2], pneg[1,1:2]), nrow=2))
+attval_test <- chisq.test(matrix(c(nppos[2,], npneg[2,]), nrow=2))
+ec_wo_mem_test <- chisq.test(matrix(c(ppos[2,], pneg[2,]), nrow=2))
+consbias_test <- chisq.test(matrix(c(nppos[1,1:2], npneg[1,1:2]), nrow=2))
+
+freqtable <- data.frame("M" = c(rep("M",2), rep("A",2))
+                       , "CS"=p_ #c(rep(.64,2), rep(.36,2))
+                       , "Foil"=np_ #c(rep(.08,2), rep(.92,2))
+                       , "Val"=rep(c("+","-"),2)
+                       , "CS.p"=ppos__ #c(ppos[1,1], ppos[1,2], ppos[2,3], ppos[2,4])
+                       , "CS.n"=pneg__ #c(pneg[1,1], pneg[1,2], pneg[2,3], pneg[2,4])
+                       , "Foil.p"=nppos__ #c(nppos[1,1], nppos[1,2], nppos[2,3], nppos[2,4])
+                       , "Foil.n"= npneg__ #c(npneg[1,1], npneg[1,2], npneg[2,3], npneg[2,4])
+                  )
+
+kbl(freqtable, booktabs=TRUE, align="c", caption="Response frequencies (proportions) on the TBS task, separated by pairing status and US valence (Exp.1). ") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+# Chisq tests are reported for M responses to paired stimuli (memory accuracy), A responses to paired stimuli (EC without memory), M responses to nonpaired stimuli (attitude-consistent guessing), and A responses to nonpaired stimuli (pre-study attitudes).
+
+print_chisq <- function(d){
+  paste0("Chisq(",d$parameter,") = ", round(d$statistic,2), ", p = ", printp(d$p.value))
+}
+
+```
+
+
+```{r exp1_logist}
+
+
+# x1_0 <- glmer(pdset ~ 1 + (1|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_1a <- glmer(pdset ~ 1 + (1 + Valence |Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_1b <- glmer(pdset ~ 1 + (1 + Pairing |Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_2 <- glmer(pdset ~ 1 + (1 + Valence + Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_3 <- glmer(pdset ~ 1 + (1 + Valence * Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# anova(x1_0,x1_1a,x1_1b,x1_2,x1_3)
+# # anova(x1_2,x1_3)
+# library(performance)
+# performance::check_model(x1_0)
+# performance::check_model(x1_1b)
+# performance::compare_performance(x1_0,x1_1a,x1_1b,x1_2,x1_3, rank=TRUE)
+# performance::test_performance(x1_0,x1_1a,x1_1b,x1_2,x1_3)
+# ## winning model: (1 + Valence + Pairing|Subject)
+# ## full model: (1 + Valence * Pairing|Subject)
+# performance::check_singularity(x1_2)
+# 
+# 
+x1 <- glmer(pdset ~ Valence*Pairing + (1 + Valence * Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"), )
+# #summary(x1) # pairing, (valence)
+# #plot_model(x1, type="int")
+ 
+d1$pdset. <- relevel(d1$pdset, ref="Attitude")
+d1$Pairing. <- factor(d1$Pairing, levels=c("nonpaired", "paired"))
+x1. <- glmer(pdset. ~ Valence*Pairing + (1 + Valence * Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"), )
+#summary(x1.)
+# # odds of "M" is .23 for ...
+# 
+# x1. <- glm(pdset. ~  1, family = binomial, data=subset(d1))
+# # overall mean odds for M are .63 (no predictor), pM=.417, pA=.583, oddsM=.715, logOddsM=-.335
+# #pM <- exp(-.335)/(1+exp(-.335)) # .417
+# x1. <- glmer(pdset. ~  (1 + Valence * Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"), )
+# #logodds: intercept -.47
+# #pM <- exp(-.47)/(1+exp(-.47)) # .38
+# x1. <- glmer(pdset. ~  (1 + Valence * Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1.0 <- glmer(pdset. ~  (1 |Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# # summary(x1.0) # 2360 obs, 59 subj
+# # intercept -.349
+# performance::check_model(x1.)
+# 
+# x1.1a <- glmer(pdset. ~ Pairing. + (1 + Valence * Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa") )
+# # summary(x1.1)
+# # intercept -1.57, Pairing -2.18
+# 
+# x1.1b <- glmer(pdset. ~ Valence + (1 + Valence*Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# 
+# x1.2 <- glmer(pdset. ~ Pairing. + Valence + (1 + Valence * Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa") )
+# # summary(x1.2)
+# # intercept -1.57, Pairing -2.18
+# x1.3 <- glmer(pdset. ~ Pairing. * Valence + (1 + Valence * Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa") )
+
+# performance::check_model(x1.1a)
+# performance::compare_performance(x1., x1.1a, x1.1b, x1.2,x1.3, rank=TRUE)
+# performance::test_performance(x1., x1.1a, x1.1b,x1.2,x1.3)
+# performance::test_performance(x1.1a,x1.2,x1.3)
+# performance::test_performance(x1.1a, x1.2)
+# performance::test_performance(x1.2, x1.3)
+# performance::test_performance(x1.,x1.1a)
+# clear winner: model with only Pairing as predictor!
+
+x1p <- glmer(pdset. ~ Valence + (1 + Valence*Pairing.|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1p) # valence p=.02
+#plot_model(x1p, type="pred")
+
+x1u <- glmer(pdset ~ Valence + (1 + Valence|Subject), family = binomial, data=subset(d1np), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1u) # valence had no effect
+
+
+# un/pleasant judgments
+
+# x1_0 <- glmer(pdval ~ 1 + (1|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_1a <- glmer(pdval ~ 1 + (1 + Valence |Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_1b <- glmer(pdval ~ 1 + (1 + Pairing |Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_2 <- glmer(pdval ~ 1 + (1 + Valence + Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# x1_3 <- glmer(pdval ~ 1 + (1 + Valence * Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# anova(x1_0,x1_1a,x1_1b,x1_2,x1_3)
+# # winning model == full model: (1 + Valence * Pairing|Subject)
+# performance::compare_performance(x1_0, x1_1a, x1_1b, x1_2, x1_3, rank=TRUE)
+# performance::test_performance(x1_0, x1_1a, x1_1b, x1_2, x1_3)
+
+x1_ <- glmer(pdval ~ Valence*Pairing*pdset + (1 + Valence*Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1_) # Valence, Valence:Pairing, Valence:pdset, valence:pairing:pdset
+#plot_model(x1_, type="pred", terms=c("Valence", "pdset"))
+#plot_model(x1_, type="pred", terms=c("Valence", "pdset","Pairing"))
+#plot_model(x1_, type="pred", terms=c("pdset","Valence", "Pairing"))
+#performance::check_model(x1_)
+
+# x1_.3 <- glmer(pdval ~ Valence + Pairing + pdset + (1 + Valence*Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# performance::check_model(x1_.3)
+# performance::test_performance(x1_, x1_.3)
+# 
+# x1_.5 <- glmer(pdval ~ Valence + Pairing + pdset + Valence:Pairing + Valence:pdset + Pairing:pdset + (1 + Valence*Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# performance::check_model(x1_.5)
+# performance::test_performance(x1_, x1_.5)
+# 
+# x1_.4 <- glmer(pdval ~ Valence + Pairing + Valence:Pairing + Valence:pdset + (1 + Valence*Pairing|Subject), family = binomial, data=subset(d1), control=glmerControl(optimizer = "bobyqa"))
+# performance::check_model(x1_.4)
+# performance::test_performance(x1_, x1_.5, x1_.4)
+# summary(x1_)
+
+x1p <- glmer(pdval ~ Valence*pdset + (1 + Valence|Subject), family = binomial, data=subset(d1p), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1p) # Valence, pdset, Valence:pdset
+#performance::check_model(x1p)
+
+x1pM <- glmer(pdval ~ Valence + (1 + Valence|Subject), family = binomial, data=subset(d1p, pdset=="Memory"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1pM) # Valence
+#performance::check_model(x1pM)
+x1pA <- glmer(pdval ~ Valence + (1 + Valence|Subject), family = binomial, data=subset(d1p, pdset=="Attitude"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1pA) # nix
+#performance::check_model(x1pA)
+
+x1np <- glmer(pdval ~ Valence*pdset + (1 + Valence|Subject), family = binomial, data=subset(d1np), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1np) # Valence, Valence:pdset
+#performance::check_model(x1np)
+
+x1npM <- glmer(pdval ~ Valence + (1 + Valence|Subject), family = binomial, data=subset(d1np, pdset=="Memory"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1npM) # Valence, but only small effect
+#performance::check_model(x1npM)
+x1npA <- glmer(pdval ~ Valence + (1 + Valence|Subject), family = binomial, data=subset(d1np, pdset=="Attitude"), control=glmerControl(optimizer = "bobyqa"))
+#summary(x1npA) # Valence, but strong effect
+#performance::check_model(x1npA)
+
+```
+
+
+Table \@ref(tab:freqtable) shows response frequencies on the TBS task.
+The first columns show that participants' metamemory judgments clearly distinguished quite well between paired and nonpaired stimuli, `r print_chisq(memsubj_test)`.
+^[A logistic regression confirmed that participants reported more Memory responses for the former than the latter (and vice versa), `r print_logistic(x1,"Pairingpaired")`. A model with only Pairing predictor performed better than models including the Valence factor and/or the interaction.]
+ <!-- ***only when the random effect model does not contain the interaction***: -->
+<!-- In addition, negative stimuli were more likely than positive ones to receive a 'Memory' response, `r print_logistic(x1,"Valence")`. -->
+<!-- ^[To follow up on these findings, we conducted separate analyses of paired and nonpaired stimuli. They showed that the effect of valence was limited to paired CSs; there were no effects of valence on the choice of Memory/Attitude response for nonpaired stimuli]. -->
+
+Next, we analyzed the frequencies of "pleasant"/"unpleasant" responses.
+It varied as a function of Valence, `r print_logistic(x1_,"Valencepos")`, and this effect was modulated by two-way interactions with Pairing, `r print_logistic(x1_,"Valencepos:Pairingpaired")`, as well as Response Set (Memory vs. Attitude), `r print_logistic(x1_,"Valencepos:pdsetAttitude")`, as well as their three-way interaction, `r print_logistic(x1_,"Valencepos:Pairingpaired:pdsetAttitude")`.
+Separate analyses for paired and nonpaired stimuli showed, for both item types, effects of Valence (paired: `r print_logistic(x1p,"Valencepos")`; nonpaired: `r print_logistic(x1np,"Valencepos")`).
+Importantly, they also showed interactions of Valence with Response-Set (paired: `r print_logistic(x1p,"Valencepos:pdsetAttitude")`; nonpaired: `r print_logistic(x1np,"Valencepos:pdsetAttitude")`), indicating that Valence differentially affects Memory and Attitude responses. 
+We therefore investigated the effect of Valence separately for each of the four subsets of the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude).
+The corresponding aggregate counts are given in the four 2-by-2 quadrants of Table 1 (one for each combination of the Pairing and Mem/Att variables).
+
+The top left quadrant (i.e., Memory judgments for paired stimuli) is relevant for evaluating accuracy of Memory responses.
+It shows frequencies (and proportions, in parentheses) of 'pleasant' (Val:+) and 'unpleasant' (Val:-) responses for CSs, which were paired either with positive (CS.p) or negative (CS.n) USs.
+Memory judgments for paired stimuli were affected by (and quite accurately reflected) actual US valence, `r print_logistic(x1pM,"Valencepos")`.
+When participants experienced remembering US valence for a paired stimulus, they were accurate in 80% of cases.
+
+The bottom right quadrant (i.e., Attitude judgments for nonpaired stimuli) informs us about the task's ability to reflect pre-experimental attitude.
+Nonpaired stimuli (i.e., those not presented together with USs) were selected to be either clearly positive or negative for a given participant.
+Attitude judgments for nonpaired valent stimuli were strongly influenced by (and quite accurately reflected) participants' pre-study attitudes towards these stimuli, `r  print_logistic(x1npA,"Valencepos")`.
+Participants consistently reported the attitude corresponding to their pre-study ratings in 95% of cases.
+
+So far, the results show that the TBS task adequately reflected experimental manipulations:
+Participants' metamemory judgments were able to separate paired from nonpaired stimuli; Memory-set judgments for paired CSs were largely accurate; and Attitude-set judgments reflected participants' attitudes quite well.
+
+### Is evaluative conditioning observed in the absence of conscious retrieval of the CS-US pairings?
+
+The remaining two quadrants inform us about two phenomena of the relation between EC and memory:
+EC in the absence of retrieval awareness (bottom-left quadrant), and attitude-as-information bias (top-right quadrant).
+
+```{r x1_ratings_ec_wo_mem}
+
+
+# Attitude responses for paired CSs (unware EC?)
+
+pdset1_aov_p <- aov_ez(data=subset(d1, Pairing=="paired" & pdset=="Attitude"), id="Subject", within=c("Valence"), dv="pdcor_", fun_aggregate = mean) 
+## Cond, pdtrain, cond:pdtrain
+#em2_p <- emmeans(pdset1_aov_p, ~Valence)
+#em2_p <- emmeans(pdset1_aov_p, "1")
+pdset1_aov_p <- papaja::apa_print(pdset1_aov_p)
+
+###
+
+#eval_nonpaired <- aov_ez(data=subset(d1, Pairing=="nonpaired"), id="Subject", dv="Evaluation consistent", within=c("Valence"))
+#eval_Valence_ <- emmeans(eval_nonpaired, ~Valence)
+
+#a.vm.acc <- afex::aov_ez(data = subset(d1, Response != "dont know"), id="Subject", within=c("Pairing","Valence"), dv="acc")
+#em2_Pairing.a <- emmeans(a.vm.acc, ~Pairing)
+
+ec_Att <- aov_ez(data=subset(d1, Pairing=="paired" & pdset=="Attitude"), id="Subject", dv="postrating", within=c("Valence"), fun_aggregate = mean)
+ec_att_out <- apa_print(ec_Att)
+
+# ec_dk <- aov_ez(data=subset(d1, Pairing=="paired" & vm.resp=="dont know"), id="Subject", dv="postrating", within=c("Valence"), fun_aggregate = mean)
+# ec_dk_out <- apa_print(ec_dk)
+# 
+# ec_Att_dk <- aov_ez(data=subset(d1, Pairing=="paired" & vm.resp=="dont know" & pdset=="Attitude"), id="Subject", dv="postrating", within=c("Valence"), fun_aggregate = mean)
+# ec_Att_dk_out <- apa_print(ec_Att_dk)
+# 
+# ec_Att_dk_ <- aov_ez(data=subset(d1, Pairing=="paired" & (vm.resp=="dont know" | pdset=="Attitude")), id="Subject", dv="postrating", within=c("Valence"), fun_aggregate = mean)
+# ec_Att_dk__out <- apa_print(ec_Att_dk_)
+
+# <!-- There was also no evidence for EC when participants reported "don't know" on the subsequent per-item task, `r ec_dk_out$full_result$Valence`. -->
+# <!-- In both cases, the EC effect was limited to CSs for which participants felt they "remembered" US valence (i.e., reported memory judgments). -->
+# <!-- Similarly, when only those cases were considered in which both memory tasks consistently indicated an absence of memory (i.e., CSs with both Attitude-set and "don't know" responses), there was no EC, `r ec_Att_dk_out$full_result$Valence` -->
+# <!-- (there was also no EC when either task indicated absence of memory, `r ec_Att_dk__out$full_result$Valence`).] -->
+
+
+```
+
+The bottom left quadrant (Attitude-set judgments for paired stimuli) is relevant for the issue of EC in the absence of memory:
+An Attitude-set judgment implies the metacognitive absence of remembering US valence. 
+For paired CSs, the Attitude-set responses should reflect evaluations in the absence of US valence memory.
+We saw above that Valence affected responses to paired CSs, and that this effect was modulated by an interaction with Response-Button set:
+Whereas the effect of Valence was found for Memory-set responses (see above), it was absent from Attitude responses, `r print_logistic(x1pA, "Valencepos")`. 
+<!-- We compared evaluations to CSs paired with positive USs to those paired with negative USs to probe for EC effects. -->
+<!-- If participants' Attitude judgments reflect US valence, this would suggest that they can be influenced without noticing. -->
+Consistent with this finding of no EC without memory on the TBS responses, there was also no EC effect on evaluative ratings for those CSs for which participants indicated having no memory by using the Attitude-set responses (left panel), `r ec_att_out$full_result$Valence`. 
+^[Note that five subjects had to be excluded from these analyses because of missing values.]
+Thus, as also reflected in Table 2 and Figure 4, there was no EC in the absence of memory.
+<!-- , `r print_chisq(ec_wo_mem_test)`. -->
+
+### Is there evidence for an affect-as-information bias?
+
+Finally, we probed whether Memory-set responses were systematically affected by participants' attitudes towards nonpaired (but inherently valent) stimuli.
+The top-right quadrant of Table 1 (Memory-set judgments for nonpaired stimuli) serves as a test for attitude-consistent guessing.
+Most often, nonpaired stimuli were judged 'not remembered', and hence Attitude-set responses were given on the TBS task.
+Yet, in those cases that participants falsely 'remembered' that a US had been paired with them (i.e., used the Memory button set), they reported a US valence that tended to be consistent with pre-experimental attitudes, `r print_logistic(x1npM,"Valencepos")`.
+<!-- , `r print_chisq(consbias_test)`. -->
+However, as indicated by the above interaction with Response Set, this effect was smaller than for the Attitude-set judgments.
+In sum, participants indeed showed an attitude-as-information bias on Memory-set responses: 
+For a stimulus falsely judged as having been paired with a US, they relied on the evaluation of that stimulus to inform their memory judgments in 73% of cases.
+Yet, Memory-set responses did not reflect attitudes as strongly as did Attitude-set responses, suggesting that participants may be able to influence the degree to which they allow pre-existing attitudes to inform their judgments.
+
+Taken together, the results of the TBS task appropriately reflected the memory and attitude manipulations. 
+Furthermore, we found no EC in the absence of memory.
+In addition, an effect of attitude-as-information was found on the Memory-set responses.
+
