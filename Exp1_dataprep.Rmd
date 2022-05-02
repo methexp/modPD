@@ -1,0 +1,192 @@
+---
+title: Preparing data for modpd1
+editor_options:
+  chunk_output_type: console
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r prepare_variables,  echo = TRUE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
+library(readr)
+library(data.table)
+
+# Read and clean data set
+
+## Data structure
+
+# The EPrime experiment consists of two *condition* branches, *inclusion* and *exclusionAttitude*.
+# Variable *Subject* indexes participant number.
+# 
+# Within each branch, there are the following phases/procedures:
+# 
+# - *preratings*: all face CSs (variable *ICS*) are rated on a slider (variable *SlideSlider.RESP*)
+# - ListPair (list construction assigns USs to selected critical CSs): *SC*, *typUS*, *US[1..16]*
+# - *conditioning* (presentation phase): variables *ICS*, *typUS*, *US[Trial]*
+# - *TrainingInclusion* (1 trial for each of 8 cases): *correct*, *Slide2.RESP*, *Slide2.RT*
+# - *PDB* (main PD procedure): variables *SC*/*CS* (paired CS: SC; filler CS: CSneg, CSpos), *SlidePDB.RESP*, *SlidePDB.RT* 
+# - *postratings*: see *preratings*
+# - *ValenceMem*: variables *ICS*, *Slide3.RESP*, *Slide3.RT* (1=pleasant, 2=unpleasant, 3=*don't know*)
+# - *IdentityMem*: variables *ICS*, *SlideIm1.RESP*, *SlideIm1.RT*, *idMemSel* (selected US needs to be checked against ListPair data)
+
+
+# The CSV file contains the data from all 129 participants collected in Louvain by Adrian Mierop (using EPrime V2).
+# It contains a lot of useless columns that are removed in a first step.
+
+# read data for Exp.1 (taken from Adrien Mierop via Dropbox download)
+d <- read_delim("./data/modifiedPD.csv", ";", escape_double = FALSE, trim_ws = TRUE, guess_max = 20000)
+## no problems
+
+# remove useless columns
+d$Group <- d$Block <- d$BlockList <- d$BlockList.Cycle <- d$BlockList.Sample <- d$`Running[Block]` <- d$conditioning.Cycle <-  NULL
+d$`Procedure[SubTrial]` <- d$`Running[SubTrial]` <- d$IdentityMem <- d$IdentityMem.Cycle <- d$ListPair.Cycle <- d$PDB.Cycle <- NULL
+d$postratings.Cycle <- d$preratings.Cycle <- d$ValenceMem.Cycle <-  NULL
+
+# easy alias for important columns
+d$task <- d$`Running[Trial]`
+d$rating <- d$SlideSlider.RESP
+d$vm.resp <- d$Slide3.RESP
+d$vm.rt <- d$Slide3.RT
+d$im.resp <- d$SlideIm1.RESP
+d$im.rt <- d$SlideIm1.RT
+d$pd.resp <- d$SlidePDB.RESP
+d$pd.rt <- d$SlidePDB.RT
+
+
+# Technical Exclusions
+
+# exclude practice-run Subject 1
+d <- subset(d, Subject>1)
+# had problems with CS/US assignment
+d <- subset(d, Subject != 67)
+d <- subset(d, Subject != 71)
+d <- subset(d, Subject != 60)
+d <- subset(d, Subject != 78)
+# was run in both inclusion and exclusion conditions
+d <- subset(d, Subject != 87) 
+
+
+# Prepare variables
+
+## for a given CS, read out the paired USs
+
+list <- subset(d, task=="ListPair", select=c(Condition, Subject, SC, typUS, `US[SubTrial]`))
+names(list) <- c("Condition","Subject","ICS","typUS","US")
+lu <- unique(subset(list, select=-US))
+
+## evaluative ratings
+
+pre <- subset(d, task=="preratings", select = c(Condition, Subject, ICS, rating))
+names(pre) <- c("Condition","Subject","ICS","prerating")
+post <- subset(d, task=="postratings", select = c(Condition, Subject, ICS, rating))
+names(post) <- c("Condition","Subject","ICS","postrating")
+
+## memory for US valence and US identity
+
+vm <- subset(d, task=="ValenceMem", select = c(Condition, Subject, ICS, vm.resp, vm.rt))
+im <- subset(d, task=="IdentityMem", select = c(Condition, Subject, ICS, im.resp, im.rt, US1, US2, US3, US4, US5, US6, US7, US8, US9, US10, US11, US12, US13, US14, US15, US16, USi1, USi2, USi3, USi4, USi5,USi6, USi7, USi8, USi9, USi10, USi11, USi12, USi13, USi14, USi15, USi16))
+
+
+### compute IDmem correctness
+
+l <- merge(im, list, by=c("Condition","Subject", "ICS"), all=FALSE)
+l[6:21] <- lapply(l[6:21], function(x) substr(x,7, 11))
+l[,"US"] <- NULL
+l <- unique(l)
+
+l$selec <- paste('USi', l$im.resp, sep='')
+
+l <- data.table(l)
+
+l[selec %in% "USi1", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi2", c("USi1", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi3", c("USi2", "USi1", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi4", c("USi2", "USi3", "USi1", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi5", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi6", c("USi2", "USi3", "USi4", "USi5", "USi1", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi7", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi1", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi8", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi1", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi9", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi1", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi10", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi1", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi11", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi1", "USi12", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi12", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi1", "USi13", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi13", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi1", 'USi14', "USi15", "USi16")  := NA ]
+l[selec %in% "USi14", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi1', "USi15", "USi16")  := NA ]
+l[selec %in% "USi15", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi1", "USi16")  := NA ]
+l[selec %in% "USi16", c("USi2", "USi3", "USi4", "USi5", "USi6", "USi7", "USi8", "USi9", "USi10", "USi11", "USi12", "USi13", 'USi14', "USi15", "USi1")  := NA ]
+l[, selUS := sum(USi1, USi2, USi3, USi4, USi5, USi6, USi7, USi8, USi9, USi10, USi11, USi12, USi13, USi14, USi15, USi16, na.rm= TRUE), 1:nrow(l)]
+l[selUS == US1 | selUS == US2| selUS == US3| selUS == US4| selUS == US5| selUS == US6| selUS == US7| selUS == US8, im.correct := 1]
+l[selUS == US9 | selUS == US10| selUS == US11| selUS == US12| selUS == US13| selUS == US14| selUS == US15| selUS == US16, im.correct := 0]
+l$im.correct.b <- ifelse(l$im.correct==1, TRUE, FALSE)
+lc <- aggregate(x=l$im.correct.b, by=list(Condition=l$Condition, Subject=l$Subject, ICS=l$ICS), FUN=any)
+names(lc) <- c("Condition","Subject","ICS","im.correct")
+im <- merge(subset(im, select=c(Condition, Subject, ICS, im.resp, im.rt)), lc, by=c("Condition","Subject","ICS"))
+
+
+## pd training accuracy
+
+pdtrain <- subset(d, !is.na(correct), select = c(Condition, Subject, TrainingInclusion.Sample, correct, Slide2.RESP, Slide2.RT))
+pdtrain$ACC <- ifelse(pdtrain$correct == pdtrain$Slide2.RESP, 1, 0)
+#write.csv(pdtrain, file="./data/modPD1_pdtrain.csv")
+pdc <- aggregate(pdtrain$ACC, by=list(Condition=pdtrain$Condition, Subject=pdtrain$Subject), FUN=mean)
+names(pdc) <- c("Condition","Subject","pdtrain.correct")
+
+
+## pd responses
+
+pd <- subset(d, task=="PDB", select=c(Condition, Subject, ICS, CS, SC, CSpos, CSneg, pd.resp, pd.rt))
+pd$typCS <- ""
+pd$typCS[pd$ICS == pd$SC] <- "neutral"
+pd$typCS[pd$ICS == pd$CS & !is.na(pd$CSpos)] <- "pos"
+pd$typCS[pd$ICS == pd$CS & !is.na(pd$CSneg)] <- "neg"
+
+pd$pdset <- NA
+pd$pdset[pd$pd.resp %in% c(1,2)] <- 1
+pd$pdset[pd$pd.resp %in% c(3,4)] <- 2
+pd$pdset <- factor(pd$pdset, labels = c("Memory", "Attitude"))
+
+pd$pdval <- NA
+pd$pdval[pd$pd.resp %in% c(1,3)] <- 1
+pd$pdval[pd$pd.resp %in% c(2,4)] <- 2
+pd$pdval <- factor(pd$pdval, labels=c("pleasant", "unpleasant"))
+
+
+## merge variables (and compute some)
+
+dd <- merge(lu, subset(pd, select=c(Condition, Subject, ICS, typCS, pdset, pdval, pd.rt)), by=c("Condition","Subject","ICS"))
+
+## ratings
+dd <- merge(dd, pre, by=c("Condition","Subject","ICS"))
+dd <- merge(dd, post, by=c("Condition","Subject","ICS"))
+
+### valmem
+dd <- merge(dd, vm, by=c("Condition","Subject","ICS"))
+dd$vm.correct <- NA
+dd$vm.correct[dd$vm.resp==1 & dd$typUS=="pos"] <- TRUE
+dd$vm.correct[dd$vm.resp==2 & dd$typUS=="neg"] <- TRUE
+dd$vm.correct[dd$vm.resp==1 & dd$typUS=="neg"] <- FALSE
+dd$vm.correct[dd$vm.resp==2 & dd$typUS=="pos"] <- FALSE
+
+### idmem
+dd <- merge(dd, subset(im, select=c(Condition, Subject, ICS,im.correct, im.rt)), by=c("Condition","Subject","ICS"))
+
+
+## create factors
+
+dd$Condition <- relevel(factor(dd$Condition, labels=c("Exclusion", "Inclusion")), ref="Inclusion")
+dd$Subject <- as.factor(dd$Subject)
+dd$ICS <- as.factor(dd$ICS)
+dd$typCS <- as.factor(dd$typCS)
+dd$typUS <- as.factor(dd$typUS)
+dd$vm.resp <- factor(dd$vm.resp, labels=c("pleasant", "unpleasant", "dont know")) # (1=pleasant, 2=unpleasant, 3=*don't know*)
+dd$vm.correct <- as.factor(dd$vm.correct)
+dd$im.resp <- NULL
+dd$im.correct <- as.factor(dd$im.correct)
+
+d1 <- dd
+save(d1, file="./data/modPD1.RData")
+write.csv(d1, file="./data/Exp1.csv")
+
+```
+
