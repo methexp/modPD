@@ -1,5 +1,5 @@
 ---
-title             : "Introducing a Two Buttons Sets Procedure for Advancing the Study of Retrieval Awareness in Evaluative Conditioning Effects."
+title             : "Introducing a Two Buttons Sets Procedure for Advancing the Study of Retrieval Awareness in Evaluative Conditioning Effects"
 shorttitle        : "Two Buttons Sets Procedure"
 author: 
   - name          : "Christoph Stahl"
@@ -32,7 +32,7 @@ linenumbers       : no
 mask              : no
 draft             : no
 documentclass     : "apa6"
-classoption       : "man"
+classoption       : "jou"
 output            : 
   papaja::apa6_pdf:
     number_sections: false
