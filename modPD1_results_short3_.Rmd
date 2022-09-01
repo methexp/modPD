@@ -66,6 +66,16 @@ ec1_out <- apa_print(ec1)
 
 apa_beeplot(data=d1, id="Subject", dv="Evaluative change", factors=c("Pairing","Valence"), intercept=0, ylim=c(-25,25))
 
+## EC for M vs. A
+d1MA <- subset(d1, typCS=="neutral" & Pairing=="paired")
+ec_MA <- aov_ez(data=d1MA, id="Subject", dv="Evaluative change", within=c("Valence","pdset"), fun_aggregate = mean)
+#apa_beeplot(data=d1MA, id="Subject", dv="Evaluative change", factors=c("pdset","Valence"), intercept=0, ylim=c(-25,25))
+
+d1M <- subset(d1, typCS=="neutral" & pdset=="Memory" & Pairing=="paired")
+d1A <- subset(d1, typCS=="neutral" & pdset=="Attitude" & Pairing=="paired")
+ec_1M <- aov_ez(data=d1M, id="Subject", dv="Evaluative change", within=c("Valence"), fun_aggregate = mean)
+ec_1A <- aov_ez(data=d1A, id="Subject", dv="Evaluative change", within=c("Valence"), fun_aggregate = mean)
+#apa_beeplot(data=d1A, id="Subject", dv="Evaluative change", factors=c("Valence"), intercept=0, ylim=c(-25,25))
 
 ```
 

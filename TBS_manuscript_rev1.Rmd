@@ -68,13 +68,25 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 <!-- I think we'll have (1) to explain to the editor why we dropped the exclusion condition and hypothesis testing that comes with it (reason: sake of conciseness and coherence), and (2) add that we are not aiming at salami-slicing and that we would be happy to report these additional questions and findings in the manuscript if the editor wants us to (but that this may be at the risk of making the manuscript much more complex and heavier). -->
 
 
-Over the past two decades, a wealth of evaluative conditioning studies have advanced our understanding of the role of awareness in evaluative responses. In evaluative conditioning studies, a change in the evaluation of a conditioned stimulus (or CS) may be observed following its pairing with an affective stimulus (or US). Among others, two questions were addressed in this literature: whether the conscious encoding of the CS-US pairings is necessary for an evaluative conditioning effect to be elicited, and whether the conscious retrieval of the CS-US pairings is required at the evaluation stage. Research generally supports the need of awareness at the encoding stage (i.e., when participants are presented with the CS-US pairings). For instance, when signal strength is low or when a secondary task prevents the successful encoding of the CS-US pairings, an evaluative conditioning effect is unlikely to be elicited [for a recent review, see @corneille_associative_2019]. However, it is still not entirely clear whether the conscious retrieval of the US valence is required at the evaluation stage (i.e., when one evaluates the CS.) Whether people need conscious US retrieval as they evaluate the CSs is important for both theoretical reasons (e.g., to inform memory model or the role of memory processes in evaluative conditioning) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
+Over the past two decades, a wealth of evaluative conditioning studies have advanced our understanding of the role of awareness in evaluative responses. 
+In evaluative conditioning studies, a change in the evaluation of a conditioned stimulus (or CS) may be observed following its pairing with an affective stimulus (or US). 
+Among others, two questions were addressed in this literature: whether the conscious encoding of the CS-US pairings is necessary for an evaluative conditioning effect to be elicited, and whether the conscious retrieval of the CS-US pairings is required at the evaluation stage. 
+Research generally supports the need of awareness at the encoding stage (i.e., when participants are presented with the CS-US pairings). 
+For instance, when signal strength is low or when a secondary task prevents the successful encoding of the CS-US pairings, an evaluative conditioning effect is unlikely to be elicited [for a recent review, see @corneille_associative_2019]. 
+However, it is still not entirely clear whether the conscious retrieval of US valence is required at the evaluation stage (i.e., when one evaluates the CS).
+Whether people need conscious US retrieval as they evaluate the CSs is important for both theoretical reasons (e.g., to inform memory model or the role of memory processes in evaluative conditioning) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
 
-In this introduction, we provide an overview and discussion of how research has addressed the retrieval awareness question and what conclusions were derived from two main procedures: per-item and process dissociation procedures. In a second step, we introduce a novel procedure that combines the advantages of the two prior procedures. In the empirical section, we validate the new procedure and use it to provide firmer conclusions on the retrieval awareness question. In doing so, we also shed additional light on the role of affect-as-information processes. In the general discussion, we summarize the main insights of the new procedure introduced here, and we explain how it can be used in future research for advancing attitude research.
+In this introduction, we provide an overview and discussion of how research has addressed the retrieval awareness question and what conclusions were derived from two main procedures: per-item and process dissociation procedures. 
+In a second step, we introduce a novel procedure that combines the advantages of the two prior procedures. 
+In the empirical section, we validate the new procedure and use it to provide firmer conclusions on the retrieval awareness question. 
+In doing so, we also shed additional light on the role of affect-as-information processes. 
+In the general discussion, we summarize the main insights of the new procedure introduced here, and we explain how it can be used in future research for advancing attitude research.
 
 ## A short overview of research on the retrieval awareness question
 
-Recent research has used two categories of procedures to answer whether people need to consciously retrieve CS-US pairings for EC effects to be observed. A first line of research relied on per-item procedures. A second line of research made use of a process dissociation procedure.
+Recent research has used two categories of procedures to answer whether people need to consciously retrieve CS-US pairings for EC effects to be observed. 
+A first line of research relied on per-item procedures. 
+A second line of research made use of a process dissociation procedure.
 
 The per-item rationale consisted of examining if evaluative conditioning effects are found for CSs that participants prove unable to pair with the identity or the valence of their associated US in a separate memory task. 
 As also true for any awareness measure, assessments of CS-US pairing memory are most informative and relevant if they meet certain criteria [@shanks_characteristics_1994].
@@ -366,7 +378,7 @@ Deviating from Experiment 1, evaluative ratings were collected on a 20-point (in
 
 ## Discussion
 
-Confirming the manipulation's effectiveness, Experiment 2 again obtained a robust EC effect.
+Confirming the manipulation's effectiveness, Experiment 2 again obtained a robust EC effect (along with regression to the mean for pre-experimentally valent CSs).
 In line with Experiment 1, results again confirmed that the TBS task adequately reflects memory and attitude manipulations (i.e., Memory-set responses separated paired from non-paired stimuli; Attitude-set responses reflected pre-learning evaluative ratings).
 
 Experiment 2 replicated the attitude-as-information bias in memory judgments for nonpaired stimuli: 
@@ -565,9 +577,8 @@ Instead, it hinges on the subjective assessment of having (versus not having) co
 
 ### Deliberate memory retrieval and evaluations
 
-The TBS relies on deliberate evaluations. 
-One may argue that conclusions may differ if using implicit attitude measures. 
-It is, unclear, however, on which basis "explicit" and "implicit" attitude measures should be distinguished from each other. 
+The TBS relies on deliberate evaluations; results and conclusions may differ when implicit attitude measures are used; and future research is needed to relate the results of direct and indirect measurement approaches. 
+It is unclear, however, on which basis "explicit" and "implicit" attitude measures should be distinguished from each other. 
 At present, the distinction reflects social convention rather than be grounded in a compelling empirical or theoretical rationale  [for a thorough discussion, see @corneille_implicit_2020].
 If "implicit" is understood as "automatic", then the TBS clearly allowed for the influence of unconscious (memory) processes. 
 This is also true for deliberate evaluations used in Process Dissociation studies.

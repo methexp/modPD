@@ -69,6 +69,28 @@ ec2n <- aov_ez(data=subset(d2, US_Valence!="positive"), id="id", dv="ec", within
 ec2ng <- aov_ez(data=subset(d2, US_Valence!="positive" & Material=="gogos"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
 ec2nf <- aov_ez(data=subset(d2, US_Valence!="positive" & Material=="faces"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction"))
 
+# EC for paired neutral CSs, M vs. A cases
+
+d2MA <- subset(d2, Pairing=="paired" & CS_Valence=="neutral" & Instruction=="Inclusion")
+ec2MA <- aov_ez(data=d2MA, id="id", dv="ec", within=c("US_Valence", "pdset"), between=c("Material"))
+## usval***, pdset*, usval:pdset**
+d2M <- subset(d2MA, pdset=="Memory")
+ec2M <- aov_ez(data=d2M, id="id", dv="ec", within=c("US_Valence"), between=c("Material"))
+#apa_beeplot(data=d2M, id="id", dv="ec", factors=c("Material","US_Valence"), intercept=0)
+d2Mf <- subset(d2MA, pdset=="Memory" & Material=="faces")
+d2Mg <- subset(d2MA, pdset=="Memory" & Material=="gogos")
+#t.test(ec~US_Valence, data=d2Mf)
+#t.test(ec~US_Valence, data=d2Mg)
+d2A <- subset(d2MA, pdset=="Attitude")
+ec2A <- aov_ez(data=d2A, id="id", dv="ec", within=c("US_Valence"), between=c("Material"))
+apa_beeplot(data=d2A, id="id", dv="ec", factors=c("Material","US_Valence"), intercept=0)
+d2Af <- subset(d2MA, pdset=="Attitude" & Material=="faces")
+d2Ag <- subset(d2MA, pdset=="Attitude" & Material=="gogos")
+#t.test(ec~US_Valence, data=d2Af)
+#t.test(ec~US_Valence, data=d2Ag)
+
+
+
 ```
 
 
