@@ -378,6 +378,7 @@ Where possible, dependent measures were collected for all 42 CSs; US identity me
 
 The procedure closely followed that of Experiment 1. 
 Deviating from Experiment 1, evaluative ratings were collected on a 20-point (instead of 200-point) scale.
+Further deviating from Experiment 1, but in line with Hütter et al. (2012), we presented participants with up to 3 rounds of instructions and instruction-check items; participants with errors on the last instruction-check round were excluded from analyses. 
 ^[Note that Exp. 2 was run in a different lab and implemented in a different programming environment.]
 
 ```{r modPD2-results, eval=TRUE, child="modPD2_results_short3_.Rmd"}
@@ -441,7 +442,7 @@ After collecting pre-study ratings and performing individual CS-US assignments, 
 Participants were instructed to carefully watch all the stimuli.
 As an attention check, they were also asked to press the space bar as quickly as possible whenever a fixation cross was presented in the center of the screen.
 After the study phase, half of participants first gave post-study ratings of all 40 CSs and then engaged in the valence-memory task (i.e., TBS, Waroquier, or 3BS); the other half completed the tasks in the reverse order.
-After the valence-memory task instructions were given, participants' understanding was probed by presenting them with several instruction check items.
+After the valence-memory task instructions were given, participants' understanding was probed by presenting them with several instruction-check items.
 Each item described a scenario (e.g., "you remember that the given CS was presented with a pleasant US") and asked participants to respond according to the instruction they had just read.
 In case of erroneous responses to one or more instruction check items, instructions were presented and probed again (up to a total of 3 times); participants with errors in the last round were excluded from analyses.
 The respective valence-memory task commenced after instruction checks were completed; afterwards, half of participants completed the post-learning evaluative ratings for the 40 CSs.
