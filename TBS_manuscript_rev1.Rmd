@@ -177,7 +177,7 @@ This makes the modified procedure more efficient and flexible.
 For example, it can be used in within-participant designs that allow for more stringent experimental control as well as higher statistical power. 
 Second, contrary to the per-item procedure but similar to the original process dissociation procedure, the immediacy criterion is met and the error measurement issue originating from multiple assessments of evaluation and memory is reduced. 
 This is because a single measurement (either for US memory or for CS evaluation) is involved for each individual CS.
-^[Although both of the TBS's questions must be answered by a single response, they may or may not involve only a single unitary memory retrieval operation. In a modeling framework such as MINERVA, it is plausible that a single operation would be sufficient, with the strength of the memory echo may inform the Memory-Attitude decision, whereas the echo's content may inform the choice of the pleasant/unpleasant response (for an application to EC, see Aust, Haaf, & Stahl, 2019). Yet, participants may also approach the task differently, using a two-step approach involving multiple retrieval operations. Future empirical and modeling research is needed to address this question.]
+^[Although both of the TBS's questions must be answered by a single response, they may or may not involve only a single unitary memory retrieval operation. In a modeling framework such as MINERVA, it is plausible that a single operation would be sufficient, with the strength of the memory echo may inform the Memory-Attitude decision, whereas the echo's content may inform the choice of the pleasant/unpleasant response (for an application to EC, see Aust & Stahl, 2018; Aust, Haaf, & Stahl, 2019). Yet, participants may also approach the task differently, using a two-step approach involving multiple retrieval operations. Future empirical and modeling research is needed to address this question.]
 Third, the CS-level information enables finer-grained analyses and more rigorous tests; most importantly, EC effects can be scrutinized at the item-within-person instead of the group level; hence, the TBS respects the information criterion. 
 
 
@@ -188,13 +188,19 @@ Third, the CS-level information enables finer-grained analyses and more rigorous
 ```
 
 To sum up, the TBS combines the advantages and reduces the limitations of the previous per-item and process-dissociation procedures by introducing slight but highly significant departures from these two procedures. 
-The TBS is highly similar to the per-item procedure: It can be seen as extending it to a binary CS evaluation limited to the I don’t remember cases (which by definition exclude the contribution of affect-as-information processes). 
-The TBS is even more similar to the original process dissociation procedure. 
-Here, the two procedures remain the same, except that the TBS is augmented by a second set of “pleasant”/“unpleasant” buttons dedicated to the “I don’t remember” cases. 
-This adaptation of the original process dissociation procedure allows memory and evaluation analyses at the item-within-person levels. 
-In doing so, the TBS simplifies the original process dissociation procedure and provides important insights into metacognitive processes involved in participants’ decisions at the item level (i.e., which CS evaluation was associated with which phenomenological state of remembering). 
-	
-These assets are helpful for examining the retrieval awareness and affect-as-information questions. As we will discuss in the general discussion, they are also helpful for addressing complementary questions. TBS data can be fruitfully related to the outcomes of other measures obtained from the same participant, for instance, evaluative (e.g., ratings) or (metacognitive) memory measures (e.g., Remember-Know-Guess or confidence judgments). Relating response-level responses to other measures allows investigating a wider range of research questions regarding the memory-evaluation relations. Observable memory decisions at the item level also allows assessing the accuracy of participants’ memory judgments (e.g., the proportion of “I don’t remember” cases in which correct US memory is nevertheless present).
+The TBS is highly similar to the per-item procedure: 
+It can be seen as expanding the "I don’t remember" response to a binary CS evaluation. 
+The TBS is even more similar to the original process dissociation procedure: 
+Here, participants' two-stage task remains the same, except that the TBS is augmented by a second set of “pleasant”/“unpleasant” buttons dedicated to the “I don’t remember” cases. 
+This adaptation of the original process dissociation procedure allows memory and evaluation analyses at the item-within-person levels: 
+Beyond procedural simplification (i.e., removing the need for a between-subjects manipulation of instruction), the TBS also simplifies data-analytical assumptions (i.e., it is no longer necessary to assume identical processes in the inclusion and exclusion conditions, nor independency across participants). 
+Instead of using a MPT model as that proposed by Hütter et al. (2012) to produce what are hoped to be process-pure estimates of the cognitive processes of interest (in particular, EC in the absence of memory) at the group level, the TBS obtains per-item responses that are not claimed to be process pure but can be easily analyzed together with the results of other measures to investigate and scrutinize their validity.
+In doing so, the TBS simplifies the original process dissociation procedure and provides important insights into metacognitive processes involved in participants’ decisions at the item level (i.e., which CS evaluation was associated with which phenomenological state of remembering).
+
+These assets are helpful for examining the retrieval awareness and affect-as-information questions. As we will discuss in the general discussion, they are also helpful for addressing complementary questions. 
+TBS data can be fruitfully related to the outcomes of other measures obtained from the same participant, for instance, evaluative (e.g., ratings) or (metacognitive) memory measures (e.g., Remember-Know-Guess or confidence judgments). 
+Relating response-level responses to other measures allows investigating a wider range of research questions regarding the memory-evaluation relations. 
+Observable memory decisions at the item level also allows assessing the accuracy of participants’ memory judgments (e.g., the proportion of “I don’t remember” cases in which correct US memory is nevertheless present).
 
 <!-- [Perhaps a summary comparative Table featuring advantages of TBS relative to per-item and process dissociation procedures on the various dimensions we discussed above would be helpful] -->
 
@@ -374,6 +380,7 @@ Where possible, dependent measures were collected for all 42 CSs; US identity me
 
 The procedure closely followed that of Experiment 1. 
 Deviating from Experiment 1, evaluative ratings were collected on a 20-point (instead of 200-point) scale.
+Further deviating from Experiment 1, but in line with Hütter et al. (2012), we presented participants with up to 3 rounds of instructions and instruction-check items; participants with errors on the last instruction-check round were excluded from analyses. 
 ^[Note that Exp. 2 was run in a different lab and implemented in a different programming environment.]
 
 ```{r modPD2-results, eval=TRUE, child="modPD2_results_short3_.Rmd"}
@@ -437,7 +444,7 @@ After collecting pre-study ratings and performing individual CS-US assignments, 
 Participants were instructed to carefully watch all the stimuli.
 As an attention check, they were also asked to press the space bar as quickly as possible whenever a fixation cross was presented in the center of the screen.
 After the study phase, half of participants first gave post-study ratings of all 40 CSs and then engaged in the valence-memory task (i.e., TBS, Waroquier, or 3BS); the other half completed the tasks in the reverse order.
-After the valence-memory task instructions were given, participants' understanding was probed by presenting them with several instruction check items.
+After the valence-memory task instructions were given, participants' understanding was probed by presenting them with several instruction-check items.
 Each item described a scenario (e.g., "you remember that the given CS was presented with a pleasant US") and asked participants to respond according to the instruction they had just read.
 In case of erroneous responses to one or more instruction check items, instructions were presented and probed again (up to a total of 3 times); participants with errors in the last round were excluded from analyses.
 The respective valence-memory task commenced after instruction checks were completed; afterwards, half of participants completed the post-learning evaluative ratings for the 40 CSs.
@@ -479,9 +486,17 @@ In this section, we discuss the main findings observed here in light of these ma
 
 Our first aim was to test the validity of the TBS task.
 In two experiments, we influenced memory by pairing some stimuli with USs, while other stimuli were never paired with USs; and we influenced attitudes by using stimuli pre-rated as pleasant or unpleasant.
-The manipulations of pairing memory were reflected in participants' metacognitive   judgments (i.e., their use of the Memory-set vs. Attitude-set), as well as their valence-memory reports when they used the Memory set.
+The manipulations of pairing memory were reflected in participants' metacognitive judgments (i.e., their use of the Memory-set vs. Attitude-set), as well as their valence-memory reports when they used the Memory set.
 The manipulations of attitudes were reflected in participants' pleasantness judgments when they used the Attitude set.
 These results confirm a successful validation of the TBS task, comparable to the process-dissociation procedure [@hutter_dissociating_2012].
+
+It is particularly important to highlight the validity of TBS results regarding EC in the absence of memory. 
+In the presence of attitude-as-information on TBS responses, it may be asked whether the findings of the absence of EC without memory can be interpreted.
+To clarify, the inclusion of both valent and non-paired items allowed us to separate effects of CS valence from those of US valence induced via CS-US pairings. 
+For instance, for paired as well as non-paired items, effects of pre-experimental CS Valence on Memory-set responses can be interpreted as attitude-as-information biases. 
+As another point of validation, note that we also found that attitude-as-information (i.e., pre-experimental CS valence) did not affect participants’ choice of the Memory vs. Attitude response sets. 
+This means that CS attitudes (pre-existing or learned) did not distort subjective decisions about having memory or not. 
+For paired items, then, effects of US Valence on Memory-set responses can be interpreted as reflecting US valence memory; and effects of US Valence on Attitude responses (if there were any) could be interpreted as reflecting EC effects in the absence of memory.
 
 ### Evaluative conditioning and retrieval awareness
 
