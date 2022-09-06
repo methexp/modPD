@@ -76,7 +76,8 @@ For instance, when signal strength is low or when a secondary task prevents the 
 However, it is still not entirely clear whether the conscious retrieval of US valence is required at the evaluation stage (i.e., when one evaluates the CS).
 Whether people need conscious US retrieval as they evaluate the CSs is important for both theoretical reasons (e.g., to inform memory model or the role of memory processes in evaluative conditioning) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
 
-In this introduction, we provide an overview and discussion of how research has addressed the retrieval awareness question and what conclusions were derived from two main procedures: per-item and process dissociation procedures. 
+We first provide an overview and discussion of how research has addressed this *retrieval awareness* question and what conclusions were derived from two main procedures: per-item and process dissociation procedures. 
+^[We use the term „retrieval awareness“ as an abbreviation of "awareness at the time of retrieval" of the learned evaluation in EC (i.e., whether participants successfully retrieved the associated US from memory at the time of CS evaluations). The term contrasts this issue from that of encoding awareness (i.e., do participants need awareness of the critical information at encoding to show an EC effect?). It thus refers to the outcome of CS-US memory retrieval; it does not imply awareness of the dynamics of the memory retrieval process itself (nor to parameters of its neuronal implementation).]
 In a second step, we introduce a novel procedure that combines the advantages of the two prior procedures. 
 In the empirical section, we validate the new procedure and use it to provide firmer conclusions on the retrieval awareness question. 
 In doing so, we also shed additional light on the role of affect-as-information processes. 
@@ -175,7 +176,8 @@ In turn, the between-subject instruction manipulation can be omitted so that a s
 This makes the modified procedure more efficient and flexible. 
 For example, it can be used in within-participant designs that allow for more stringent experimental control as well as higher statistical power. 
 Second, contrary to the per-item procedure but similar to the original process dissociation procedure, the immediacy criterion is met and the error measurement issue originating from multiple assessments of evaluation and memory is reduced. 
-This is because a single measurement (either for US memory or for CS evaluation) is involved for each individual CS. 
+This is because a single measurement (either for US memory or for CS evaluation) is involved for each individual CS.
+^[Although both of the TBS's questions must be answered by a single response, they may or may not involve only a single unitary memory retrieval operation. In a modeling framework such as MINERVA, it is plausible that a single operation would be sufficient, with the strength of the memory echo may inform the Memory-Attitude decision, whereas the echo's content may inform the choice of the pleasant/unpleasant response (for an application to EC, see Aust, Haaf, & Stahl, 2019). Yet, participants may also approach the task differently, using a two-step approach involving multiple retrieval operations. Future empirical and modeling research is needed to address this question.]
 Third, the CS-level information enables finer-grained analyses and more rigorous tests; most importantly, EC effects can be scrutinized at the item-within-person instead of the group level; hence, the TBS respects the information criterion. 
 
 
@@ -520,6 +522,19 @@ On the other hand, a finer-grained distinction may be required to validly tap th
 As a second difference, while in the TBS task participants reported their metacognitive state simultaneously with the pleasant/unpleasant judgment, valence-memory and metacognitive attribution were assessed sequentially (Exp. 1) or even in separate blocks (Exp. 2) in the studies by Waroquier et al. (2020).
 With a delay between judgments, their retrieval awareness measure met the immediacy criterion less well than in the present TBS.
 One may, therefore, speculate that their results reflect the addition of noise to the evaluation-awareness relation, which could lead to an artificial "EC without awareness" pattern.
+
+The present Experiment 3 yields first tentative evidence.
+First, we could not replicate the findings by Waroquier et al. (2020) of an EC effect with "random guessing" attributions; instead, EC was clearly absent for these cases. 
+Second, the finding of an EC effect for "intuition" attributions replicates Waroquier et al.'s (2020) finding of EC in the absence of what they term "conscious structural knowledge" (see also Dienes & Scott, 2005):
+The relevant knowledge structure in EC is the association between the CS and the US's valence (with this knowledge, participants could consciously produce EC).
+Participants reported that they did not remember the valence of the US (i.e., they had no conscious structural knowledge); yet, they still showed EC.
+In this sense, one may argue that they showed unconscious EC.
+Note, however, that participants indicated that they had some form of intuition about the US'S valence---an experience similar to "Know" responses in the RKG task that is similarly based on memory retrieval but of a more gradual kind (i.e., one that does not elicit a clear experience of recollection).
+It remains open whether these findings reflect some participants' conservative decision criteria (i.e., a tendency to respond "intuition" for somewhat weaker memory experiences) or a distinct process altogether.
+Clearly, however, this finding (if robust) will be important both for research into the processes underlying evaluative memories as well as for applied research targeting strategies for controlling persuasive influences.
+
+In sum, we saw that a more fine-grained task that distinguishes not only memory and no-memory states but also allows for intuition attributions can yield interesting novel findings - especially so when it used a continuous rating scale rather than a binary response.
+
 Future research is needed to provide more conclusive responses to these questions.
 
 Whether, when, and through which processes EC effects can be found in the absence of retrieval awareness bears important theoretical implications. 
