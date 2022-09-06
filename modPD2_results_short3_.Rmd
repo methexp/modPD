@@ -97,7 +97,7 @@ d2Ag <- subset(d2MA, pdset=="Attitude" & Material=="gogos")
 We found robust US valence effects, `r apa_print(ec2)$full_result$US_Valence`.
 Compared with nonpaired stimuli, pairing with pleasant USs clearly increased liking, `r apa_print(ec2p)$full_result$US_Valence`, whereas the reduction by unpleasant USs was considerably smaller,  `r apa_print(ec2n)$full_result$US_Valence`.
 
-We also found strong regression to the mean for pre-experimentally valent CSs (i.e., CSs selected because they were initially most negative were later evaluated more positively; and vice versa), `r apa_print(ec2)$full_result$CS_Valence`.
+We also found a strong regression-to-the-mean artifact for pre-experimentally valent CSs (i.e., CSs selected because they were initially most negative were later evaluated more positively; and vice versa), `r apa_print(ec2)$full_result$CS_Valence`.
 Interactions with Material indicated that both effects were stronger for toy figures than faces (CS Valence: `r apa_print(ec2)$full_result$Material_CS_Valence`; US Valence: `r apa_print(ec2)$full_result$Material_US_Valence`).
 While the increase in liking was found for both materials (faces: `r apa_print(ec2pf)$full_result$US_Valence`, toys: `r apa_print(ec2pg)$full_result$US_Valence`), the reduction by unpleasant USs was limited to toy figures, `r apa_print(ec2ng)$full_result$US_Valence`, and absent from faces `r apa_print(ec2nf)$full_result$US_Valence`.
 Interestingly, the US valence effect was not modified by CS valence, `r apa_print(ec2)$full_result$CS_Valence_US_Valence`: 

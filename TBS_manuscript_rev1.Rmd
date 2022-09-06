@@ -269,7 +269,8 @@ Materials, data, and analysis scripts are available at osf.io/ygcz4.
 ### Participants and Design
 
 The study realizes a 2 x 2 design with repeated measures: Valence (positive vs. negative) x Pairing (critical/paired vs. control/unpaired).
-We collected a sample of $N$=60 participants (students at the Université catholique du Louvain), as this is approximately 2-3x the sample size recruited by @hutter_dissociating_2012 as recommended by the rule of thumb for replications by @simonsohn_small_2015.
+We collected a sample of $N$=60 participants (students at the Université catholique du Louvain), as this is approximately 2x the sample size recruited by @hutter_dissociating_2012 (as recommended by the rule of thumb for replications by @simonsohn_small_2015).
+We had to exclude the data from 1 participant who was accidentally run in both the inclusion and exclusion condition, and from 17 participants due to errors on instruction checks; the remaining sample consisted of $N$=42 participants.
 
 ### Materials and Procedure
 
@@ -296,7 +297,8 @@ TBS was followed by post-learning evaluative ratings.
 
 As a manipulation check, the pre-post change in CS evaluations was computed (i.e., post-learning evaluation minus pre-learning evaluation) and submitted to a repeated-measures ANOVA to probe for US valence effects.
 The TBS responses (i.e., choice of Memory vs. Attitude response-button sets; pleasant vs. unpleasant response) were analyzed using logistic regression analyses, with by-person random intercepts and slopes for the experimental factors.
-In Experiment 1, random effects for interactions were also added; this was not possible in Experiment 2 because of the more complex design, which yielded a more complex model that was not supported given the relatively limited data. Omitting the interation terms from the random-effects structure of the model did not reduce the model's goodness of fit, $\chi^2(30)=9.69, p=.99$. 
+In Experiment 1, random effects for interactions were also added; this was not possible in Experiment 2 because of the more complex design, which yielded a more complex model that was not supported given the relatively limited data. 
+Omitting the interaction terms from the random-effects structure of the model did not reduce the model's goodness of fit, $\chi^2(30)=9.69, p=.99$. 
 <!-- To gauge data quality, participants' understanding of instructions was assessed before they engaged in the task. -->
 <!-- Overall, mean accuracy was approximately 75%. -->
 <!-- <!-- (i.e., participants responded correctly in 6 out of 8 cases). --> 

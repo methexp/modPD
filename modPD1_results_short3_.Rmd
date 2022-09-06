@@ -20,6 +20,7 @@ set_sum_contrasts()
 
 load(file="./data/modPD1.RData")
 d1 <- subset(d1, Condition !="Exclusion")
+n1 <- length(unique(d1$Subject))
 
 # prepare variables
 
@@ -41,7 +42,7 @@ d1$pdcor_ <- as.numeric(d1$pdcor)
 
 ## Results
 
-We first report results of a manipulation check (i.e., whether our procedure produced EC effects).
+We first report results of a manipulation check (i.e., whether our study produced EC effects).
 The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without memory as well as the attitude-as-information bias.
 <!-- Third, we related the responses on the novel task to evaluative ratings. -->
 
@@ -80,7 +81,7 @@ ec_1A <- aov_ez(data=d1A, id="Subject", dv="Evaluative change", within=c("Valenc
 ```
 
 EC was affected by Valence, `r ec1_out$full_result$Valence`, Pairing, `r ec1_out$full_result$Pairing`, as well as, most strongly, their interaction, `r ec1_out$full_result$Valence_Pairing`.
-For nonpaired CSs, pre-post changes reflected regression to the mean: 
+For nonpaired CSs, pre-post changes reflected the statistical artifact of regression to the mean: 
 The CSs with most extremely positive pre-ratings became less positive, and the CSs with most extremely negative pre-ratings became less negative.
 For paired CSs, pre-post evaluative changes reflected US valence (i.e., an EC effect): 
 Those paired with positive CSs became more positive, while those paired with negative USs became more negative.
@@ -219,7 +220,7 @@ The first columns show that participants' metamemory judgments clearly distingui
 ^[A logistic regression confirmed that participants reported more Memory responses for the former than the latter (and vice versa), `r apa_print(x1.)$full_result$Pairing1`. A model with only Pairing predictor performed better than models including the Valence factor and/or the interaction.]
 
 Next, we analyzed the frequencies of "pleasant"/"unpleasant" responses.
-It varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and this effect was modulated by two-way interactions with Pairing, `r apa_print(x1)$full_result$Valence1_Pairing1`, as well as Response Set (Memory vs. Attitude), `r apa_print(x1)$full_result$Valence1_pdset1`, as well as their three-way interaction, `r apa_print(x1)$full_result$Valence1_Pairing1_pdset1`.
+It varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and this effect was modulated by a two-way interaction with Pairing, `r apa_print(x1)$full_result$Valence1_Pairing1`, as well as its three-way interaction with Response Set (Memory vs. Attitude), `r apa_print(x1)$full_result$Valence1_Pairing1_pdset1`.
 Separate analyses for paired and nonpaired stimuli showed, for both item types, effects of Valence (paired: `r apa_print(x1p)$full_result$Valence1`; nonpaired: `r apa_print(x1np)$full_result$Valence1`).
 Importantly, they also showed interactions of Valence with Response-Set (paired: `r apa_print(x1p)$full_result$Valence1_pdset1`; nonpaired: `r apa_print(x1np)$full_result$Valence1_pdset1`), indicating that Valence differentially affects Memory and Attitude responses. 
 We therefore investigated the effect of Valence separately for each of the four subsets of the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude).
