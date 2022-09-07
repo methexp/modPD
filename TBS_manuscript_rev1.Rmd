@@ -416,7 +416,7 @@ In sum, we implemented a between-subjects manipulation of task type with three l
 To begin exploring the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
 Participants completed a second valence-memory task (i.e., participants in the TBS and 3BS condition completed the VMA task, and participants in the VMA condition completed a TBS task).
 Finally, to explore the accuracy of subjective memory attributions, participants completed a US identity memory task.
-The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details as well as the results of these tasks are reported in an online appendix (osf.io/xxxxx).
+The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details of these tasks will be reported in an online appendix (osf.io/xxxxx).
 
 ## Method
 
@@ -432,24 +432,23 @@ We continued with data collection until we had at least n=60 in each condition o
 ### Material
 
 We used the same face images as Waroquier et al., but replaced the IAPS images (which cannot be used in online studies for licence reasons) by comparable images from the OASIS database.
-Participants pre-rated 60 images, and the 40 most neutral ones were used as CSs.
-Half of them were assigned to be paired with positive CSs, the other half with negative CSs.
-Each CS was paired with a single US.
+Participants pre-rated 60 images, and the 40 most neutral ones were used as CSs in all subsequent study phases.
+Half of them were assigned to be paired with positive CSs, the other half with negative CSs; each CS was paired with a single US.
 An additional set of 3 US images of the same valence were assigned to each CS to be used as foils in the test of US identity memory.
 
 ### Procedure
 
-The procedure was similar to the previous studies (with procedural details closely following those from Waroquier et al.).
-After collecting pre-study ratings and performing individual CS-US assignments, the learning phase was presented simultaneously on the screen for x s (with a y ms ISI).
+The procedure was similar to the previous studies (with procedural details closely following those from Waroquier et al., 2020).
+After collecting pre-study ratings, the learning phase began, presenting 240 trials in which a CS and a US were shown simultaneously and side by side on the screen for 1500 ms (with a 100 ms ISI).
 Participants were instructed to carefully watch all the stimuli.
 As an attention check, they were also asked to press the space bar as quickly as possible whenever a fixation cross was presented in the center of the screen.
-After the study phase, half of participants first gave post-study ratings of all 40 CSs and then engaged in the valence-memory task (i.e., TBS, Waroquier, or 3BS); the other half completed the tasks in the reverse order.
+After the study phase, half of participants first gave post-study ratings of all 40 CSs and then engaged in the valence-memory task (i.e., TBS, VMA, or 3BS); the other half completed the tasks in the reverse order (i.e., valence-memory task first, ratings second).
 After the valence-memory task instructions were given, participants' understanding was probed by presenting them with several instruction-check items.
 Each item described a scenario (e.g., "you remember that the given CS was presented with a pleasant US") and asked participants to respond according to the instruction they had just read.
-In case of erroneous responses to one or more instruction check items, instructions were presented and probed again (up to a total of 3 times); participants with errors in the last round were excluded from analyses.
+In case of erroneous responses to one or more instruction-check items, instructions were presented and probed again (up to a total of 3 times); participants with errors in the last round were excluded from analyses.
 The respective valence-memory task commenced after instruction checks were completed; afterwards, half of participants completed the post-learning evaluative ratings for the 40 CSs.
-For exploratory reasons, we subsequently presented participants with another valence-memory task, followed by an US-identity memory task (see above).
-Finally, participants were asked whether they paid attention during the learning phase, whether they thought their data should be analyzed for scientific purposes (or were subpar for any reason), and about the setting in which they completed the study (e.g., in the lab, at home, etc.).
+For exploratory reasons, we subsequently presented participants with another valence-memory task (VMA or TBS), followed by an US-identity memory task (see above).
+Finally, participants were asked whether they paid attention during the learning phase, whether they thought their data should be analyzed for scientific purposes (or were subpar for any reason), and about the setting in which they completed the study (in the lab, alone in a quiet setting, a quiet setting with other people, with other people and occasional interruptions, a lively environment with frequent interruptions).
 
 ## Results
 
@@ -685,6 +684,12 @@ It would be interesting to test whether the finding can be replicated in a varia
 
 <!-- In further developing the assessment procedures, researchers should aim at obtaining data suitable for computing established numerical measures of metacognitive sensitivity and efficiency [e.g., meta-d'; @maniscalco_lau_2012; @barrett_Etal_2013; @guggenmoos_2021]. -->
 <!-- Such measures can then serve as a basis for a more rigorous analysis of the role of metacognition in the domain of attitude learning. -->
+
+## Conclusions and outlook
+
+Studying the relation between EC effects and memory for CS-US pairings is of theoretical interest for models of learning, and also of practical interest for research into the controllability of persuasive influences on consumer behavior.
+Here we have proposed and validated a novel method for this kind of research, one that combines the advantages of the previous per-item and process-dissociation approaches; and we have shown how this new method can be further adapted and extended.
+The present studies have also yielded novel findings (EC effects associated with intuitive or gut-feeling knowledge about US valence; attitude-as-information effects when participants report remembering US valence) that we hope will stimulate future research on this topic.
 
 
 # References
