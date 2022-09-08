@@ -425,9 +425,8 @@ The results of these tasks are not reported in the present paper (which focuses 
 Participants were randomly assigned to a 3 (valence-memory task: TBS, VMA, 3BS) x 2 (order: evaluative ratings first vs. valence-memory task first) between-subjects design.
 They were recruited from the lab database (i.e., University of Cologne student population) and were invited to participate either in the lab or via internet.
 As compensation, course credit or an amount of EUR 8 was offered.
-Of the N participants who completed the study, x were excluded because they indicated that their data should not be used for scientific purposes, or that they did not pay attention.
-An additional y participants were excluded because they failed the instruction checks.
-We continued with data collection until we had at least n=60 in each condition of the valence-memory task factor.
+We recruited participants until there were at least 180 participants who had passed the instruction-understanding checks. Of these N participants, x were excluded because they failed the seriousness or attention checks (i.e., they either indicated that their data should not be used for scientific purposes, or that they were not able to pay sustained attention during the learning phase).
+
 
 ### Material
 
