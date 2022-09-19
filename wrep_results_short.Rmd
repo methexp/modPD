@@ -62,11 +62,10 @@ length(unique(dat$subject)) # N of participants after exclusion
 addmargins(table(dat$eval_task)/40)
 ```
 
-## Results
 
 We used both frequentist and Bayesian analyses. We computed Bayes Factors to quantify the evidence for the alternative (H1) against the null (H0) hypothesis. As per Waroquier et al., H1 was modeled as a half-normal distribution with an SD of 15% when testing whether valence identification was above chance, and with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects. We used conventional cut-offs to interpret these Bayes Factors (noted $BF_{H(0, SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared to H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses).
 
-### Overall evaluative conditioning effect
+### Evaluative conditioning
 
 First, we tested whether there was an EC effect overall (regardless of the specific task condition), based on the final total sample (*N =* `r length(unique(dat$subject))`). We computed pre-post evaluative change scores and tested whether they were influenced by US Valence (see Figure \@ref(fig:plot_eval_change)). 
 
@@ -146,7 +145,7 @@ bf_ev_overall = bfrr(
 
 ```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence irrespective of Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals"}
 #visualize the data
-apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c( "us_valence"), intercept =0, use = "all.obs", ylim=c(-200,200),
+apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c( "eval_task","us_valence"), intercept =0, use = "all.obs", ylim=c(-50,50),
             xlab = "US Valence"
             ,ylab = "Evaluative change score")
 ```

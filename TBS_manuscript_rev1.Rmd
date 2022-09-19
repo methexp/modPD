@@ -511,7 +511,7 @@ Across 12 PD studies [@mierop_does_2018], this analysis yielded an overall mean 
 First, this is a relatively small effect; it corresponds to approximately 1 out of the 24 CSs typically presented to a given participant being governed by the "EC in the absence of memory" branch of the MPT model.
 ^[With estimates of *M* around .5, valence memory was present for about half of the CSs (i.e., 12 out of 24); of the remaining half, an average of 7% of responses was found to be consistent with the "EC-without-memory" pattern (i.e., 7% of 12 CSs amounts to less than 1 CS).]
 <!--Put differently, EC was found for approximately 7% *of those CSs for which no memory was present, are estimated to show EC effects in the absence of memory for US valence.-->
-Second, the meta-analysis also revealed substantial heterogeneity (I² = 56%), reflecting the fact that the confidence interval of *A* excluded zero in 5 out of 12 studies, whereas it included zero in the remaining 7 studies.
+Second, the meta-analysis also revealed substantial heterogeneity (*I*² = 56%), reflecting the fact that the confidence interval of *A* excluded zero in 5 out of 12 studies, whereas it included zero in the remaining 7 studies.
 In sum, while PD studies yield some meta-analytic evidence for the persistence of EC effects in the absence of US-valence memory, the effect is small and contingent on unknown enabling conditions.
 Given sample sizes comparable to (and considerably larger than some) previous studies, the present null results are unlikely to reflect lack of power. 
 It remains possible, of course, that EC in the absence of retrieval awareness will be found in other studies that realize (as yet elusive) critical enabling conditions.
