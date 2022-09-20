@@ -370,7 +370,7 @@ bf_ev_memory_tbs = bfrr(
 #summary(bf_ev_memory_tbs)
 ```
 
-```{r tbs_eval_change_attitude, include=FALSE}
+```{r tbs_eval_change_attitude, include=FALSE, eval=FALSE}
 ###attitude button
 dat_ev_tbs_attitude = dat_tbs %>%  filter(tbs_button_resp == "attitude") %>%
   group_by(subject, us_valence) %>%
