@@ -413,10 +413,10 @@ In a first step towards reconciling the present findings with those by Waroquier
 In addition, it explores an extension of the TBS towards (a) more than two subjective states and (b) continuous evaluative rating scales (that can be more informative than binary pleasant-unpleasant responses).
 In sum, we implemented a between-subjects manipulation of task type with three levels: Participants completed either the TBS, VMA, or 3BS task.
 
-To begin exploring the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
+^[To begin exploring the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
 Participants completed a second valence-memory task (i.e., participants in the TBS and 3BS condition completed the VMA task, and participants in the VMA condition completed a TBS task).
 Finally, to explore the accuracy of subjective memory attributions, participants completed a US identity memory task.
-The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details of these tasks will be reported in an online appendix (osf.io/xxxxx).
+The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details of these tasks will be reported in an online appendix (osf.io/xxxxx).]
 
 ## Method
 
