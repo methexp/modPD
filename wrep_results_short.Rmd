@@ -14,7 +14,7 @@ options(scipen=1, digits=2)
 
 #Load (or install and load) packages
 require(pacman)
-p_load('tidyverse', 'psych', 'effectsize', 'afex', 'lme4', 'lmerTest', 'effects', 'sjstats', 'sjPlot', 'ggeffects', 'bfrr', 'papaja') 
+p_load('tidyverse', 'psych', 'effectsize', 'afex', 'lme4', 'lmerTest', 'effects', 'sjstats', 'sjPlot', 'ggeffects', 'bfrr', 'papaja', 'kableExtra') 
 set_sum_contrasts()
 
 #read the dataset we created in a previous R script
@@ -62,17 +62,17 @@ length(unique(dat$subject)) # N of participants after exclusion
 addmargins(table(dat$eval_task)/40)
 ```
 
-
-We used both frequentist and Bayesian analyses. We computed Bayes Factors to quantify the evidence for the alternative (H1) against the null (H0) hypothesis. As per Waroquier et al., H1 was modeled as a half-normal distribution with an SD of 15% when testing whether valence identification was above chance, and with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects. We used conventional cut-offs to interpret these Bayes Factors (noted $BF_{H(0, SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared to H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses).
+We used both frequentist and Bayesian analyses. We computed Bayes Factors to quantify the evidence for the alternative (H1) against the null (H0) hypothesis. We modeled H1 as a half-normal distribution with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects (similar to Waroquier et al., 2020). We used conventional cut-offs to interpret these Bayes Factors (noted $BF_{H(0, SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared to H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses). For the Valence Memory Attribution (VMA) task and the Three-buttons-sets (3BS) procedure, we additionally tested whether valence identification was above chance; in this case, H1 was modeled as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020).
 
 ## Main findings
 
 In this section, we report the results of the TBS task. 
+
 We focus on whether the absence of EC without memory is replicated with the simplified design. 
 
 ### Evaluative conditioning
 
-First, we tested whether there was an EC effect overall, based on the final total sample (*N =* `r length(unique(dat$subject))`).
+As a manipulation check, we first tested whether there was an EC effect overall, based on the final total sample (*N =* `r length(unique(dat$subject))`).
 An ANOVA of the pre-post evaluative change scores tested whether they were influenced by US Valence (see Figure \@ref(fig:plot_eval_change)), and whether this influence was modulated by task or order condition.  
 
 ```{r eval_change, include=FALSE}
@@ -153,10 +153,17 @@ bf_ev_overall = bfrr(
 )
 ```
 
-```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence irrespective of Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals"}
+```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence and Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals. *Note:* TBS = Two-buttons-sets procedure; VMA = Valence Memory Attribution task; 3BS = Three-buttons-sets procedure."}
+dat$task = as.factor(recode(dat$eval_task, "TBSrep"="TBS"
+       ,"Wrep"="VMA"
+       ,"3BS_study"="3BS"))
+
+dat$task = fct_relevel(dat$task, "TBS", "VMA", "3BS")
+
+dat$`US Valence` = dat$us_valence
 #visualize the data
-apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c( "eval_task","us_valence"), intercept =0, use = "all.obs", ylim=c(-50,50),
-            xlab = "US Valence"
+apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US Valence"), intercept =0, use = "all.obs", ylim=c(-50,50),
+            xlab = "Task"
             ,ylab = "Evaluative change score")
 ```
 
@@ -197,7 +204,7 @@ dat_tbs$tbs_button_resp = as.factor(dat_tbs$tbs_button_resp)
 #knitr::kable(describeBy(n_attrib_tbs$n, n_attrib_tbs$tbs_button_resp, mat=TRUE), digits=2)
 ```
 
-```{r tbs_correct_proportions_overall, include=FALSE}
+```{r tbs_correct_proportions_overall, include=FALSE, echo=FALSE}
 #for each participant, compute the proportion of correct identifications in the TBS
 #meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
 dat_tbs$tbs_correct = as.factor(ifelse(substr(dat_tbs$us_valence, 1, 3) == dat_tbs$tbs_val_resp, "correct", "incorrect"))
@@ -232,7 +239,7 @@ bf_prop_overall_tbs = bfrr(
 #summary(bf_prop_overall_tbs)
 ```
 
-```{r tbs_correct_proportions_memory, include=FALSE}
+```{r tbs_correct_proportions_memory, include=FALSE, echo=FALSE}
 #proportion correct only for memory buttons in the TBS
 prop_correct_tbs_mem = dat_tbs %>% filter(tbs_button_resp == "memory") %>%
   group_by(subject, tbs_correct, .drop=FALSE) %>% 
@@ -264,7 +271,7 @@ bf_prop_tbs_memory = bfrr(
 #summary(bf_prop_tbs_memory)
 ```
 
-```{r tbs_correct_proportions_attitudes, include=FALSE}
+```{r tbs_correct_proportions_attitudes, include=FALSE, eval=FALSE}
 #proportion correct only for attitude buttons in the TBS
 prop_correct_tbs_att = dat_tbs %>% filter(tbs_button_resp == "attitude") %>%
   group_by(subject, tbs_correct, .drop=FALSE) %>% 
@@ -296,8 +303,64 @@ bf_prop_tbs_att = bfrr(
 #summary(bf_prop_tbs_att)
 ```
 
-```{r}
+```{r tbs_table}
+## frequencies
 
+frq_table = dat_tbs %>% 
+    group_by(tbs_button_resp, tbs_val_resp, us_valence) %>% 
+    summarise(n = n())
+
+frq_table_mem = subset(frq_table, tbs_button_resp=="memory")
+frq_table_mem_pos = subset(frq_table, tbs_button_resp=="memory" & tbs_val_resp=="pos")
+frq_table_mem_neg = subset(frq_table, tbs_button_resp=="memory" & tbs_val_resp=="neg")
+
+frq_table_att = subset(frq_table, tbs_button_resp=="attitude")
+frq_table_att_pos = subset(frq_table, tbs_button_resp=="attitude" & tbs_val_resp=="pos")
+frq_table_att_neg = subset(frq_table, tbs_button_resp=="attitude" & tbs_val_resp=="neg")
+
+tbs_table = data.frame(list(expand.grid(
+  Val = c("+", "-"),
+  Set = c("Memory", "Attitude")),
+  Response = c(sum(frq_table_mem$n),
+               paste0("(", round(sum(frq_table_mem$n)/sum(frq_table_mem$n, frq_table_att$n),digits = 2), ")"),
+               sum(frq_table_att$n),
+               paste0("(", round(sum(frq_table_att$n)/sum(frq_table_mem$n, frq_table_att$n),digits = 2), ")")),
+  CS.p = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
+           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
+           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
+           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")")),
+  CS.n = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
+           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
+           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
+           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"))
+))
+
+tbs_table =  tbs_table[, c(2, 3, 1, 4, 5)]
+
+kbl(tbs_table, booktabs=TRUE, align="c", caption="Response frequencies (proportions) on the TBS procedure (Exp. 3)."
+    ,label="tbs_table") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+```{r tbs_chisq_memory, include=FALSE}
+tab_chisq = as.matrix(rbind(c(475,158),c(117, 431)))
+khi_tbs = chisq.test(tab_chisq)
+```
+
+We conducted analyses with data from participants in the TBS task condition (*n =* `r length(unique(dat_tbs$subject))`). 
+
+As in Experiments 1 and 2, the responses on the TBS task are first given in a tabulated form (Table \@ref(tab:tbs_table)).
+
+First, we tested accuracy of Memory set responses (i.e., the accuracy of participants' US Valence reports when they felt they remembered US Valence). 
+
+The first two rows of the table ("Memory" responses; see columns *CS.p* and *CS.n* for responses on CS paired with positive and negative US, respectively) show that participants accurately distinguished between CS that were paired with positive and negative US when they made a Memory response, $\chi^2$(`r khi_tbs$parameter`) = `r khi_tbs$statistic`, *p =* `r khi_tbs$p.value` (see also below).
+
+```{r}
+# Memory responses were above the chance level (50%), showing that participants were globally accurate when reporting US Valence they felt they remembered (*M =* `r mean(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`), `r apa_print(t_prop_correct_m)$statistic`, *d =* `r d_prop_correct_m$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_tbs_memory$BF`. 
+```
+
+```{r}
 #### Valence memory in the TBS task
 
 # We conducted analyses with data from participants in the TBS task condition (*n =* `r length(unique(dat_tbs$subject))`). 
@@ -307,7 +370,6 @@ bf_prop_tbs_att = bfrr(
 # Importantly, valence memory performance was not different from the chance level for responses on the attitude buttons set (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_tbs_att$BF`.
 
 ```
-
 
 ```{r prepare_plot_tbs, include=FALSE, eval=FALSE}
 dat_tbs$tbs_button_resp = fct_relevel(dat_tbs$tbs_button_resp, "memory", "attitude")
@@ -322,11 +384,11 @@ dat_tbs_plot_wide = dat_tbs_plot %>% pivot_wider(names_from = us_valence
 dat_tbs_plot_wide$EC_score = dat_tbs_plot_wide$positive - dat_tbs_plot_wide$negative
 ```
 
-```{r overall_tbs_figure, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response button sets (TBS Task condition)", eval=FALSE}
+```{r overall_tbs_figure, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response button sets (TBS Task condition). Dots are the individual observations, and error bars are the 95% Confidence Intervals.", eval=FALSE}
 apa_beeplot(data=dat_tbs_plot_wide, id="subject", dv="EC_score", factors="tbs_button_resp", intercept =0, use = "all.obs", ylim=c(-200,200), xlab = 'TBS response button set', ylab = 'Evaluative Conditioning effect score')
 ```
 
-```{r tbs_eval_change_memory, include=FALSE, eval=FALSE}
+```{r tbs_eval_change_memory, include=FALSE}
 ####
 #EVALUATIVE CHANGE AS A FUNCTION OF VALENCE MEMORY ATTRIBUTIONS IN THE TBS TASK
 ####
@@ -352,7 +414,7 @@ mod_memory_tbs = aov_ez(dat_ev_tbs_memory
 # knitr::kable(describeBy(dat_ev_tbs_memory$mean_eval_change, dat_ev_tbs_memory$us_valence, mat=TRUE), digits=2)
 
 dat_ev_tbs_memory_wide = dat_ev_tbs_memory %>% pivot_wider(names_from = "us_valence"
-                                                                           ,values_from = "mean_eval_change")
+                              ,values_from = "mean_eval_change")
 
 dat_ev_tbs_memory_wide$diff_overall = dat_ev_tbs_memory_wide$positive-dat_ev_tbs_memory_wide$negative 
 
@@ -376,7 +438,7 @@ bf_ev_memory_tbs = bfrr(
 #summary(bf_ev_memory_tbs)
 ```
 
-```{r tbs_eval_change_attitude, include=FALSE, eval=FALSE}
+```{r tbs_eval_change_attitude, include=FALSE}
 ###attitude button
 dat_ev_tbs_attitude = dat_tbs %>%  filter(tbs_button_resp == "attitude") %>%
   group_by(subject, us_valence) %>%
@@ -421,7 +483,9 @@ bf_ev_attitude_tbs = bfrr(
 )
 
 #summary(bf_ev_attitude_tbs)
+```
 
+```{r mixed_tbs, include=FALSE}
 #mixed-effects logistic regression
 
 dat_tbs$tbs_val_resp_bin = recode(dat_tbs$tbs_val_resp, "pos"=1, "neg"=0)
@@ -439,29 +503,23 @@ mixedmod_val_att = glmer(tbs_val_resp_bin ~ us_valence + (1 + us_valence|subject
 ```
 
 ```{r}
-
-# The critical test is whether an EC effect is found when participants lack memory (i.e., when they use the attitude buttons set). 
-# The main results are displayed in Figure \@ref(fig:overall_tbs_figure). 
-# Both frequentist and Bayesian analyses yielded evidence for an EC effect when participants used the memory buttons set, `r apa_print(mod_memory_tbs)$full_result`, $BF_{H(0, 23.5)}=$ `r bf_ev_memory_tbs$BF`. When participants used the attitude buttons set, the EC effect was not significant and BF yields evidence against the EC effect, `r apa_print(mod_attitude_tbs)$full_result`, $BF_{H(0, 23.5)}=$ `r bf_ev_attitude_tbs$BF`. 
-
+# The critical test is whether an EC effect is found when participants lack memory (i.e., when they use the attitude buttons set). The main results are displayed in Figure \@ref(fig:overall_tbs_figure). Both frequentist and Bayesian analyses yielded evidence for an EC effect when participants used the memory buttons set, `r apa_print(mod_memory_tbs)$full_result`, $BF_{H(0, 23.5)}=$ `r bf_ev_memory_tbs$BF`. When participants used the attitude buttons set, the EC effect was not significant and BF yields evidence against the EC effect, `r apa_print(mod_attitude_tbs)$full_result`, $BF_{H(0, 23.5)}=$ `r bf_ev_attitude_tbs$BF`.
 ```
 
 ### Is evaluative conditioning observed in the absence of conscious retrieval of the CS-US pairings?
 
 To analyze participants' responses in the TBS task, we conducted a mixed-effect logistic regression (random intercepts and slopes for US Valence) with US Valence and Response buttons set as predictors. 
-The interaction between US Valence and Response buttons set was significant, `r apa_print(mixedmod_val)$full_result$us_valence1_tbs_button_resp1`. 
-We conducted separate analyses at each Response buttons set level to simplify interpretation of the findings. 
-When participants used the Memory response buttons set, the US valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, indicating above-chance valence memory accuracy. 
-
-In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`.
-This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory.
+The interaction between US Valence and Response buttons set was significant, `r apa_print(mixedmod_val)$full_result$us_valence1_tbs_button_resp1`. We conducted separate analyses at each Response buttons set level to simplify interpretation of the findings. 
+When participants used the Memory response buttons set, the US Valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, $BF_{H(0, 23.5)}=$ `r bf_ev_memory_tbs$BF`, indicating above-chance valence memory accuracy. 
+In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`, $BF_{H(0, 23.5)}=$ `r bf_ev_attitude_tbs$BF`. This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. Importantly, BF yields evidence for no effect, going beyond failing to find an EC effect for Attitude responses.
 
 ## Additional results
 
 Here, we report the results of our attempt to replicate the EC-without-awareness findings by Waroquier et al. (2020), who have assessed participants' attributions of their valence-memory decisions (i.e., subjective assessments of their knowledge).
+
 We also report initial results from a task that serves to illustrate how the TBS approach could be further developed.
 
-### Valence Memory Attribution task
+### Valence Memory Attribution task 
 
 ```{r vma, include=FALSE}
 ####
@@ -609,13 +667,14 @@ bf_prop_guess = bfrr(
 
 #### Valence memory accuracy as a function of attribution
 
-We conducted analyses with data from participants in the VMA task condition (*n =* `r length(unique(dat_vma$subject))`). 
+We conducted analyses with data from participants in the VMA task condition (*n =* `r length(unique(dat_vma$subject))`). In the VMA task, after each valence memory response, participants had to attribute their response whether (1) to memory, (2) to a feeling of familiarity or intuition, or (3) to random guessing.
+
 Overall, valence memory was above chance (*M =* `r mean(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`), `r apa_print(t_prop_vma_o)$statistic`, *d =* `r d_prop_vma_o$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_overall$BF`. 
 This was also the case when participants made a memory attribution (*M =* `r mean(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`), `r apa_print(t_prop_vma_m)$statistic`, *d =* `r d_prop_vma_m$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_memory$BF` and when they made an intuition attribution (*M =* `r mean(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`), `r apa_print(t_prop_vma_f)$statistic`, *d =* `r d_prop_vma_f$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_feel$BF`. 
 
-Valence memory performance was not significantly different from chance for random attributions (*M =* `r mean(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`), `r apa_print(t_prop_vma_g)$statistic`, *d =* `r d_prop_vma_g$Cohens_d`, but BF yielded inconclusive evidence, $BF_{H(0, 15\%)}=$ `r bf_prop_guess$BF`. 
+Valence memory performance was not significantly different from chance for random attributions (*M =* `r mean(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`), `r apa_print(t_prop_vma_g)$statistic`, *d =* `r d_prop_vma_g$Cohens_d`, but BF yielded inconclusive evidence for or against chance-level performance, $BF_{H(0, 15\%)}=$ `r bf_prop_guess$BF`. 
 
-```{r overall_vma_figure, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Attributions (VMA Task condition)"}
+```{r overall_vma_figure, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Attributions (VMA Task condition). Dots are the individual observations, and error bars are the 95% Confidence Intervals."}
 dat_vma$attrib_plot = as.factor(recode(dat_vma$attrib_buttons, "guess_attrib_button"="random guessing"
        ,"intuition_feeling_button"="intuition"
        ,"memory_attrib_button"="memory"))
@@ -632,8 +691,8 @@ dat_vma_plot_wide = dat_vma_plot %>% pivot_wider(names_from = us_valence
 dat_vma_plot_wide$EC_score = dat_vma_plot_wide$positive - dat_vma_plot_wide$negative
 
 apa_beeplot(data=dat_vma_plot_wide, id="subject", dv="EC_score", factors="attrib_plot", intercept =0, use = "all.obs", ylim=c(-200,200)
-            ,xlab = "Evaluative Conditioning effect score"
-            ,ylab="Attribution")
+            ,ylab = "Evaluative Conditioning effect score"
+            ,xlab="Attribution")
 ```
 
 ```{r vma_eval_change_memory, include=FALSE}
@@ -842,11 +901,407 @@ When participants made an intuition attribution, the EC effect was not significa
 
 Critically and contrary to Waroquier et al. (2020), we found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_vma)$full_result`, and BF yielded evidence against an EC effect, $BF_{H(0, 23.5)}=$ `r bf_ev_guess$BF`. 
 
-As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
-We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, $BF_{H(0, 23.5)}=$ `r bf_ev_no_conscious$BF`. 
+As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, $BF_{H(0, 23.5)}=$ `r bf_ev_no_conscious$BF`. 
 
-### 3BS
+### Three-buttons-sets (3BS) results
 
-#### Valence memory accuracy as a function of attribution
+```{r 3bs, include=FALSE}
+####
+#3BS PROCEDURE
+####
 
-#### EC effects as a function of attribution
+#keep only participants that performed the TBS
+dat_3bs = dat %>% filter(eval_task == "3BS_study") %>% droplevels()
+
+length(unique(dat_3bs$subject)) #52 participants
+
+dat_3bs$scales_3BS_state = as.factor(dat_3bs$scales_3BS_state)
+
+dat_3bs$scale_3bs_intuition = as.numeric(dat_3bs$scale_3bs_intuition)
+dat_3bs$scale_3bs_guess = as.numeric(dat_3bs$scale_3bs_guess)
+
+#for each participant, compute the proportion of correct identifications in the 3BS
+#meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
+dat_3bs$correct = NA
+
+#first, compute correct responses
+dat_3bs$correct[dat_3bs$scales_3BS_state=="memory_button"] = ifelse(substr(dat_3bs$us_valence[dat_3bs$scales_3BS_state=="memory_button"], 1, 3) == substr(dat_3bs$response_3bs[dat_3bs$scales_3BS_state=="memory_button"], 1, 3), "correct", "incorrect")
+
+#recode the responses on the intuition and guess scale so that negative scores
+##indicate "negative" and positive scores indicate "positive"
+dat_3bs$recode_intuition_scale = NA
+dat_3bs$recode_intuition_scale[dat_3bs$scales_3BS_state=="intuition_scale"] = ifelse(dat_3bs$scale_3bs_intuition[dat_3bs$scales_3BS_state=="intuition_scale"] > 0, "pos", ifelse(dat_3bs$scale_3bs_intuition[dat_3bs$scales_3BS_state=="intuition_scale"] < 0, "neg", 0))
+
+dat_3bs$recode_guess_scale = NA
+dat_3bs$recode_guess_scale[dat_3bs$scales_3BS_state=="guess_scale"] = ifelse(dat_3bs$scale_3bs_guess[dat_3bs$scales_3BS_state=="guess_scale"] > 0, "pos", ifelse(dat_3bs$scale_3bs_guess[dat_3bs$scales_3BS_state=="guess_scale"] < 0, "neg", 0))
+
+dat_3bs$correct[dat_3bs$scales_3BS_state=="intuition_scale"] = ifelse(substr(dat_3bs$us_valence[dat_3bs$scales_3BS_state=="intuition_scale"], 1, 3) == dat_3bs$recode_intuition_scale[dat_3bs$scales_3BS_state=="intuition_scale"], "correct", "incorrect")
+
+dat_3bs$correct[dat_3bs$scales_3BS_state=="guess_scale"] = ifelse(substr(dat_3bs$us_valence[dat_3bs$scales_3BS_state=="guess_scale"], 1, 3) == dat_3bs$recode_guess_scale[dat_3bs$scales_3BS_state=="guess_scale"], "correct", "incorrect")
+
+dat_3bs$correct = as.factor(dat_3bs$correct)
+```
+
+```{r 3bs_correct_proportions_overall, include=FALSE}
+#proportion of correct responses
+prop_correct_3bs = dat_3bs %>% 
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs) = c("subject", "correct_response", "n_count", "prop")
+
+#at the aggregated level
+#knitr::kable(describe(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"]), digits=2)
+
+#tests
+t_prop_3bs_o = t.test(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_o = cohens_d(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"], mu = .5)
+
+bf_prop_overall_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])/sqrt(length(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_overall_3bs)
+```
+
+```{r 3bs_correct_proportions_memory, include=FALSE}
+#proportion of correct memory attributions
+prop_correct_3bs_mem = dat_3bs %>% filter(scales_3BS_state == "memory_button") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_mem) = c("subject", "correct_response", "n_count", "prop")
+
+#at the aggregated level
+knitr::kable(describe(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"]), digits=2)
+
+#tests
+t_prop_3bs_m = t.test(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_m = cohens_d(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"], mu = .5)
+
+bf_prop_mem_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])/sqrt(length(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_mem_3bs)
+```
+
+```{r 3bs_correct_proportions_intuition, include=FALSE}
+#proportion of correct intuition scale uses
+prop_correct_3bs_intuition = dat_3bs %>% filter(scales_3BS_state == "intuition_scale") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_intuition) = c("subject", "correct_response", "n_count", "prop")
+
+#at the aggregated level
+#knitr::kable(describe(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"]), digits=2)
+
+#tests
+t_prop_3bs_i = t.test(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_i = cohens_d(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"], mu = .5)
+
+bf_prop_intuition_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])/sqrt(length(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_intuition_3bs)
+```
+
+```{r 3bs_correct_proportions_guessing, include=FALSE}
+#proportion of correct guess scale uses
+prop_correct_3bs_guess = dat_3bs %>% filter(scales_3BS_state == "guess_scale") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_guess) = c("subject", "correct_response", "n_count", "prop")
+
+#at the aggregated level
+#knitr::kable(describe(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"]), digits=2)
+
+#tests
+t_prop_3bs_g = t.test(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_g = cohens_d(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"], mu = .5)
+
+bf_prop_guess_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])/sqrt(length(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_guess_3bs)
+```
+
+##### Valence memory accuracy as a function of response set
+
+We repeated the analyses we conducted in the VMA task on data from the 3BS procedure (*n =* `r length(unique(dat_3bs$subject))`). As noted above, the 3BS procedure is aimed to illustrate how the TBS procedure can be adapted. In the 3BS, the TBS procedure's Attitude responses buttons set was replaced by two scales to get closer to the three response options from Waroquier et al.'s (2020) VMA: a feeling/intuition scale and a random guessing scale. 
+
+Overall, valence memory was above chance (*M =* `r mean(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`), `r apa_print(t_prop_3bs_o)$statistic`, *d =* `r d_prop_3bs_o$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_overall_3bs$BF`. This was also the case when participants used the Memory response buttons set (*M =* `r mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`), `r apa_print(t_prop_3bs_m)$statistic`, *d =* `r d_prop_3bs_m$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_mem_3bs$BF`. 
+Different from results on the VMA task, when participants used the feeling/intuition set, performance was not significantly above change but BF was inconclusive (*M =* `r mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`), `r apa_print(t_prop_3bs_i)$statistic`, *d =* `r d_prop_3bs_i$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_intuition_3bs$BF`. 
+Valence memory performance was not significantly different from chance for random attributions (*M =* `r mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`), `r apa_print(t_prop_3bs_g)$statistic`, *d =* `r d_prop_3bs_g$Cohens_d`, and BF yielded evidence for chance-level performance, $BF_{H(0, 15\%)}=$ `r bf_prop_guess_3bs$BF`. 
+
+```{r prepare_tbs_plot, include=FALSE}
+dat_3bs$attrib_plot = as.factor(recode(dat_3bs$scales_3BS_state, "guess_scale"="random guessing"
+       ,"intuition_scale"="intuition"
+       ,"memory_button"="memory"))
+
+dat_3bs$attrib_plot = fct_relevel(dat_3bs$attrib_plot, "memory", "intuition", "random guessing")
+
+dat_3bs_plot = dat_3bs %>%
+  group_by(subject, us_valence, attrib_plot) %>%
+  summarise(mean_eval_change = mean(eval_change_score)) 
+
+dat_3bs_plot_wide = dat_3bs_plot %>% pivot_wider(names_from = us_valence
+                                                 ,values_from = mean_eval_change)
+
+dat_3bs_plot_wide$EC_score = dat_3bs_plot_wide$positive - dat_3bs_plot_wide$negative
+```
+
+```{r overall_3BS_figure, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response set (3BS Procedure condition)"}
+apa_beeplot(data=dat_3bs_plot_wide, id="subject", dv="EC_score", factors="attrib_plot", intercept =0, use = "all.obs", ylim=c(-225,225)
+            , ylab = '3BS response set/scale'
+            , xlab = 'Evaluative Conditioning effect score')
+```
+
+```{r 3bs_eval_change_memory, include=FALSE}
+####
+#EVALUATIVE CHANGE AS A FUNCTION OF VALENCE MEMORY ATTRIBUTIONS IN THE 3BS TASK
+####
+
+###memory button
+dat_ev_3bs_memory = dat_3bs %>%  filter(scales_3BS_state == "memory_button") %>%
+  group_by(subject, us_valence) %>%
+  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+
+mod_memory_3bs = aov_ez(dat_ev_3bs_memory
+                                ,id = "subject"
+                                ,dv = "mean_eval_change"
+                                ,within = "us_valence"
+)
+
+# mod_memory_3bs_print = apa_print(mod_memory_3bs)
+# 
+# apa_table(
+#   mod_memory_3bs_print$table
+#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs that received a memory-buttons set response (3BS procedure)"
+# )
+# 
+# 
+# knitr::kable(describeBy(dat_ev_3bs_memory$mean_eval_change, dat_ev_3bs_memory$us_valence, mat=TRUE), digits=2)
+
+dat_ev_3bs_memory_wide = dat_ev_3bs_memory %>% pivot_wider(names_from = "us_valence"
+                                                                           ,values_from = "mean_eval_change")
+
+dat_ev_3bs_memory_wide$diff_overall = dat_ev_3bs_memory_wide$positive-dat_ev_3bs_memory_wide$negative 
+
+dat_ev_3bs_memory_wide = dat_ev_3bs_memory_wide %>% filter(!is.na(diff_overall))
+
+bf_ev_memory_3bs = bfrr(
+  sample_mean = mean(dat_ev_3bs_memory_wide$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_memory_wide$diff_overall)/sqrt(length(dat_ev_3bs_memory_wide$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_memory_wide$diff_overall) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = 23.5,
+  tail = 1,
+  criterion = 3, 
+  rr_interval = list(
+    # mean = c(-2, 2),
+    sd = c(0, 500)
+  )
+)
+
+#summary(bf_ev_memory_3bs)
+```
+
+```{r 3bseval_change_intuition, include=FALSE}
+##intuition scale
+dat_ev_3bs_intuition = dat_3bs %>%  filter(scales_3BS_state == "intuition_scale") %>%
+  group_by(subject, us_valence) %>%
+  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+
+mod_intuition_3bs = aov_ez(dat_ev_3bs_intuition
+                                   ,id = "subject"
+                                   ,dv = "mean_eval_change"
+                                   ,within = "us_valence"
+)
+
+# mod_intuition_3bs_print = apa_print(mod_intuition_3bs)
+# 
+# apa_table(
+#   mod_intuition_3bs_print$table
+#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with an 'Intuition' scale use (3BS procedure)"
+# )
+# 
+# knitr::kable(describeBy(dat_ev_3bs_intuition$mean_eval_change, dat_ev_3bs_intuition$us_valence, mat=TRUE), digits=2)
+
+dat_ev_3bs_intuition_wide = dat_ev_3bs_intuition %>% pivot_wider(names_from = "us_valence"
+                                                                                 ,values_from = "mean_eval_change")
+
+dat_ev_3bs_intuition_wide$diff_overall = dat_ev_3bs_intuition_wide$positive-dat_ev_3bs_intuition_wide$negative 
+
+dat_ev_3bs_intuition_wide = dat_ev_3bs_intuition_wide %>% filter(!is.na(diff_overall))
+
+bf_ev_intuition_3bs = bfrr(
+  sample_mean = mean(dat_ev_3bs_intuition_wide$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_intuition_wide$diff_overall)/sqrt(length(dat_ev_3bs_intuition_wide$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_intuition_wide$diff_overall) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = 23.5,
+  tail = 1,
+  criterion = 3, 
+  rr_interval = list(
+    # mean = c(-2, 2),
+    sd = c(0, 500)
+  )
+)
+
+# summary(bf_ev_intuition_3bs)
+```
+
+```{r 3bs_eval_change_guessing, include=FALSE}
+##guess scale
+dat_ev_3bs_guess = dat_3bs %>%  filter(scales_3BS_state == "guess_scale") %>%
+  group_by(subject, us_valence) %>%
+  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+
+mod_guess_3bs = aov_ez(dat_ev_3bs_guess
+                               ,id = "subject"
+                               ,dv = "mean_eval_change"
+                               ,within = "us_valence"
+)
+
+# mod_guess_3bs_print = apa_print(mod_guess_3bs)
+# 
+# apa_table(
+#   mod_guess_3bs_print$table
+#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with a 'Guess' scale use (3BS procedure)"
+# )
+# 
+# knitr::kable(describeBy(dat_ev_3bs_guess$mean_eval_change, dat_ev_3bs_guess$us_valence, mat=TRUE), digits=2)
+
+dat_ev_3bs_guess_wide = dat_ev_3bs_guess %>% pivot_wider(names_from = "us_valence"
+                                                                         ,values_from = "mean_eval_change")
+
+dat_ev_3bs_guess_wide$diff_overall = dat_ev_3bs_guess_wide$positive-dat_ev_3bs_guess_wide$negative 
+
+dat_ev_3bs_guess_wide = dat_ev_3bs_guess_wide %>% filter(!is.na(diff_overall))
+
+bf_ev_guess_3bs = bfrr(
+  sample_mean = mean(dat_ev_3bs_guess_wide$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_guess_wide$diff_overall)/sqrt(length(dat_ev_3bs_guess_wide$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_guess_wide$diff_overall) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = 23.5,
+  tail = 1,
+  criterion = 3, 
+  rr_interval = list(
+    # mean = c(-2, 2),
+    sd = c(0, 500)
+  )
+)
+
+# summary(bf_ev_guess_3bs)
+```
+
+```{r 3bs_eval_change_no_struct_k, include=FALSE}
+#recode intuition and guessing attributions into "no_conscious_s_k"
+dat_3bs = dat_3bs %>% mutate(recode_attrib = as.factor(ifelse(scales_3BS_state=="memory_button", "conscious", "no_conscious_sk")))
+
+#check whether it worked as intended
+table(dat_3bs$scales_3BS_state, dat_3bs$recode_attrib)
+  
+#for no conscious structural knowledge (intuition and guessing)
+dat_ev_3bs_no_conscious = dat_3bs %>% filter(recode_attrib == "no_conscious_sk") %>%
+  group_by(subject, us_valence) %>%
+  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+
+mod_noc_3bs = aov_ez(dat_ev_3bs_no_conscious
+                                ,id = "subject"
+                                ,dv = "mean_eval_change"
+                                ,within = "us_valence"
+)
+
+# mod_noc_3bs_print = apa_print(mod_noc_3bs)
+# 
+# apa_table(
+#   mod_noc_3bs_print$table
+#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with an 'Intuition' or 'Guess' scale use (3BS procedure)"
+# )
+# 
+# knitr::kable(describeBy(dat_ev_3bs_no_conscious$mean_eval_change, dat_ev_3bs_no_conscious$us_valence, mat=TRUE), digits=2)
+
+dat_ev_3bs_no_conscious_wide = dat_ev_3bs_no_conscious %>% pivot_wider(names_from = "us_valence"
+                                                                           ,values_from = "mean_eval_change")
+
+dat_ev_3bs_no_conscious_wide$diff_overall = dat_ev_3bs_no_conscious_wide$positive-dat_ev_3bs_no_conscious_wide$negative 
+
+dat_ev_3bs_no_conscious_wide = dat_ev_3bs_no_conscious_wide %>% filter(!is.na(diff_overall))
+
+bf_ev_no_conscious_3bs = bfrr(
+  sample_mean = mean(dat_ev_3bs_no_conscious_wide$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_no_conscious_wide$diff_overall)/sqrt(length(dat_ev_3bs_no_conscious_wide$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_no_conscious_wide$diff_overall) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = 23.5,
+  tail = 1,
+  criterion = 3, 
+  rr_interval = list(
+    # mean = c(-2, 2),
+    sd = c(0, 500)
+  )
+)
+
+# summary(bf_ev_no_conscious_3bs)
+```
+
+#### EC effects as a function of response set
+
+The main results are displayed in Figure \@ref(fig:overall_3BS_figure). Importantly, we were interested in whether we find an EC effect when participants reported no memory (random guessing), as in the VMA task. The pattern of results was very similar to the one we found on the VMA task. 
+
+Both frequentist and Bayesian analyses yielded evidence for an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, $BF_{H(0, 23.5)}=$ `r bf_ev_memory_3bs$BF`. When participants made a feeling/intuition attribution, the EC effect was not significant, `r apa_print(mod_intuition_3bs)$full_result`; however, BF was inconclusive, $BF_{H(0, 23.5)}=$ `r bf_ev_intuition_3bs$BF`. 
+
+We found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_3bs)$full_result`, and BF yielded evidence against an EC effect, $BF_{H(0, 23.5)}=$ `r bf_ev_guess_3bs$BF`. 
+
+When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and BF yielded evidence against it, $BF_{H(0, 23.5)}=$ `r bf_ev_no_conscious_3bs$BF`. 
