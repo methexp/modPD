@@ -404,15 +404,30 @@ Put differently, participants were able, to different degrees, to selectively us
 On the one hand, US valence had a selective influence only on Memory-set but not Attitude-set judgments.
 On the other hand, the effects of CS valence (although less selective) were stronger on Attitude-set judgments (where they reflected valid responding in adherence with task instructions) than on Memory-set judgments (where they reflected an attitude-as-information bias). 
 
+By presenting participants with valent as well as neutral items, and with paired as well as non-paired items, Experiment 2 was able to separate effects of pairing from those of (pre-existing) evaluations. 
+This relatively complex design is however uncommon in EC studies, which have typically presented only neutral CSs paired with either pleasant or unpleasant USs.
+One may argue, therefore, that the findings obtained in Experiment 2 may be a function of this complexity, and that different findings may obtain in the more simple design commonly used in EC studies.
+To test whether the TBS finding of no EC-without-memory effect was somehow biased by the presence versus absence of valent and/or nonpaired items, we conducted another study with the simple design.
+
+
 # Experiment 3
 
-This study aims at replicating and strengthening the evidence --- that no EC is found when participants lack memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies.
+This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies.
 
-In addition, valence-memory task type was manipulated:
-In a first step towards reconciling the present findings with those by Waroquier et al. (), this study also realizes a condition that replicates the valence-assessment-with-attribution (VMA) task used by Waroquier et al, who found EC effects when participants reported having no memory (i.e., random guessing).
-In addition, it explores an extension of the TBS towards (a) more than two subjective states and (b) continuous evaluative rating scales (that can be more informative than binary pleasant-unpleasant responses).
-In sum, we implemented a between-subjects manipulation of task type with three levels: Participants completed either the TBS, VMA, or 3BS task.
+In a second condition, we replicated the study by Waroquier et al. (2020), who reported EC effects when participants indicated that they did not have conscious knowledge about the US's valence. 
+In their study, after the learning phase, participants were presented with a CS and asked to report the valence of the associated US.
+They were then asked to attribute their response to a mental state (i.e., to indicate the basis of their valence-memory response): memory (i.e., remembered the pairing), feeling (familiarity or intuition), or random guessing.
+In their Experiment 1, they found EC effects not only for memory but also for feeling attributions; in their Experiment 2, EC was found for memory and random-guessing, but not for feeling attributions.
+These results contrast with the TBS finding of no EC in the absence of memory, suggesting that a more fine-grained distinction of different mental states (i.e., three rather than two), and/or a more sensitive measurement (i.e., rating scale rather than binary choice) may be more suited for detecting EC without memory.
 
+To begin exploring possible reasons for the discrepancy, we included a third condition in which we adapted the TBS approach of conditionally assessing either memory or attitudes as a function of retrieval awareness.
+Specifically, we distinguished between three (rather than two) states; and we replaced the binary attitude judgments by continuous rating scales.
+Participants' task was to assess their memory for US valence; if they remembered it, they were to report in using binary pleasant/unpleasant buttons as in the TBS; if they had some gut feeling or intuition, they were asked to evaluate the CS on a rating scale; similarly, if they felt they were guessing randomly, they were asked to evaluate the CS on another rating scale.
+With these modifications, the task yielded data highly similar to those obtained by Waroquier et al. (2020), but with a higher degree of adherence to the immediacy criterion (i.e., the data were obtained from a single response at a single point in time, rather than separated across trials or even separate blocks).
+
+In sum, we implemented a between-subjects manipulation of valence-memory task type with three levels: 
+Participants completed either the TBS, VMA, or 3BS task.
+We also counterbalanced the order of post-experimental evaluative ratings and the valence-memory task (which had no effect on the results).
 ^[To begin exploring the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
 Participants completed a second valence-memory task (i.e., participants in the TBS and 3BS condition completed the VMA task, and participants in the VMA condition completed a TBS task).
 Finally, to explore the accuracy of subjective memory attributions, participants completed a US identity memory task.
