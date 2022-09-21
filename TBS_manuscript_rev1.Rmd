@@ -533,27 +533,26 @@ It remains possible, of course, that EC in the absence of retrieval awareness wi
 
 The finding of no EC in the absence of retrieval awareness is more in line with previous conclusions obtained with per-item procedures that also found no EC when participants indicated not remembering the valence of the paired US [@stahl_respective_2009].
 It is however at odds with a recent per-item result by @waroquier_distinguishing_2020 showing EC even when participants reported having no memory of US valence (i.e., when they indicated having randomly guessed whether the US's valence was positive or negative).
-There are two important differences between the present studies and theirs that may account for the inconsistent result patterns.
+In the present Experiment 3, we failed to replicate this discrepancy. 
+However, assuming that the findings by Waroquier et al. can be replicated in future studies, there are three important differences between the TBS and their approach that could account for the inconsistent result patterns.
 First, while the present TBS task allowed for only two different metacognitive states (i.e., participants could report either remembering or not-remembering), the task used by Waroquier et al. required a finer distinction of three or four metacognitive states (i.e., memory, intuition, familiarity, random guessing).
 On the one hand, such a fine-grained distinction may put too high a demand on participants [especially if instructions fail to clearly explain the different states; for a discussion in the context of the related Remember/Know procedure see @migo_measuring_2012]. 
 On the other hand, a finer-grained distinction may be required to validly tap the different possible metacognitive states [e.g., structural vs. judgment knowledge, @dienes_unconscious_1995; @dienes_measuring_2005].
-As a second difference, while in the TBS task participants reported their metacognitive state simultaneously with the pleasant/unpleasant judgment, valence-memory and metacognitive attribution were assessed sequentially (Exp. 1) or even in separate blocks (Exp. 2) in the studies by Waroquier et al. (2020).
+Second, in Waroquier et al.'s studies, the EC effect was assessed using a continuous rating scale, whereas a binary choice was used in the present TBS studies; the former may capture more subtle effects and could therefore be more sensitive than the latter method.
+As a final difference, while in the TBS task participants reported their metacognitive state simultaneously with the pleasant/unpleasant judgment, valence-memory and metacognitive attribution were assessed sequentially (Exp. 1) or even in separate blocks (Exp. 2) in the studies by Waroquier et al. (2020).
 With a delay between judgments, their retrieval awareness measure met the immediacy criterion less well than in the present TBS.
 One may, therefore, speculate that their results reflect the addition of noise to the evaluation-awareness relation, which could lead to an artificial "EC without awareness" pattern.
+Future task developments could move towards a task such as the "3BS" used in Experiment 3 that respects the immediacy criterion, allows for more than two attributions (e.g., that distinguishes not only memory and no-memory states but also allows for intuition attributions), and uses a more sensitive response format (i.e., a continuous rating scale rather than a binary choice).
 
-The present Experiment 3 yields first tentative evidence.
-First, we could not replicate the findings by Waroquier et al. (2020) of an EC effect with "random guessing" attributions; instead, EC was clearly absent for these cases. 
-Second, the finding of an EC effect for "intuition" attributions replicates Waroquier et al.'s (2020) finding of EC in the absence of what they term "conscious structural knowledge" (see also Dienes & Scott, 2005):
-The relevant knowledge structure in EC is the association between the CS and the US's valence (with this knowledge, participants could consciously produce EC).
-Participants reported that they did not remember the valence of the US (i.e., they had no conscious structural knowledge); yet, they still showed EC.
-In this sense, one may argue that they showed unconscious EC.
-Note, however, that participants indicated that they had some form of intuition about the US'S valence---an experience similar to "Know" responses in the RKG task that is similarly based on memory retrieval but of a more gradual kind (i.e., one that does not elicit a clear experience of recollection).
-It remains open whether these findings reflect some participants' conservative decision criteria (i.e., a tendency to respond "intuition" for somewhat weaker memory experiences) or a distinct process altogether.
-Clearly, however, this finding (if robust) will be important both for research into the processes underlying evaluative memories as well as for applied research targeting strategies for controlling persuasive influences.
-
-In sum, we saw that a more fine-grained task that distinguishes not only memory and no-memory states but also allows for intuition attributions can yield interesting novel findings - especially so when it used a continuous rating scale rather than a binary response.
-
-Future research is needed to provide more conclusive responses to these questions.
+<!-- The present Experiment 3 yields first tentative evidence. -->
+<!-- First, we could not replicate the findings by Waroquier et al. (2020) of an EC effect with "random guessing" attributions; instead, EC was clearly absent for these cases.  -->
+<!-- Second, the finding of an EC effect for "intuition" attributions replicates Waroquier et al.'s (2020) finding of EC in the absence of what they term "conscious structural knowledge" (see also Dienes & Scott, 2005): -->
+<!-- The relevant knowledge structure in EC is the association between the CS and the US's valence (with this knowledge, participants could consciously produce EC). -->
+<!-- Participants reported that they did not remember the valence of the US (i.e., they had no conscious structural knowledge); yet, they still showed EC. -->
+<!-- In this sense, one may argue that they showed unconscious EC. -->
+<!-- Note, however, that participants indicated that they had some form of intuition about the US'S valence---an experience similar to "Know" responses in the RKG task that is similarly based on memory retrieval but of a more gradual kind (i.e., one that does not elicit a clear experience of recollection). -->
+<!-- It remains open whether these findings reflect some participants' conservative decision criteria (i.e., a tendency to respond "intuition" for somewhat weaker memory experiences) or a distinct process altogether. -->
+<!-- Clearly, however, this finding (if robust) will be important both for research into the processes underlying evaluative memories as well as for applied research targeting strategies for controlling persuasive influences. -->
 
 Whether, when, and through which processes EC effects can be found in the absence of retrieval awareness bears important theoretical implications. 
 The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage. 
@@ -564,10 +563,12 @@ Hence, neither the encoding nor the retrieval of a CS-US pairing is required to 
 
 Stimulus-Response learning is thought to operate via a "direct transfer" of the US valence to the CS [e.g., @hutter_dissociating_2018; @sweldens_evaluative_2010] or via implicit misattribution. The latter is thought to occur when, at the learning stage, participants mistakenly attribute their affective response to the CS instead of attributing it to the US [e.g., @jones_implicit_2009]. 
 In turn, implicit misattribution processes are expected to operate under specific conditions that are conducive to confusability about the source of one's affective reaction [e.g., @jones_implicit_2009; @hutter_implicit_2013]. 
-These conditions were not met in the learning paradigms used for the present research. Recent evaluative conditioning research, however, casts doubts on the existence of stimulus-response learning in more conducive conditions. 
+These conditions were not met in the learning paradigms used for the present research. 
+Recent evaluative conditioning research, however, casts doubts on the existence of stimulus-response learning in more conducive conditions. 
 In particular, evidence for unaware EC effects in the original paradigm [@olson_implicit_2001], failed to be supported in more recent studies that relied on this paradigm [@moran_incidental_2020, Kurdi et al., 2022 ]. 
 Another piece of evidence for stimulus-response learning, relating to source confusability, was also compromised in recent studies. 
-Specifically, implicit misattribution assumes stronger EC effects when US valence is mild rather than high. This is because a very valent US is unlikely to elicit confusion about the source of one's affective reaction. 
+Specifically, implicit misattribution assumes stronger EC effects when US valence is mild rather than high. 
+This is because a very valent US is unlikely to elicit confusion about the source of one's affective reaction. 
 Recent research failed to find evidence consistent with this rationale [@mierop_does_2018].
 Finally, that a memory-independent parameter has been found in instruction-based procedures [@hutter_examining_2017-1] further challenges an associative interpretation of the findings [for a related point, see also @corneille_evidence_2019].
 
@@ -618,7 +619,7 @@ To be able to select the relevant part of the instruction (i.e., report memories
 Importantly, this knowledge must be under their intentional control, so that they can follow the respective inclusion or exclusion instruction (i.e., report veridical versus reversed attitudes or memories).
 In this sense, the PD approach to assessing EC without memory is not a traditional PD paradigm that capitalizes on (un)controllability of (in this case) attitudinal information --- to the contrary, it assumes and requires attitudinal information to be controllable.
 Instead, it hinges on the subjective assessment of having (versus not having) conscious knowledge about CS-US pairings; it is this subjective awareness of (not) knowing that determines whether a response is reversed or not.
-^[This interpretation is in line with Waroquier et al. () who have also characterized the PD task as a subjective measure.]
+^[This interpretation is in line with Waroquier et al. (2020) who have also characterized the PD task as a subjective measure.]
 
 
 
