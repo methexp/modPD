@@ -14,7 +14,7 @@ options(scipen=1, digits=2)
 
 #Load (or install and load) packages
 require(pacman)
-p_load('tidyverse', 'psych', 'effectsize', 'afex', 'lme4', 'lmerTest', 'effects', 'sjstats', 'sjPlot', 'ggeffects', 'bfrr', 'papaja', 'kableExtra') 
+p_load('tidyverse', 'psych', 'effectsize', 'afex', 'lme4', 'lmerTest', 'effects', 'sjstats', 'sjPlot', 'ggeffects', 'bfrr', 'papaja', 'kableExtra', 'BayesFactor') 
 set_sum_contrasts()
 
 #read the dataset we created in a previous R script
@@ -62,7 +62,13 @@ length(unique(dat$subject)) # N of participants after exclusion
 addmargins(table(dat$eval_task)/40)
 ```
 
-We used both frequentist and Bayesian analyses. We computed Bayes Factors to quantify the evidence for the alternative (H1) against the null (H0) hypothesis. We modeled H1 as a half-normal distribution with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects (similar to Waroquier et al., 2020). We used conventional cut-offs to interpret these Bayes Factors (noted $BF_{H(0, SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared to H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses). For the Valence Memory Attribution (VMA) task and the Three-buttons-sets (3BS) procedure, we additionally tested whether valence identification was above chance; in this case, H1 was modeled as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020).
+We used both frequentist and Bayesian analyses. We computed Bayes Factors (BF) to quantify the evidence for the alternative (H1) against the null (H0) hypothesis. 
+
+In the Two-buttons-sets (TBS) procedure, we computed BF on the proportions of responses in line with US Valence separately in the Memory and Attitude responses buttons sets. H1 was modeled as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020; they chose this value based on Stahl et al., 2009, who found valence memory performance roughly 15% above the 50% chance level).
+
+For the manipulation check and analyses we conducted on the Valence Memory Attribution (VMA) task and the Three-buttons-sets (3BS) procedure, we modeled H1 as a half-normal distribution with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects with pre-post evaluative change scores (similar to Waroquier et al., 2020; they chose this value based on the results of studies similar to theirs). Similar to analyses on the TBS, we calculated the proportions of VMA and 3BS responses that were in line with US Valence separately for each attribution (memory; intuition; random guessing) and tested them against the chance level with BF.
+
+We used conventional cut-offs to interpret these Bayes Factors (noted $BF_{H(0, SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared with H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses). 
 
 ## Main findings
 
@@ -105,7 +111,6 @@ dat_ev = dat %>%
 ```
 
 ```{r eval_change_test, include=FALSE}
-#test the difference in a repeated-measures ANOVA (could also be done in a t-test)
 dat_ = dat %>%
   group_by(subject, us_valence) %>%
   mutate(mean_eval_change = mean(eval_change_score))
@@ -168,12 +173,9 @@ apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US
 ```
 
 Overall, we found only an effect of US Valence (i.e., an EC effect): 
-Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence`, $BF_{H(0, 23.5)} =$ `r bf_ev_overall$BF` (all other effect were not significant).
+Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence`, $BF_{H(0, 23.5)} =$ `r bf_ev_overall$BF` (all other effects were not significant).
 
 ### Two-buttons-sets procedure
-
-As for previous studies, the responses on the TBS task are given in a tabulated form.
-First, we tested accuracy of Memory set responses (i.e., the accuracy of participants' US valence reports when they felt they remembered US valence).
 
 ```{r tbs_count, include=FALSE}
 ####
@@ -204,7 +206,7 @@ dat_tbs$tbs_button_resp = as.factor(dat_tbs$tbs_button_resp)
 #knitr::kable(describeBy(n_attrib_tbs$n, n_attrib_tbs$tbs_button_resp, mat=TRUE), digits=2)
 ```
 
-```{r tbs_correct_proportions_overall, include=FALSE, echo=FALSE}
+```{r tbs_correct_proportions_overall, include=FALSE}
 #for each participant, compute the proportion of correct identifications in the TBS
 #meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
 dat_tbs$tbs_correct = as.factor(ifelse(substr(dat_tbs$us_valence, 1, 3) == dat_tbs$tbs_val_resp, "correct", "incorrect"))
@@ -239,7 +241,7 @@ bf_prop_overall_tbs = bfrr(
 #summary(bf_prop_overall_tbs)
 ```
 
-```{r tbs_correct_proportions_memory, include=FALSE, echo=FALSE}
+```{r tbs_correct_proportions_memory, include=FALSE}
 #proportion correct only for memory buttons in the TBS
 prop_correct_tbs_mem = dat_tbs %>% filter(tbs_button_resp == "memory") %>%
   group_by(subject, tbs_correct, .drop=FALSE) %>% 
@@ -271,7 +273,7 @@ bf_prop_tbs_memory = bfrr(
 #summary(bf_prop_tbs_memory)
 ```
 
-```{r tbs_correct_proportions_attitudes, include=FALSE, eval=FALSE}
+```{r tbs_correct_proportions_attitudes, include=FALSE}
 #proportion correct only for attitude buttons in the TBS
 prop_correct_tbs_att = dat_tbs %>% filter(tbs_button_resp == "attitude") %>%
   group_by(subject, tbs_correct, .drop=FALSE) %>% 
@@ -388,7 +390,7 @@ dat_tbs_plot_wide$EC_score = dat_tbs_plot_wide$positive - dat_tbs_plot_wide$nega
 apa_beeplot(data=dat_tbs_plot_wide, id="subject", dv="EC_score", factors="tbs_button_resp", intercept =0, use = "all.obs", ylim=c(-200,200), xlab = 'TBS response button set', ylab = 'Evaluative Conditioning effect score')
 ```
 
-```{r tbs_eval_change_memory, include=FALSE}
+```{r tbs_eval_change_memory, include=FALSE, eval=FALSE}
 ####
 #EVALUATIVE CHANGE AS A FUNCTION OF VALENCE MEMORY ATTRIBUTIONS IN THE TBS TASK
 ####
@@ -438,7 +440,7 @@ bf_ev_memory_tbs = bfrr(
 #summary(bf_ev_memory_tbs)
 ```
 
-```{r tbs_eval_change_attitude, include=FALSE}
+```{r tbs_eval_change_attitude, include=FALSE, eval=FALSE}
 ###attitude button
 dat_ev_tbs_attitude = dat_tbs %>%  filter(tbs_button_resp == "attitude") %>%
   group_by(subject, us_valence) %>%
@@ -500,6 +502,17 @@ mixedmod_val_att = glmer(tbs_val_resp_bin ~ us_valence + (1 + us_valence|subject
 #dat_tbs$tbs_button_resp_bin = recode(dat_tbs$tbs_button_resp, "memory"=1, "attitude"=0)
 #mixedmod_set = glmer(tbs_button_resp_bin ~ us_valence + (1 + us_valence|subject), family = binomial, data=dat_tbs, control=glmerControl(optimizer = "bobyqa"))
 
+#BFs for proportions separately in the memory and attitudes responses buttons sets
+# memBF = proportionBF(y = 475+431
+#              ,N = 1181
+#              ,p = .5
+#              ,rscale = 1/2
+# )
+# attBF = proportionBF(y = 339+410
+#              ,N = 1499
+#              ,p = .5
+#              ,rscale = 1/2
+# )
 ```
 
 ```{r}
@@ -510,8 +523,9 @@ mixedmod_val_att = glmer(tbs_val_resp_bin ~ us_valence + (1 + us_valence|subject
 
 To analyze participants' responses in the TBS task, we conducted a mixed-effect logistic regression (random intercepts and slopes for US Valence) with US Valence and Response buttons set as predictors. 
 The interaction between US Valence and Response buttons set was significant, `r apa_print(mixedmod_val)$full_result$us_valence1_tbs_button_resp1`. We conducted separate analyses at each Response buttons set level to simplify interpretation of the findings. 
-When participants used the Memory response buttons set, the US Valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, $BF_{H(0, 23.5)}=$ `r bf_ev_memory_tbs$BF`, indicating above-chance valence memory accuracy. 
-In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`, $BF_{H(0, 23.5)}=$ `r bf_ev_attitude_tbs$BF`. This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. Importantly, BF yields evidence for no effect, going beyond failing to find an EC effect for Attitude responses.
+When participants used the Memory response buttons set, the US Valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, indicating above-chance valence memory accuracy. We also found evidence for accurate valence memory in a one-sample *t* test (mu=.5) on the proportions of correct responses (*M =* `r mean(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`), `r apa_print(t_prop_correct_m)$statistic`, *d =* `r d_prop_correct_m$Cohens_d`, $BF_{H(0, 15\%)}=$ `r bf_prop_tbs_memory$BF` (region of SDs supporting the same conclusion [i.e., Robustness Region]: [`r bf_prop_tbs_memory$RR$sd[1]`, `r ifelse(bf_prop_tbs_memory$RR$sd[2]>1, "> 100%", bf_prop_tbs_memory$RR$sd[2])`]). 
+
+In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. Importantly, proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`) were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`, and a Bayesian analysis yielded evidence for no effect, going beyond failing to find an EC effect for Attitude responses, $BF_{H(0, 15\%)}=$ `r bf_prop_tbs_att$BF` (Robustness Region: [`r bf_prop_tbs_att$RR$sd[1]`, `r ifelse(bf_prop_tbs_att$RR$sd[2]>1, "> 100%", bf_prop_tbs_att$RR$sd[2])`]). 
 
 ## Additional results
 
