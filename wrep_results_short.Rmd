@@ -521,7 +521,7 @@ attBF = proportionBF(y = 339+410
 To analyze participants' responses in the TBS task, we conducted a mixed-effect logistic regression (random intercepts and slopes for US Valence) with US Valence and Response buttons set as predictors. 
 The interaction between US Valence and Response buttons set was significant, `r apa_print(mixedmod_val)$full_result$us_valence1_tbs_button_resp1`. We conducted separate analyses at each Response buttons set level to simplify interpretation of the findings. 
 When participants used the Memory response buttons set, the US Valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, indicating above-chance valence memory accuracy (which was also supported by Bayesian proportion test: `r apa_print(memBF)$statistic`).
-In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. Importantly, BF on the proportion of responses in line with US valence yields evidence for no effect, going beyond failing to find an EC effect for Attitude responses, `r apa_print(attBF)$statistic`
+In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. Importantly, BF on the proportion of responses in line with US valence yields evidence for no effect, going beyond failing to find an EC effect for Attitude responses, `r apa_print(attBF)$statistic`.
 
 ## Additional results
 
