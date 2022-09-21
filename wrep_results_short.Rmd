@@ -72,7 +72,8 @@ We focus on whether the absence of EC without memory is replicated with the simp
 
 ### Evaluative conditioning
 
-First, we tested whether there was an EC effect overall (regardless of the specific task condition), based on the final total sample (*N =* `r length(unique(dat$subject))`). We computed pre-post evaluative change scores and tested whether they were influenced by US Valence (see Figure \@ref(fig:plot_eval_change)). 
+First, we tested whether there was an EC effect overall, based on the final total sample (*N =* `r length(unique(dat$subject))`).
+An ANOVA of the pre-post evaluative change scores tested whether they were influenced by US Valence (see Figure \@ref(fig:plot_eval_change)), and whether this influence was modulated by task or order condition.  
 
 ```{r eval_change, include=FALSE}
 ####
@@ -90,13 +91,13 @@ dat_eval_change = dat %>%
   summarise(eval_change_score = scale_postrating - scale_prerating)
 
 #add this evaluative change score to the dataset
-dat = full_join(dat, dat_eval_change,
+dat = full_join(dat, dat_eval_change
                 , by = c("subject"="subject", "us_valence"="us_valence", "c"="c", "u"="u"))
 
 #compute mean evaluative change scores for each participant as a function of US Valence 
 dat_ev = dat %>%
   group_by(subject, us_valence) %>%
-  summarise(mean_eval_change = mean(eval_change_score))
+  summarize(mean_eval_change = mean(eval_change_score))
 
 #check data distribution
 # plot(density(dat_ev$mean_eval_change[dat_ev$us_valence=="positive"]))
@@ -105,10 +106,14 @@ dat_ev = dat %>%
 
 ```{r eval_change_test, include=FALSE}
 #test the difference in a repeated-measures ANOVA (could also be done in a t-test)
-mod1 = aov_ez(dat_ev
+dat_ = dat %>%
+  group_by(subject, us_valence) %>%
+  mutate(mean_eval_change = mean(eval_change_score))
+mod1 = aov_ez(dat_
               ,id = "subject"
               ,dv = "mean_eval_change"
               ,within = "us_valence"
+              ,between = c("eval_task","eval_task_order")
 )
 
 # mod1_print = apa_print(mod1)
@@ -155,11 +160,12 @@ apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c( "eval_tas
             ,ylab = "Evaluative change score")
 ```
 
-Overall, we found an EC effect: pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result`, $BF_{H(0, 23.5)} =$ `r bf_ev_overall$BF`.
+Overall, we found only an effect of US Valence (i.e., an EC effect): 
+Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence`, $BF_{H(0, 23.5)} =$ `r bf_ev_overall$BF` (all other effect were not significant).
 
 ### Two-buttons-sets procedure
 
-As for previous studies, the responses on the TBS task are first given in a tabulated form.
+As for previous studies, the responses on the TBS task are given in a tabulated form.
 First, we tested accuracy of Memory set responses (i.e., the accuracy of participants' US valence reports when they felt they remembered US valence).
 
 ```{r tbs_count, include=FALSE}
