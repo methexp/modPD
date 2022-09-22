@@ -74,7 +74,7 @@ We used both frequentist and Bayesian analyses. We computed Bayes Factors (BF) t
 
 In the Two-buttons-sets (TBS) procedure, similar to the Bayesian analyses conducted in Experiments 1 and 2, we computed BF on the proportions of responses in line with US Valence separately in the Memory and Attitude responses buttons sets. 
 
-For the manipulation check and analyses we conducted on the Valence Memory Attribution (VMA) task and the Three-buttons-sets (3BS) procedure, we modeled H1 as a half-normal distribution with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects with pre-post evaluative change scores (similar to Waroquier et al., 2020; they chose this value based on the results of studies similar to theirs). Similar to analyses on the TBS, we calculated the proportions of VMA and 3BS responses that were in line with US Valence separately for each attribution (memory; intuition; random guessing) and tested them against the chance level with BF.
+For the manipulation check and analyses we conducted on the Valence Memory Attribution (VMA) task and the Three-attribution, continuous evaluative ratings (3ACE) task, we modeled H1 as a half-normal distribution with an SD of 23.5 evaluative rating units when testing evaluative conditioning (EC) effects with pre-post evaluative change scores (similar to Waroquier et al., 2020; they chose this value based on the results of studies similar to theirs). Similar to analyses on the TBS, we calculated the proportions of VMA and 3ACE responses that were in line with US Valence separately for each attribution (memory; intuition; random guessing) and tested them against the chance level with BF.
 
 ## Main findings
 
@@ -164,14 +164,15 @@ bf_ev_overall = bfrr(
 )
 ```
 
-```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence and Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals. *Note:* TBS = Two-buttons-sets procedure; VMA = Valence Memory Attribution task; 3BS = Three-buttons-sets procedure."}
+```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence and Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals. *Note:* TBS = Two-buttons-sets procedure; VMA = Valence Memory Attribution task; 3ACE = Three-attribution, continuous evaluative ratings task."}
 dat$task = as.factor(recode(dat$eval_task, "TBSrep"="TBS"
        ,"Wrep"="VMA"
-       ,"3BS_study"="3BS"))
+       ,"3BS_study"="3ACE"))
 
-dat$task = fct_relevel(dat$task, "TBS", "VMA", "3BS")
+dat$task = fct_relevel(dat$task, "TBS", "VMA", "3ACE")
 
 dat$`US Valence` = dat$us_valence
+
 #visualize the data
 apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US Valence"), intercept =0, use = "all.obs", ylim=c(-50,50),
             xlab = "Task"
@@ -931,7 +932,7 @@ We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_r
 
 ```{r 3bs, include=FALSE}
 ####
-#3BS PROCEDURE
+#3BS PROCEDURE (3BS in analysis is analogous to 3ACE in text)
 ####
 
 #keep only participants that performed the TBS
@@ -1096,7 +1097,7 @@ bf_prop_guess_3bs = bfrr(
 
 #### Valence memory accuracy as a function of response set
 
-We repeated the analyses we conducted in the VMA task on data from the 3BS procedure (*n =* `r length(unique(dat_3bs$subject))`). As noted above, the 3BS procedure is aimed to illustrate how the TBS procedure can be adapted. In the 3BS, the TBS procedure's Attitude responses buttons set was replaced by two scales to get closer to the three response options from Waroquier et al.'s (2020) VMA: a feeling/intuition scale and a random guessing scale. 
+We repeated the analyses we conducted in the VMA task on data from the 3ACE procedure (*n =* `r length(unique(dat_3bs$subject))`). As noted above, the 3ACE procedure is aimed to illustrate how the TBS procedure can be adapted. In the 3ACE, the TBS procedure's Attitude responses buttons set was replaced by two scales to get closer to the three response options from Waroquier et al.'s (2020) VMA: a feeling/intuition scale and a random guessing scale. 
 
 Overall, valence memory was above chance (*M =* `r mean(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`), `r apa_print(t_prop_3bs_o)$statistic`, *d =* `r d_prop_3bs_o$Cohens_d`, `r printBFRR(bf_prop_overall_3bs)`. 
 This was also the case when participants used the Memory response buttons set (*M =* `r mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`), `r apa_print(t_prop_3bs_m)$statistic`, *d =* `r d_prop_3bs_m$Cohens_d`, `r printBFRR(bf_prop_mem_3bs)`. 
@@ -1120,7 +1121,7 @@ dat_3bs_plot_wide = dat_3bs_plot %>% pivot_wider(names_from = us_valence
 dat_3bs_plot_wide$EC_score = dat_3bs_plot_wide$positive - dat_3bs_plot_wide$negative
 ```
 
-```{r overall_3BS_figure,  eval=FALSE, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response set (3BS Procedure condition)"}
+```{r overall_3BS_figure,  eval=FALSE, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response set (3ACE Procedure condition)"}
 apa_beeplot(data=dat_3bs_plot_wide, id="subject", dv="EC_score", factors="attrib_plot", intercept =0, use = "all.obs", ylim=c(-225,225)
             , ylab = '3BS response set/scale'
             , xlab = 'Evaluative Conditioning effect score')
