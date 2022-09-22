@@ -9,12 +9,24 @@ output:
 ```{r prepare_variables, include=FALSE, echo = FALSE, warning=FALSE}
 
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
+options(scipen=1, digits=2)
 
 library("papaja")
 library(kableExtra)
 library(stringr)
 library(afex)
+library(bfrr)
+library(dplyr)
+library(effectsize)
 set_sum_contrasts()
+
+#function to display results from Bayesian analyses conducted with the package bfrr
+printBFRR <- function(bf, RR=TRUE){
+  result = paste0(" $BF_{H1: ", bf$H1_model, "}=$ ", format(bf$BF, scientific=TRUE))
+  if(RR) result <- paste0(result, " (Robustness Region: ", bf$RR$sd[1], ", ", bf$RR$sd[2], ")" ) 
+  #print(result) # use for debugging in the console
+  result
+}
 
 # load data
 
@@ -214,6 +226,78 @@ x1npA <- glmer(pdval ~ Valence + (1 + Valence|Subject), family = binomial, data=
 
 ```
 
+```{r tbs_correct_proportions, include=FALSE}
+#keep only neutral paired CSs and participants that performed the TBS
+dat_tbs = subset(d1, Pairing == "paired" & typCS == "neutral") %>% droplevels()
+dat_tbs$pdset = as.factor(dat_tbs$pdset)
+
+#for each participant, compute the proportion of correct identifications in the TBS
+#meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
+dat_tbs$pdval_pleasant = ifelse(dat_tbs$pdval == "pleasant", "pos", "neg")
+
+dat_tbs$tbs_correct = as.factor(ifelse(dat_tbs$pdval_pleasant == dat_tbs$typUS, "correct", "incorrect"))
+
+prop_correct_tbs = dat_tbs %>% 
+  group_by(Subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs) = c("subject", "correct_response", "n_count", "prop")
+
+#proportion correct only for memory buttons in the TBS
+prop_correct_tbs_mem = dat_tbs %>% filter(pdset == "Memory") %>%
+  group_by(Subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_mem) = c("subject", "correct_response", "n_count", "prop")
+
+#tests
+t_prop_correct_m = t.test(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"], mu = 0.5)
+d_prop_correct_m = cohens_d(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_memory = bfrr(
+  sample_mean = mean(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])/sqrt(length(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_memory)
+
+#proportion correct only for attitude buttons in the TBS
+prop_correct_tbs_att = dat_tbs %>% filter(pdset == "Attitude") %>%
+  group_by(Subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_att) = c("subject", "correct_response", "n_count", "prop")
+
+#tests
+t_prop_correct_a = t.test(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"], mu = 0.5)
+d_prop_correct_a = cohens_d(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_att = bfrr(
+  sample_mean = mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])/sqrt(length(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_att)
+```
 
 Table \@ref(tab:freqtable) shows response frequencies on the TBS task.
 The first columns show that participants' metamemory judgments clearly distinguished quite well between paired and nonpaired stimuli, `r print_chisq(memsubj_test)`.
@@ -223,7 +307,7 @@ Next, we analyzed the frequencies of "pleasant"/"unpleasant" responses.
 It varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and this effect was modulated by a two-way interaction with Pairing, `r apa_print(x1)$full_result$Valence1_Pairing1`, as well as its three-way interaction with Response Set (Memory vs. Attitude), `r apa_print(x1)$full_result$Valence1_Pairing1_pdset1`.
 Separate analyses for paired and nonpaired stimuli showed, for both item types, effects of Valence (paired: `r apa_print(x1p)$full_result$Valence1`; nonpaired: `r apa_print(x1np)$full_result$Valence1`).
 Importantly, they also showed interactions of Valence with Response-Set (paired: `r apa_print(x1p)$full_result$Valence1_pdset1`; nonpaired: `r apa_print(x1np)$full_result$Valence1_pdset1`), indicating that Valence differentially affects Memory and Attitude responses. 
-We therefore investigated the effect of Valence separately for each of the four subsets defined by the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude) factors.
+We therefore investigated the effect of Valence separately for each of the four subsets of the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude).
 
 The corresponding aggregate counts are given in the four 2-by-2 quadrants of Table 1 (one for each combination of the Pairing and Mem/Att variables).
 The top left quadrant (i.e., Memory judgments for paired stimuli) is relevant for evaluating accuracy of Memory responses.
@@ -249,7 +333,14 @@ An Attitude-set judgment implies the metacognitive absence of remembering US val
 For paired CSs, the Attitude-set responses should reflect evaluations in the absence of US valence memory.
 We saw above that Valence affected responses to paired CSs, and that this effect was modulated by an interaction with Response-Button set:
 Whereas the effect of Valence was found for Memory-set responses (see above), it was absent from Attitude-set responses, `r apa_print(x1pA)$full_result$Valence1`. 
-Thus, as reflected in Table 2, there was no EC in the absence of memory.
+Thus, as reflected in Table 2, there was no significant EC in the absence of memory.
+
+Because failing to find a significant effect is not evidence for no effect, we additionally conducted a Bayesian analysis. Specifically for Attitude-set judgments on paired neutral CSs, we computed a Bayes Factor (BF) on the proportions of responses in line with US Valence. We modeled H1 as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020; they chose this value based on Stahl et al., 2009, who found valence memory performance roughly 15% above the 50% chance level). 
+For each BF, we report the Robustness Region to indicate the range of H1 specifications (based on *SD*) that support the same conclusion as the reported BF. 
+
+We used conventional cut-offs to interpret BF (noted $BF_{H1:N(0,SD)}$; e.g., Dienes, 2014). A BF above 3 yields evidence for H1 compared with H0, while a BF below 1/3 yields evidence for H0. A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for the hypotheses).
+
+The Bayesian analysis yielded inconclusive evidence for or against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), `r printBFRR(bf_prop_tbs_att)`. As a result, we failed to find an EC effect for Attitude-set judgments, but we cannot tell whether this non-significant effect is evidence for no EC in the absence of memory or if it indicates data insensitivity (see Experiments 2 and 3 for evidence against EC without memory).
 
 ### Is there evidence for an affect-as-information bias?
 
@@ -265,4 +356,3 @@ Yet, Memory-set responses did not reflect attitudes as strongly as did Attitude-
 Taken together, the results of the TBS task appropriately reflected the memory and attitude manipulations. 
 Furthermore, we found no EC in the absence of memory.
 In addition, an effect of attitude-as-information was found on the Memory-set responses.
-
