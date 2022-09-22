@@ -267,7 +267,7 @@ x2uM <- glmer(Proportion.pleasant ~ Material*CS_Valence + (1 + CS_Valence|id), f
 
 ```
 
-```{r tbs_correct_proportions, include=FALSE}
+```{r tbs_correct_proportions_exp2, include=FALSE}
 #keep only neutral paired CSs and participants that performed the TBS
 dat_tbs = subset(d2, Pairing == "paired" & CS_Valence == "neutral" & !is.na(pdset)) %>% droplevels()
 
@@ -333,7 +333,7 @@ bf_prop_tbs_att = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 10) 
   )
 )
 #summary(bf_prop_tbs_att)
@@ -378,7 +378,8 @@ Importantly, replicating the absence of an EC-without-memory effect, US Valence 
 <!-- (z=.13, p=.9). -->
 
 As in Experiment 1, we additionally computed a BF on the proportions of responses in line with US Valence for paired neutral CSs that received an Attitude-set judgment.
-Going beyond failing to find an EC effect for Attitude-set responses, the Bayesian analysis yielded evidence against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), which suggests no EC in the absence of memory, `r printBFRR(bf_prop_tbs_att)`.
+Going beyond failing to find an EC effect for Attitude-set responses, the Bayesian analysis yielded evidence against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`).
+This supports the absence of an EC effect in the absence of experiences of remembering, `r printBFRR(bf_prop_tbs_att)`. ^[Note that this conclusion holds even for very small effects.]
 
 ### Is there evidence for an affect-as-information bias?
 

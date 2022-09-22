@@ -180,7 +180,7 @@ apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US
 ```
 
 Overall, we found only an effect of US Valence (i.e., an EC effect): 
-Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence`, `r printBFRR(bf_ev_overall)` (all other effects were not significant). 
+Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence` (all other effects were not significant). 
 
 ### Two-buttons-sets procedure
 
@@ -358,7 +358,6 @@ khi_p <- ifelse(khi_tbs$p.value > .001, paste0("*p* = ", khi_tbs$p.value), "*p* 
 ```
 
 We conducted analyses with data from participants in the TBS task condition (*n =* `r length(unique(dat_tbs$subject))`). 
-
 As in Experiments 1 and 2, the responses on the TBS task are first given in a tabulated form (Table \@ref(tab:freqtable3)).
 
 First, we tested accuracy of Memory set responses (i.e., the accuracy of participants' US Valence reports when they felt they remembered US Valence). 
@@ -531,10 +530,15 @@ To analyze participants' responses in the TBS task, we conducted a mixed-effect 
 The interaction between US Valence and Response buttons set was significant, `r apa_print(mixedmod_val)$full_result$us_valence1_tbs_button_resp1`. 
 We conducted separate analyses at each Response buttons set level to simplify interpretation of the findings. 
 When participants used the Memory response buttons set, the US Valence effect was significant, `r apa_print(mixedmod_val_mem)$full_result$us_valence1`, indicating above-chance valence memory accuracy. 
-We also found evidence for accurate valence memory in a one-sample *t* test against chance level (i.e., .5) on the proportions of correct responses (*M =* `r mean(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`), `r apa_print(t_prop_correct_m)$statistic`, *d =* `r d_prop_correct_m$Cohens_d`, `r printBFRR(bf_prop_tbs_memory)`.
+
+```{r}
+#We also found evidence for accurate valence memory in a one-sample *t* test against chance level (i.e., .5) on the proportions of correct responses (*M =* `r mean(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_mem$prop[prop_correct_tbs_mem$correct_response=="correct"])`), `r apa_print(t_prop_correct_m)$statistic`, *d =* `r d_prop_correct_m$Cohens_d`, `r printBFRR(bf_prop_tbs_memory)`.
+```
+
 In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. 
 This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. 
-Importantly, proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`) were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`. Similar to Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of memory, `r printBFRR(bf_prop_tbs_att)`.
+Importantly, we also found evidence for the absence of EC in a one-sample *t* test against chance level (i.e., .5) on the proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), which were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`. 
+As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of memory, `r printBFRR(bf_prop_tbs_att)`.^[This conclusion again holds even for very small effects.]
 
 ## Additional results
 
@@ -692,9 +696,9 @@ bf_prop_guess = bfrr(
 We conducted analyses with data from participants in the VMA task condition (*n =* `r length(unique(dat_vma$subject))`). 
 In the VMA task, after each valence memory response, participants had to attribute their response whether (1) to memory, (2) to a feeling of familiarity or intuition, or (3) to random guessing.
 
-Overall, valence memory was above chance (*M =* `r mean(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`), `r apa_print(t_prop_vma_o)$statistic`, *d =* `r d_prop_vma_o$Cohens_d`, `r printBFRR(bf_prop_overall)`. 
-This was also the case when participants made a memory attribution (*M =* `r mean(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`), `r apa_print(t_prop_vma_m)$statistic`, *d =* `r d_prop_vma_m$Cohens_d`, `r printBFRR(bf_prop_memory)`; 
-and when they made an intuition attribution (*M =* `r mean(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`), `r apa_print(t_prop_vma_f)$statistic`, *d =* `r d_prop_vma_f$Cohens_d`, `r printBFRR(bf_prop_feel)`. 
+Overall, valence memory was above chance (*M =* `r mean(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma$prop[prop_correct_vma$correct_response=="correct"])`), `r apa_print(t_prop_vma_o)$statistic`, *d =* `r d_prop_vma_o$Cohens_d`.
+This was also the case when participants made a memory attribution (*M =* `r mean(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])`), `r apa_print(t_prop_vma_m)$statistic`, *d =* `r d_prop_vma_m$Cohens_d`; 
+and when they made an intuition attribution (*M =* `r mean(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])`), `r apa_print(t_prop_vma_f)$statistic`, *d =* `r d_prop_vma_f$Cohens_d`. 
 
 Valence memory performance was not significantly different from chance for random attributions (*M =* `r mean(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])`), `r apa_print(t_prop_vma_g)$statistic`, *d =* `r d_prop_vma_g$Cohens_d`, but BF yielded inconclusive evidence for or against chance-level performance, `r printBFRR(bf_prop_guess)`.
 
@@ -860,6 +864,7 @@ bf_ev_guess = bfrr(
 )
 
 #summary(bf_ev_guess)
+#plot(bf_ev_guess)
 ```
 
 ```{r vma_eval_change_no_struct_k, include=FALSE}
@@ -912,21 +917,24 @@ bf_ev_no_conscious = bfrr(
 )
 
 #summary(bf_ev_no_conscious)
+#plot(bf_ev_no_conscious)
 ```
 
 #### EC effects as a function of attribution
 
 We tested whether we replicate Waroquier et al.'s (2020) findings. 
-The main results are displayed in Figure \@ref(fig:overall_vma_figure). 
+<!-- The main results are displayed in Figure \@ref(fig:overall_vma_figure).  -->
 Importantly, we were interested in whether we find an EC effect when participants reported no memory (random guessing).
 
-Both frequentist and Bayesian analyses yielded evidence for an EC effect when participants made a memory attribution, `r apa_print(mod_memory_vma)$full_result`, `r printBFRR(bf_ev_memory)`. 
+We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_vma)$full_result`. 
 When participants made an intuition attribution, the EC effect was not significant, `r apa_print(mod_feeling_vma)$full_result`, and BF was inconclusive, `r printBFRR(bf_ev_feeling)`. 
 
 Critically and contrary to Waroquier et al. (2020), we found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_vma)$full_result`, and BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess)`.
+^[Again, this held even for small effects of, on average, 6 points on the 400-point rating scale. The data are inconclusive with regard to even smaller effects.]
 
 As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
 We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious)`. 
+^[Here, the data yield evidence against effects smaller than 15 points on the 400-point rating scale; they are inconclusive with regard to smaller effects.]
 
 ### Three-attribution, continuous evaluative ratings (3ACE) task.
 
@@ -1099,10 +1107,10 @@ bf_prop_guess_3bs = bfrr(
 
 We repeated the analyses we conducted in the VMA task on data from the 3ACE procedure (*n =* `r length(unique(dat_3bs$subject))`). As noted above, the 3ACE procedure is aimed to illustrate how the TBS procedure can be adapted. In the 3ACE, the TBS procedure's Attitude responses buttons set was replaced by two scales to get closer to the three response options from Waroquier et al.'s (2020) VMA: a feeling/intuition scale and a random guessing scale. 
 
-Overall, valence memory was above chance (*M =* `r mean(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`), `r apa_print(t_prop_3bs_o)$statistic`, *d =* `r d_prop_3bs_o$Cohens_d`, `r printBFRR(bf_prop_overall_3bs)`. 
-This was also the case when participants used the Memory response buttons set (*M =* `r mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`), `r apa_print(t_prop_3bs_m)$statistic`, *d =* `r d_prop_3bs_m$Cohens_d`, `r printBFRR(bf_prop_mem_3bs)`. 
-Different from results on the VMA task, when participants used the feeling/intuition set, performance was not significantly above change but BF was inconclusive (*M =* `r mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`), `r apa_print(t_prop_3bs_i)$statistic`, *d =* `r d_prop_3bs_i$Cohens_d`, `r printBFRR(bf_prop_intuition_3bs)`. 
-Valence memory performance was not significantly different from chance for random attributions (*M =* `r mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`), `r apa_print(t_prop_3bs_g)$statistic`, *d =* `r d_prop_3bs_g$Cohens_d`, and BF yielded evidence for chance-level performance, `r printBFRR(bf_prop_guess_3bs)`. 
+Overall, valence memory was above chance (*M =* `r mean(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs$prop[prop_correct_3bs$correct_response=="correct"])`), `r apa_print(t_prop_3bs_o)$statistic`, *d =* `r d_prop_3bs_o$Cohens_d`. 
+This was also the case when participants used the Memory response buttons set (*M =* `r mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])`), `r apa_print(t_prop_3bs_m)$statistic`, *d =* `r d_prop_3bs_m$Cohens_d`. 
+Diverging from results on the VMA task, when participants used the feeling/intuition set, performance was not significantly above chance, but BF was inconclusive (*M =* `r mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])`), `r apa_print(t_prop_3bs_i)$statistic`, *d =* `r d_prop_3bs_i$Cohens_d`, `r printBFRR(bf_prop_intuition_3bs)`. 
+In line with the VMA results, valence memory performance was not significantly different from chance for random-guessing attributions (*M =* `r mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`; *SD =* `r sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])`), `r apa_print(t_prop_3bs_g)$statistic`, *d =* `r d_prop_3bs_g$Cohens_d`, and BF yielded evidence for chance-level performance, `r printBFRR(bf_prop_guess_3bs)`. 
 
 ```{r prepare_tbs_plot, include=FALSE}
 dat_3bs$attrib_plot = as.factor(recode(dat_3bs$scales_3BS_state, "guess_scale"="random guessing"
@@ -1324,12 +1332,11 @@ bf_ev_no_conscious_3bs = bfrr(
 
 #### EC effects as a function of response set
 
-The main results are displayed in Figure \@ref(fig:overall_3BS_figure). Importantly, we were interested in whether we find an EC effect when participants reported no memory (random guessing), as in the VMA task. 
+<!-- The main results are displayed in Figure \@ref(fig:overall_3BS_figure).  -->
+Importantly, we were interested in whether we find an EC effect when participants reported no memory (random guessing), as in the VMA task. 
 The pattern of results was very similar to the one we found on the VMA task. 
+We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, `r printBFRR(bf_ev_memory_3bs)`. 
+When participants made a feeling/intuition attribution, the EC effect was not significant, `r apa_print(mod_intuition_3bs)$full_result`; however, the BF was inconclusive, `r printBFRR(bf_ev_intuition_3bs)`. 
 
-Both frequentist and Bayesian analyses yielded evidence for an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, `r printBFRR(bf_ev_memory_3bs)`. 
-When participants made a feeling/intuition attribution, the EC effect was not significant, `r apa_print(mod_intuition_3bs)$full_result`; however, BF was inconclusive, `r printBFRR(bf_ev_intuition_3bs)`. 
-
-We found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_3bs)$full_result`, and BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs)`. 
-
-When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious_3bs)`. 
+We found no EC effect when participants made a random-guessing attribution, `r apa_print(mod_guess_3bs)$full_result`, and the BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs)`. 
+When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and the BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious_3bs)`. 
