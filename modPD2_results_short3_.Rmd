@@ -23,7 +23,7 @@ set_sum_contrasts()
 
 #function to display results from Bayesian analyses conducted with the package bfrr
 printBFRR <- function(bf, RR=TRUE){
-  result = paste0(" $BF_{H1: ", bf$H1_model, "}=$ ", format(bf$BF, scientific=TRUE))
+  result = paste0(" $BF_{H1: ", bf$H1_model, "}=$ ", ifelse((bf$BF>999)|(bf$BF<.001), format(bf$BF, scientific=TRUE), format(bf$BF, digits=2)))
   if(RR) result <- paste0(result, " (Robustness Region: ", bf$RR$sd[1], ", ", bf$RR$sd[2], ")" ) 
   #print(result) # use for debugging in the console
   result
@@ -95,7 +95,7 @@ d2Mg <- subset(d2MA, pdset=="Memory" & Material=="gogos")
 #t.test(ec~US_Valence, data=d2Mg)
 d2A <- subset(d2MA, pdset=="Attitude")
 ec2A <- aov_ez(data=d2A, id="id", dv="ec", within=c("US_Valence"), between=c("Material"))
-apa_beeplot(data=d2A, id="id", dv="ec", factors=c("Material","US_Valence"), intercept=0)
+#apa_beeplot(data=d2A, id="id", dv="ec", factors=c("Material","US_Valence"), intercept=0)
 d2Af <- subset(d2MA, pdset=="Attitude" & Material=="faces")
 d2Ag <- subset(d2MA, pdset=="Attitude" & Material=="gogos")
 #t.test(ec~US_Valence, data=d2Af)
