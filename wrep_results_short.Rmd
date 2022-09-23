@@ -85,7 +85,7 @@ Subsequently, we report EC effects for the different attributions in the VMA and
 ### Evaluative conditioning
 
 As a manipulation check, we first tested whether there was an EC effect overall, based on the final total sample (*N =* `r length(unique(dat$subject))`).
-An ANOVA of the pre-post evaluative change scores tested whether they were influenced by US Valence (see Figure \@ref(fig:plot_eval_change)), and whether this influence was modulated by task or order condition.  
+An ANOVA of the pre-post evaluative change scores tested whether they were influenced by US Valence (see Figure \@ref(fig:plotevalchange)), and whether this influence was modulated by task or order condition.  
 
 ```{r eval_change, include=FALSE}
 ####
@@ -164,7 +164,7 @@ bf_ev_overall = bfrr(
 )
 ```
 
-```{r plot_eval_change, fig.cap="Pre-post evaluative change as a function of US Valence and Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals. *Note:* TBS = Two-buttons-sets procedure; VMA = Valence Memory Attribution task; 3ACE = Three-attribution, continuous evaluative ratings task."}
+```{r plotevalchange, fig.cap="Pre-post evaluative change as a function of US Valence and Task condition. Dots are the individual observations, and error bars are the 95% Confidence Intervals. *Note:* TBS = Two-buttons-sets procedure; VMA = Valence Memory Attribution task; 3ACE = Three-attribution, continuous evaluative ratings task."}
 dat$task = as.factor(recode(dat$eval_task, "TBSrep"="TBS"
        ,"Wrep"="VMA"
        ,"3BS_study"="3ACE"))
@@ -182,7 +182,7 @@ apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US
 Overall, we found only an effect of US Valence (i.e., an EC effect): 
 Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence` (all other effects were not significant). 
 
-### Two-buttons-sets procedure
+## Two-buttons-sets procedure
 
 ```{r tbs_count, include=FALSE}
 ####
