@@ -390,7 +390,7 @@ Further deviating from Experiment 1, but in line with Hütter et al. (2012), we 
 ## Discussion
 
 Confirming the manipulation's effectiveness, Experiment 2 again obtained a robust EC effect (along with regression to the mean for pre-experimentally valent CSs).
-In line with Experiment 1, results again confirmed that the TBS task adequately reflects memory and attitude manipulations (i.e., Memory-set responses separated paired from non-paired stimuli; Attitude-set responses reflected pre-learning evaluative ratings).
+In line with Experiment 1, results again confirmed that the TBS task adequately reflects memory and attitude manipulations (i.e., Memory-set responses separated paired from non-paired stimuli and selectively reflected US valence effects; Attitude-set responses reflected pre-learning evaluative ratings).
 
 Experiment 2 replicated the attitude-as-information bias in memory judgments for nonpaired stimuli: 
 Participants were more likely to remember (un)pleasant USs being paired with pre-experimentally positive (negative) nonpaired stimuli. 
@@ -407,7 +407,7 @@ On the other hand, the effects of CS valence (although less selective) were stro
 By presenting participants with valent as well as neutral items, and with paired as well as non-paired items, Experiment 2 was able to separate effects of pairing from those of (pre-existing) evaluations. 
 This relatively complex design is however uncommon in EC studies, which have typically presented only neutral CSs paired with either pleasant or unpleasant USs.
 One may argue, therefore, that the findings obtained in Experiment 2 may be a function of this complexity, and that different findings may obtain in the more simple design commonly used in EC studies.
-To test whether the TBS finding of no EC-without-memory effect was somehow biased by the presence versus absence of valent and/or nonpaired items, we conducted another study with the simple design.
+To test whether the TBS finding of no EC-without-memory effect was somehow biased by the presence (versus absence) of valent and nonpaired items, we conducted another study with the simple design.
 
 
 # Experiment 3
@@ -416,11 +416,11 @@ This study aims at replicating and strengthening the evidence --- that no EC is 
 
 In a second condition, we replicated the study by Waroquier et al. (2020), who reported EC effects when participants indicated that they did not have conscious knowledge about the US's valence. 
 In their study, after the learning phase, participants were presented with a CS and asked to report the valence of the associated US.
-They were then asked to attribute their response to a mental state (i.e., to indicate the basis of their valence-memory response): memory (i.e., remembered the pairing), feeling (familiarity or intuition), or random guessing.
-In their Experiment 1, they found EC effects not only for memory but also for feeling attributions; in their Experiment 2, EC was found for memory and random-guessing, but not for feeling attributions.
-These results contrast with the TBS finding of no EC in the absence of memory, suggesting that a more fine-grained distinction of different mental states (i.e., three rather than two), and/or a more sensitive measurement (i.e., rating scale rather than binary choice) may be more suited for detecting EC without memory.
+They were then asked to attribute their response to one of three mental states (i.e., to indicate the basis of their valence-memory response): memory (i.e., remembered the pairing), feeling (familiarity or intuition), or random guessing.
+In their Experiment 1, Waroquier et al. found EC effects not only for memory but also for feeling attributions; in their Experiment 2, EC was found for memory and random-guessing, but not for feeling attributions.
+These results contrast with the TBS finding of no EC in the absence of memory, suggesting that a more fine-grained distinction of different mental states (i.e., three rather than two), and/or a more sensitive measurement (i.e., continuous rating scale rather than binary choice) may be more suited for detecting EC without memory.
 
-To begin exploring possible reasons for the discrepancy, we included a third condition in which we adapted the TBS approach of conditionally assessing either memory or attitudes as a function of retrieval awareness.
+To begin exploring possible reasons for such a discrepancy, we also included a third condition in which we adapted the TBS approach of conditionally assessing either memory or attitudes as a function of retrieval awareness.
 Specifically, we offered three (rather than two) attributions; and we replaced the binary attitude judgments by continuous evaluative rating scales (i.e., a three-attribution, continuous evaluation task, hereafter *3ACE*).
 Participants' task was to assess their memory for US valence; if they remembered it, they were to report in using binary pleasant/unpleasant buttons as in the TBS; if they had some gut feeling or intuition, they were asked to evaluate the CS on a rating scale; similarly, if they felt they were guessing randomly, they were asked to evaluate the CS on another rating scale.
 With these modifications, the task yielded data highly similar to those obtained by Waroquier et al. (2020), but with a higher degree of adherence to the immediacy criterion (i.e., the data were obtained from a single response at a single point in time, rather than separated across trials or even separate blocks).
@@ -428,10 +428,10 @@ With these modifications, the task yielded data highly similar to those obtained
 In sum, we implemented a between-subjects manipulation of valence-memory task type with three levels: 
 Participants completed either the TBS, VMA, or 3ACE task.
 We also counterbalanced the order of post-experimental evaluative ratings and the valence-memory task (which had no effect on the results).
-^[To begin exploring the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
+^[Furthermore, to explore the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
 Participants completed a second valence-memory task (i.e., participants in the TBS and 3ACE condition completed the VMA task, and participants in the VMA condition completed a TBS task).
 Finally, to explore the accuracy of subjective memory attributions, participants completed a US identity memory task.
-The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details of these tasks will be reported in an online appendix (osf.io/xxxxx).]
+The results of these tasks are not reported in the present paper (which focuses on the validation of the TBS task); procedural details and results will be reported in an online appendix (osf.io/xxxxx).]
 
 ## Method
 
@@ -440,8 +440,9 @@ The results of these tasks are not reported in the present paper (which focuses 
 Participants were randomly assigned to a 3 (valence-memory task: TBS, VMA, 3ACE) x 2 (order: evaluative ratings first vs. valence-memory task first) between-subjects design.
 They were recruited from the lab database (i.e., University of Cologne student population) and were invited to participate either in the lab or via internet.
 As compensation, course credit or an amount of EUR 8 was offered.
-We recruited participants until there were at least 180 participants who had passed the instruction-understanding checks. 
-Of these 201 participants, 15 were excluded because they failed the seriousness or attention checks (i.e., they either indicated that their data should not be used for scientific purposes, or that they were not able to pay sustained attention during the learning phase). We additionally excluded one participant for which stimulus presentation in the learning phase did not work as intended. This resulted in a final sample size of 185 participants.
+We recruited participants until there were at least 180 participants who had passed the instruction-understanding checks (see also below). 
+Of these 201 participants, 15 were excluded because they failed the seriousness or attention checks (i.e., they either indicated that their data should not be used for scientific purposes, or that they were not able to pay sustained attention during the learning phase); one additional participant with technical problems was excluded. 
+This resulted in a final sample size of 185 participants.
 
 ### Material
 
@@ -493,9 +494,9 @@ Next, we discuss its limitations, and we explain how it can be further improved 
 
 ## Main findings
 
-The present research introduced a new measurement procedure - the TBS task - for advancing the study of (potential) EC effects without retrieval awareness. 
+The present research introduced a new measurement procedure - the TBS task - for advancing the study of (potential) EC effects in the absence of retrieval awareness. 
 In the introduction, we discussed the assets of the TBS relative to prior procedures. 
-We validated this new task in two experiments, which additional provided insights into the influence of attitude-as-information biases typically found in retrieval-awareness studies. 
+We validated this new task in three experiments, which additional provided insights into the influence of attitude-as-information biases typically found in retrieval-awareness studies. 
 In this section, we discuss the main findings observed here in light of these main objectives.
 
 ### Validity of TBS task
@@ -504,6 +505,7 @@ Our first aim was to test the validity of the TBS task.
 In two experiments, we influenced memory by pairing some stimuli with USs, while other stimuli were never paired with USs; and we influenced attitudes by using stimuli pre-rated as pleasant or unpleasant.
 The manipulations of pairing memory were reflected in participants' metacognitive judgments (i.e., their use of the Memory-set vs. Attitude-set), as well as their valence-memory reports when they used the Memory set.
 The manipulations of attitudes were reflected in participants' pleasantness judgments when they used the Attitude set.
+Experiment 3 further confirmed that our central finding (of no EC without memory) was not an artifact of our including nonpaired and valent stimuli. 
 These results confirm a successful validation of the TBS task, comparable to the process-dissociation procedure [@hutter_dissociating_2012].
 
 It is particularly important to highlight the validity of TBS results regarding EC in the absence of memory. 
@@ -557,7 +559,7 @@ Future task developments could move towards a task such as the 3ACE used in Expe
 <!-- Clearly, however, this finding (if robust) will be important both for research into the processes underlying evaluative memories as well as for applied research targeting strategies for controlling persuasive influences. -->
 
 Whether, when, and through which processes EC effects can be found in the absence of retrieval awareness bears important theoretical implications. 
-The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage. 
+The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage [e.g., @stahl_evaluative_2018; @aust_memory-based_2019]. 
 For these models, EC effects are contingent upon a successful retrieval of the CS-US pairings from memory. 
 Alternatively, Stimulus-Response models assume that the affective responses elicited by the US (rather than the US as such) is linked to the CS in long-term memory [for a recent discussion, see @corneille_associative_2019; see also @jones_implicit_2009; @sweldens_evaluative_2010]. 
 For these models, the retrieval of a CS directly elicits the learned affective response. 

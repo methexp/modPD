@@ -182,7 +182,7 @@ apa_beeplot(data=dat, id="subject", dv="eval_change_score", factors=c("task","US
 Overall, we found only an effect of US Valence (i.e., an EC effect): 
 Pre-post evaluative change scores were higher for CSs paired with positive than negative USs, `r apa_print(mod1)$full_result$us_valence` (all other effects were not significant). 
 
-## Two-buttons-sets procedure
+### Two-buttons-sets procedure
 
 ```{r tbs_count, include=FALSE}
 ####
@@ -538,7 +538,7 @@ When participants used the Memory response buttons set, the US Valence effect wa
 In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. 
 This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. 
 Importantly, we also found evidence for the absence of EC in a one-sample *t* test against chance level (i.e., .5) on the proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), which were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`. 
-As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of memory, `r printBFRR(bf_prop_tbs_att)`.^[This conclusion again holds even for very small effects.]
+As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of memory, `r printBFRR(bf_prop_tbs_att)` (note that this conclusion again holds even for small effects).
 
 ### Additional results
 

@@ -379,7 +379,7 @@ Importantly, replicating the absence of an EC-without-memory effect, US Valence 
 
 As in Experiment 1, we additionally computed a BF on the proportions of responses in line with US Valence for paired neutral CSs that received an Attitude-set judgment.
 Going beyond failing to find an EC effect for Attitude-set responses, the Bayesian analysis yielded evidence against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`).
-This supports the absence of an EC effect in the absence of experiences of remembering, `r printBFRR(bf_prop_tbs_att)`. ^[Note that this conclusion holds even for very small effects.]
+This supports the absence of (even small) EC effects in the absence of experiences of remembering, `r printBFRR(bf_prop_tbs_att)`. 
 
 ### Is there evidence for an affect-as-information bias?
 
@@ -389,8 +389,9 @@ A stimulus falsely judged as having been paired with a US was evaluated in accor
 However, note that in a logistic regression of this relatively small subset of responses, the effect of pre-existing valence (while descriptively consistent with the overall analysis) was not significant, `r  apa_print(x2uM)$full_result$CS_Valence_L`.
 
 Focusing on the bottom right quadrant (i.e., Attitude-set judgments for nonpaired stimuli), it is apparent that judgments reflected pre-experimental attitudes, `r  apa_print(x2uA)$full_result$CS_Valence_L`:
-Participants consistently reported the attitude corresponding to their pre-study ratings in 84% of cases; besides a strong effect of CS Valence, the logistic regression analysis did not yield other significant predictors.
+Participants consistently reported the attitude corresponding to their pre-study ratings in 84% of cases.
+Besides this strong effect of CS Valence, the logistic regression analysis did not yield other significant predictors.
 
 In sum, responses on the TBS task again appropriately reflected the memory and attitude manipulations.
 We replicated the absence of EC without memory (i.e., the effect of US Valence was limited to Memory-set responses).
-We also replicated the attitude-as-information bias (i.e., the effect of CS Valence), which was now obtained not only for nonpaired foils but also for paired CSs.
+We also replicated the attitude-as-information bias (i.e., the effect of CS Valence on Memory-set responses), which was now obtained not only for nonpaired foils but also for paired CSs.

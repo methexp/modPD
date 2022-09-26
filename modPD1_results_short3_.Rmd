@@ -339,14 +339,14 @@ Thus, as reflected in Table 2, there was no significant EC in the absence of mem
 
 Because failing to find a significant effect is not evidence for the absence of an effect, we additionally conducted a Bayesian analysis that allows quantifying the evidence for the null hypothesis of no effect. 
 Specifically, for Attitude-set judgments on paired neutral CSs, we computed a Bayes Factor (BF) on the proportions of responses in line with US Valence. 
-We modeled the distribution of true effect sizes under the H1 as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020; they chose this value based on Stahl et al., 2009, who found valence memory performance roughly 15% above the 50% chance level; we assume here that effects on memory and evaluations should be comparable under a single-process account). 
-For each BF (noted $BF_{H1:N(0,SD)}$, e.g., noted $BF_{H1:N(0,.15)}$), we report the Robustness Region to indicate the range of *SD*s of the H1 distribution that support the same conclusion as the reported BF. 
-We used conventional cut-offs to interpret BF (e.g., Dienes, 2014). 
+We modeled the distribution of true effect sizes under the H1 as a half-normal distribution with an SD of 15% (similar to Waroquier et al., 2020).^[Waroquier et al (2020) chose this value based on Stahl et al. (2009) who found valence memory performance roughly 15% above the 50% chance level; we assume here that effects on memory and evaluations should be comparable under a single-process account.] 
+For each BF (noted $BF_{H1:N(0,.15)}$), we report the Robustness Region to indicate the range of *SD*s of the H1 distribution that support the same conclusion as the reported BF. 
+We used conventional cut-offs to interpret BF (e.g., Dienes, 2014): 
 A BF above 3 yields evidence for H1 compared with H0, while a BF below 1/3 yields evidence for H0. 
 A BF between 1/3 and 3 would count as anecdotal evidence in either direction, and indicates inconclusive data (i.e., no evidence for either hypothesis).
 
-The Bayesian analysis yielded inconclusive evidence for or against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), `r printBFRR(bf_prop_tbs_att)`.
-^[The robustness region shows, however, that the data provide evidence against H1 distributions with SDs greater than .25.]
+The Bayes Factor yielded inconclusive evidence for or against above-chance responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), `r printBFRR(bf_prop_tbs_att)`.
+^[The robustness region shows, however, that the data provide evidence against H1 distributions with SDs greater than .25, that is, against large effects of 25 percentage points (or greater).]
 In sum, we failed to find an EC effect for Attitude-set judgments, but we cannot conclude from this finding that there is evidence for no EC in the absence of memory.
 
 ### Is there evidence for an affect-as-information bias?
