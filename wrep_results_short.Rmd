@@ -334,14 +334,14 @@ tbs_table = data.frame(list(expand.grid(
                paste0("(", round(sum(frq_table_mem$n)/sum(frq_table_mem$n, frq_table_att$n),digits = 2), ")"),
                sum(frq_table_att$n),
                paste0("(", round(sum(frq_table_att$n)/sum(frq_table_mem$n, frq_table_att$n),digits = 2), ")")),
-  CS.p = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
-           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
-           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")"),
-           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="positive"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="positive"], frq_table_att$n[frq_table_mem_pos$us_valence=="positive"]),digits = 2), ")")),
-  CS.n = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
-           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
-           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"),
-           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="negative"]/sum(frq_table_mem$n[frq_table_mem_pos$us_valence=="negative"], frq_table_att$n[frq_table_mem_pos$us_valence=="negative"]),digits = 2), ")"))
+  CS.p = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="positive"]/sum(frq_table_mem$n),digits = 2), ")"),
+           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="positive"]/sum(frq_table_mem$n),digits = 2), ")"),
+           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="positive"]/sum(frq_table_att$n),digits = 2), ")"),
+           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="positive"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="positive"]/sum(frq_table_att$n),digits = 2), ")")),
+  CS.n = c(paste0(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_pos$n[frq_table_mem_pos$us_valence=="negative"]/sum(frq_table_mem$n),digits = 2), ")"),
+           paste0(frq_table_mem_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_mem_neg$n[frq_table_mem_neg$us_valence=="negative"]/sum(frq_table_mem$n),digits = 2), ")"),
+           paste0(frq_table_att_pos$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_pos$n[frq_table_att_pos$us_valence=="negative"]/sum(frq_table_att$n),digits = 2), ")"),
+           paste0(frq_table_att_neg$n[frq_table_mem_pos$us_valence=="negative"], " (", round(frq_table_att_neg$n[frq_table_att_neg$us_valence=="negative"]/sum(frq_table_att$n),digits = 2), ")"))
 ))
 
 tbs_table =  tbs_table[, c(2, 3, 1, 4, 5)]
