@@ -55,7 +55,8 @@ d1$pdcor_ <- as.numeric(d1$pdcor)
 ## Results
 
 We first report results of a manipulation check (i.e., whether our study produced EC effects).
-The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without memory as well as the attitude-as-information bias.
+The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without memory as well as the attitude-as-information bias. In the Appendix, we report additional results on the proportions of Memory and Attitude-set judgments and on the proportions of valence memory accuracy in each response set.
+
 <!-- Third, we related the responses on the novel task to evaluative ratings. -->
 
 <!-- ### Manipulation checks -->
@@ -236,6 +237,8 @@ dat_tbs$pdset = as.factor(dat_tbs$pdset)
 dat_tbs$pdval_pleasant = ifelse(dat_tbs$pdval == "pleasant", "pos", "neg")
 
 dat_tbs$tbs_correct = as.factor(ifelse(dat_tbs$pdval_pleasant == dat_tbs$typUS, "correct", "incorrect"))
+
+#saveRDS(dat_tbs, "data/appendix/appendix_exp1_tbs.RDS")
 
 prop_correct_tbs = dat_tbs %>% 
   group_by(Subject, tbs_correct, .drop=FALSE) %>% 
