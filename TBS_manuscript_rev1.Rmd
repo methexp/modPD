@@ -184,6 +184,7 @@ Third, the CS-level information enables finer-grained analyses and more rigorous
 
 (ref:pd-procedure-diagram) Schematic comparison of the two-stage tasks in the process-dissociation (**A**) and TBS tasks (**B**). In both the process-dissociation and TBS tasks, participants first introspect whether they remember US valence or not. If they do remember US valence, they report their US-valence memory judgment; if they do not remember US valence, they report an attitude judgment. While the decision to report either a memory or attitude judgment remains unobserved in the process-dissociation task (A), it is observed as the choice between Memory and Attitude button sets in the TBS task (B). Panels with dashed lines represent unobservable latent states; those with solid lines observed task components. Bold rectangles represent observable response options at each task stage. Black and white arrows represent paths for positively and negatively paired CSs, respectively; grey arrows represent common paths.
 
+
 ```{dot, engine="dot", pd-procedure-diagram, code = readLines("./fig/modpd.dot"), fig.align = 'center', out.width = "0.75\\textwidth", fig.cap = "(ref:pd-procedure-diagram)", fig.ext = "pdf", fig.env = "figure*"}
 ```
 
@@ -730,4 +731,13 @@ r_refs(file = "r-references.bib")
 
 ```{=tex}
 \endgroup
+```
+
+\appendix
+
+\onecolumn
+
+# Additional results
+
+```{r add_results_appendix, eval=TRUE, child="appendix.Rmd"}
 ```
