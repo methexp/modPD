@@ -48,18 +48,17 @@ dat_3bs = readRDS("data/appendix/appendix_exp3_3ace.RDS") #3ace experiment 3
 ```{r ax_tbs_count_exp1, include=FALSE}
 #count memory and attitude button responses for each participant
 n_attrib_tbs1 = dat_tbs1 %>%
-  group_by(Subject, pdset, .drop=FALSE) %>% tally()
-colnames(n_attrib_tbs1) = c("subject", "attrib_buttons", "n_attrib_tbs")
+  group_by(Subject, pdset, .drop=FALSE) %>% tally() %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+colnames(n_attrib_tbs1) = c("subject", "attrib_buttons", "n_attrib_tbs", "prop")
 
-n_attrib_tbs1$n_attrib_tbs = as.numeric(n_attrib_tbs1$n_attrib_tbs)
+m_prop_Memory1 = mean(n_attrib_tbs1$prop[n_attrib_tbs1$attrib_buttons=="Memory"])
+sd_prop_Memory1 = sd(n_attrib_tbs1$prop[n_attrib_tbs1$attrib_buttons=="Memory"])
 
-m_prop_Memory1 = mean(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Memory"])
-sd_prop_Memory1 = sd(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Memory"])
+m_prop_Attitude1 = mean(n_attrib_tbs1$prop[n_attrib_tbs1$attrib_buttons=="Attitude"])
+sd_prop_Attitude1 = sd(n_attrib_tbs1$prop[n_attrib_tbs1$attrib_buttons=="Attitude"])
 
-m_prop_Attitude1 = mean(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Attitude"])
-sd_prop_Attitude1 = sd(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Attitude"])
-
-describeBy(n_attrib_tbs1$n_attrib_tbs, n_attrib_tbs1$attrib_buttons)
+describeBy(n_attrib_tbs1$prop, n_attrib_tbs1$attrib_buttons)
 ```
 
 ```{r ax_tbs_correct_proportions_memory_exp1, include=FALSE}
@@ -131,18 +130,17 @@ bf_prop_tbs_att1 = bfrr(
 ```{r ax_tbs_count_exp2, include=FALSE}
 #count memory and attitude button responses for each participant
 n_attrib_tbs2 = dat_tbs2 %>%
-  group_by(id, pdset, .drop=FALSE) %>% tally()
-colnames(n_attrib_tbs2) = c("subject", "attrib_buttons", "n_attrib_tbs")
+  group_by(id, pdset, .drop=FALSE) %>% tally() %>%
+  mutate(freq = n / sum(n)) %>% group_by(id) %>% filter(!is.nan(freq))
+colnames(n_attrib_tbs2) = c("subject", "attrib_buttons", "n_attrib_tbs", "prop")
 
-n_attrib_tbs2$n_attrib_tbs = as.numeric(n_attrib_tbs2$n_attrib_tbs)
+m_prop_Memory2 = mean(n_attrib_tbs2$prop[n_attrib_tbs2$attrib_buttons=="Memory"])
+sd_prop_Memory2 = sd(n_attrib_tbs2$prop[n_attrib_tbs2$attrib_buttons=="Memory"])
 
-m_prop_Memory2 = mean(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Memory"])
-sd_prop_Memory2 = sd(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Memory"])
+m_prop_Attitude2 = mean(n_attrib_tbs2$prop[n_attrib_tbs2$attrib_buttons=="Attitude"])
+sd_prop_Attitude2 = sd(n_attrib_tbs2$prop[n_attrib_tbs2$attrib_buttons=="Attitude"])
 
-m_prop_Attitude2 = mean(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Attitude"])
-sd_prop_Attitude2 = sd(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Attitude"])
-
-describeBy(n_attrib_tbs2$n_attrib_tbs, n_attrib_tbs2$attrib_buttons)
+describeBy(n_attrib_tbs2$prop, n_attrib_tbs2$attrib_buttons)
 ```
 
 ```{r ax_tbs_correct_proportions_memory_exp2, include=FALSE}
@@ -214,18 +212,17 @@ bf_prop_tbs_att2 = bfrr(
 ```{r ax_tbs_count_exp3, include=FALSE}
 #count memory and attitude button responses for each participant
 n_attrib_tbs3 = dat_tbs3 %>%
-  group_by(subject, tbs_button_resp, .drop=FALSE) %>% tally()
-colnames(n_attrib_tbs3) = c("subject", "attrib_buttons", "n_attrib_tbs")
+  group_by(subject, tbs_button_resp, .drop=FALSE) %>% tally() %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+colnames(n_attrib_tbs3) = c("subject", "attrib_buttons", "n_attrib_tbs", "prop")
 
-n_attrib_tbs3$n_attrib_tbs = as.numeric(n_attrib_tbs3$n_attrib_tbs)
+m_prop_Memory3 = mean(n_attrib_tbs3$prop[n_attrib_tbs3$attrib_buttons=="memory"])
+sd_prop_Memory3 = sd(n_attrib_tbs3$prop[n_attrib_tbs3$attrib_buttons=="memory"])
 
-m_prop_Memory3 = mean(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="memory"])
-sd_prop_Memory3 = sd(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="memory"])
+m_prop_Attitude3 = mean(n_attrib_tbs3$prop[n_attrib_tbs3$attrib_buttons=="attitude"])
+sd_prop_Attitude3 = sd(n_attrib_tbs3$prop[n_attrib_tbs3$attrib_buttons=="attitude"])
 
-m_prop_Attitude3 = mean(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="attitude"])
-sd_prop_Attitude3 = sd(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="attitude"])
-
-describeBy(n_attrib_tbs3$n_attrib_tbs, n_attrib_tbs3$attrib_buttons)
+describeBy(n_attrib_tbs3$prop, n_attrib_tbs3$attrib_buttons)
 ```
 
 ```{r ax_tbs_correct_proportions_memory_exp3, include=FALSE}
@@ -299,19 +296,18 @@ bf_prop_tbs_att3 = bfrr(
 dat_vma$attrib_buttons = as.factor(dat_vma$attrib_buttons)
 
 n_attrib_vma = dat_vma %>% 
-  group_by(subject, attrib_buttons, .drop=FALSE) %>% tally()
-colnames(n_attrib_vma) = c("subject", "attrib_buttons", "n_attrib_vma")
+  group_by(subject, attrib_buttons, .drop=FALSE) %>% tally() %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+colnames(n_attrib_vma) = c("subject", "attrib_buttons", "n_attrib_vma", "prop")
 
-n_attrib_vma$n_attrib_vma = as.numeric(n_attrib_vma$n_attrib_vma)
+m_prop_Memory_vma = mean(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
+sd_prop_Memory_vma = sd(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
 
-m_prop_Memory_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
-sd_prop_Memory_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
+m_prop_intuition_vma = mean(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
+sd_prop_intuition_vma = sd(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
 
-m_prop_intuition_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
-sd_prop_intuition_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
-
-m_prop_guess_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
-sd_prop_guess_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
+m_prop_guess_vma = mean(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
+sd_prop_guess_vma = sd(n_attrib_vma$prop[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
 ```
 
 ```{r ax_vma_correct_proportions_memory, include=FALSE}
@@ -421,19 +417,18 @@ bf_prop_guess_vma = bfrr(
 ```{r ax_3ace_count}
 #count memory, feeling, and guess uses
 n_attrib_3bs = dat_3bs %>% 
-  group_by(subject, scales_3BS_state, .drop=FALSE) %>% tally() 
-colnames(n_attrib_3bs) = c("subject", "response_set", "n_attrib")
+  group_by(subject, scales_3BS_state, .drop=FALSE) %>% tally() %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+colnames(n_attrib_3bs) = c("subject", "response_set", "n_attrib", "prop")
 
-n_attrib_3bs$n_attrib = as.numeric(n_attrib_3bs$n_attrib)
+m_prop_Memory_3ace = mean(n_attrib_3bs$prop[n_attrib_3bs$response_set=="memory_button"])
+sd_prop_Memory_3ace = sd(n_attrib_3bs$prop[n_attrib_3bs$response_set=="memory_button"])
 
-m_prop_Memory_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="memory_button"])
-sd_prop_Memory_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="memory_button"])
+m_prop_intuition_3ace = mean(n_attrib_3bs$prop[n_attrib_3bs$response_set=="intuition_scale"])
+sd_prop_intuition_3ace = sd(n_attrib_3bs$prop[n_attrib_3bs$response_set=="intuition_scale"])
 
-m_prop_intuition_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="intuition_scale"])
-sd_prop_intuition_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="intuition_scale"])
-
-m_prop_guess_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="guess_scale"])
-sd_prop_guess_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="guess_scale"])
+m_prop_guess_3ace = mean(n_attrib_3bs$prop[n_attrib_3bs$response_set=="guess_scale"])
+sd_prop_guess_3ace = sd(n_attrib_3bs$prop[n_attrib_3bs$response_set=="guess_scale"])
 ```
 
 ```{r ax_3bs_correct_proportions_memory, include=FALSE}
