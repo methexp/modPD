@@ -79,8 +79,9 @@ addmargins(table(dat$eval_task)/40)
 <!-- ## Main findings -->
 
 We first report results of a manipulation check (i.e., whether there was a robust EC effect).
-Next, we turn to the results of the TBS task, focusing on whether the absence of EC without memory is replicated with the simplified design.
+Next, we turn to the results of the TBS task, focusing on whether the absence of EC without memory is replicated with the simplified design. 
 Subsequently, we report EC effects for the different attributions in the VMA and 3ACE tasks.
+In the Appendix, we report additional results on the proportions of Memory/Attitude responses (in the TBS task), attributions (in the VMA and 3ACE tasks), and on the proportions of valence memory accuracy in each response set for each task.
 
 ### Evaluative conditioning
 
@@ -217,6 +218,8 @@ dat_tbs$tbs_button_resp = as.factor(dat_tbs$tbs_button_resp)
 #for each participant, compute the proportion of correct identifications in the TBS
 #meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
 dat_tbs$tbs_correct = as.factor(ifelse(substr(dat_tbs$us_valence, 1, 3) == dat_tbs$tbs_val_resp, "correct", "incorrect"))
+
+#saveRDS(dat_tbs, "data/appendix/appendix_exp3_tbs.RDS")
 
 prop_correct_tbs = dat_tbs %>% 
   group_by(subject, tbs_correct, .drop=FALSE) %>% 
@@ -554,7 +557,7 @@ We also report initial results from a new version of the procedure (i.e., 3ACE) 
 
 dat_vma = dat %>% filter(eval_task=="Wrep") %>% droplevels()
 
-#length(unique(dat_vma$subject)) #208 participants
+#saveRDS(dat_vma, "data/appendix/appendix_exp3_vma.RDS")
 ```
 
 ```{r vma_correct_proportions_overall, include=FALSE}
@@ -976,6 +979,8 @@ dat_3bs$correct[dat_3bs$scales_3BS_state=="intuition_scale"] = ifelse(substr(dat
 dat_3bs$correct[dat_3bs$scales_3BS_state=="guess_scale"] = ifelse(substr(dat_3bs$us_valence[dat_3bs$scales_3BS_state=="guess_scale"], 1, 3) == dat_3bs$recode_guess_scale[dat_3bs$scales_3BS_state=="guess_scale"], "correct", "incorrect")
 
 dat_3bs$correct = as.factor(dat_3bs$correct)
+
+#saveRDS(dat_3bs, "data/appendix/appendix_exp3_3ace.RDS")
 ```
 
 ```{r 3bs_correct_proportions_overall, include=FALSE}
