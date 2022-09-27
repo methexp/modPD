@@ -623,7 +623,7 @@ table_appendix_tbs = data.frame(list(
                    , printRR_ax(bf_prop_tbs_att3))
 ))
 
-kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in the Two-buttons-sets procedure of each experiment.", label="a1_tbs") %>%
+kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in each experiment's Two-buttons-sets procedure.", label="a1_tbs") %>%
   add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against the chance level (mu=.5). 'Cohen d 95 CI': 95% Confidence Intervals of the effect sizes indexed by Cohen's d. BF: Bayes Factors -- we modeled the distribution of true effect sizes under H1 as a half-normal distribution with an SD of 15 percent (see main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
   kable_styling(latex_options = c("scale_down")) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
