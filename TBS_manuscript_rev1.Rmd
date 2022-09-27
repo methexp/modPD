@@ -34,9 +34,9 @@ draft             : no
 documentclass     : "apa6"
 classoption       : "jou"
 output            : 
-  papaja::apa6_pdf:
-    number_sections: false
   papaja::apa6_word:
+    number_sections: false
+  papaja::apa6_pdf:
     number_sections: false
 authornote: |
   Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jeremy Bena, and Adrien Mierop, UCLouvain.
@@ -106,7 +106,7 @@ Alternatively, if participants cannot remember the valence of the US, they have 
 Participants thus perform a two-stage decision within a single task. 
 First, they decide whether they remember US valence or not. The outcome of this decision determines how to proceed in the second stage—report the memory judgment from the first stage (if they remember US valence) or perform and report an attitude judgment (if they don’t remember US valence). 
 Using multinomial processing modelling, these procedures found a small but significantly above-zero estimate for a parameter that was interpreted as indicative of US-consistent evaluations without conscious CS-US pairing memory. 
-As classically achieved in Process Dissociation procedures [@jacoby_process_1991; for review see @yonelinas_processdissociation_2012], this was done by comparing response frequencies in conditions where attitudes towards the CSs and memory for their paired US valence operated synergistically (inclusion condition) versus antagonistically (exclusion condition).
+As classically achieved in Process Dissociation procedures [@jacoby_process_1991; for review see @yonelinas_process-dissociation_2012], this was done by comparing response frequencies in conditions where attitudes towards the CSs and memory for their paired US valence operated synergistically (inclusion condition) versus antagonistically (exclusion condition).
 	
 Both per-item and process dissociation procedures have delivered valuable insights in evaluative learning research. 
 These procedures, however, come with some limitations.
