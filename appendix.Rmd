@@ -1,0 +1,714 @@
+---
+editor_options:
+  chunk_output_type: console
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r appendix_setup, include=FALSE}
+##appendix: generate two tables based on the three experiments
+
+knitr::opts_chunk$set(echo = FALSE,cache=TRUE,message=FALSE,warning=FALSE)
+options(scipen=1, digits=2)
+
+#Load (or install and load) packages
+require(pacman)
+p_load('tidyverse', 'psych', 'effectsize', 'bfrr', 'papaja', 'kableExtra') 
+
+#function to display results from Bayesian analyses conducted with the package bfrr
+printBF_ax <- function(bf){
+  result = paste0(ifelse((bf$BF>999)|(bf$BF<.001), format(bf$BF, scientific=TRUE), format(bf$BF, digits=2)))
+  #print(result) # use for debugging in the console
+  result
+}
+
+printRR_ax <- function(bf){
+  result = paste0("(", bf$RR$sd[1], ", ", bf$RR$sd[2], ")") 
+  #print(result) # use for debugging in the console
+  result
+}
+
+printD_CI_ax <- function(d){
+  result = paste0("(", round(d$CI_low, digits = 2), ", ", round(d$CI_high, digits = 2), ")")
+  #print(result) # use for debugging in the console
+  result
+}
+```
+
+```{r appendix_read_data, include=FALSE}
+#read the datasets we created when analyzing data from Experiments 1, 2, and 3
+dat_tbs1 = readRDS("data/appendix/appendix_exp1_tbs.RDS") #tbs experiment 1
+dat_tbs2 = readRDS("data/appendix/appendix_exp2_tbs.RDS") #tbs experiment 2
+dat_tbs3 = readRDS("data/appendix/appendix_exp3_tbs.RDS") #tbs experiment 3
+dat_vma = readRDS("data/appendix/appendix_exp3_vma.RDS") #vma experiment 3
+dat_3bs = readRDS("data/appendix/appendix_exp3_3ace.RDS") #3ace experiment 3
+```
+
+```{r ax_tbs_count_exp1, include=FALSE}
+#count memory and attitude button responses for each participant
+n_attrib_tbs1 = dat_tbs1 %>%
+  group_by(Subject, pdset, .drop=FALSE) %>% tally()
+colnames(n_attrib_tbs1) = c("subject", "attrib_buttons", "n_attrib_tbs")
+
+n_attrib_tbs1$n_attrib_tbs = as.numeric(n_attrib_tbs1$n_attrib_tbs)
+
+m_prop_Memory1 = mean(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Memory"])
+sd_prop_Memory1 = sd(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Memory"])
+
+m_prop_Attitude1 = mean(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Attitude"])
+sd_prop_Attitude1 = sd(n_attrib_tbs1$n_attrib_tbs[n_attrib_tbs1$attrib_buttons=="Attitude"])
+
+describeBy(n_attrib_tbs1$n_attrib_tbs, n_attrib_tbs1$attrib_buttons)
+```
+
+```{r ax_tbs_correct_proportions_memory_exp1, include=FALSE}
+#proportion correct only for memory buttons in the TBS
+prop_correct_tbs_mem1 = dat_tbs1 %>% filter(pdset == "Memory") %>%
+  group_by(Subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_mem1) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_mem1 = mean(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"])
+sd_acc_mem1 = sd(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"])
+
+#tests
+t_prop_correct_m1 = t.test(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"], mu = 0.5)
+d_prop_correct_m1 = cohens_d(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_memory1 = bfrr(
+  sample_mean = mean(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"])/sqrt(length(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_mem1$prop[prop_correct_tbs_mem1$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_memory1)
+```
+
+```{r ax_tbs_correct_proportions_attitudes_exp1, include=FALSE}
+#proportion correct only for attitude buttons in the TBS
+prop_correct_tbs_att1 = dat_tbs1 %>% filter(pdset == "Attitude") %>%
+  group_by(Subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(Subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_att1) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_att1 = mean(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"])
+sd_acc_att1 = sd(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"])
+
+#tests
+t_prop_correct_a1 = t.test(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"], mu = 0.5)
+d_prop_correct_a1 = cohens_d(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_att1 = bfrr(
+  sample_mean = mean(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"])/sqrt(length(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_att1$prop[prop_correct_tbs_att1$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_att1)
+```
+
+```{r ax_tbs_count_exp2, include=FALSE}
+#count memory and attitude button responses for each participant
+n_attrib_tbs2 = dat_tbs2 %>%
+  group_by(id, pdset, .drop=FALSE) %>% tally()
+colnames(n_attrib_tbs2) = c("subject", "attrib_buttons", "n_attrib_tbs")
+
+n_attrib_tbs2$n_attrib_tbs = as.numeric(n_attrib_tbs2$n_attrib_tbs)
+
+m_prop_Memory2 = mean(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Memory"])
+sd_prop_Memory2 = sd(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Memory"])
+
+m_prop_Attitude2 = mean(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Attitude"])
+sd_prop_Attitude2 = sd(n_attrib_tbs2$n_attrib_tbs[n_attrib_tbs2$attrib_buttons=="Attitude"])
+
+describeBy(n_attrib_tbs2$n_attrib_tbs, n_attrib_tbs2$attrib_buttons)
+```
+
+```{r ax_tbs_correct_proportions_memory_exp2, include=FALSE}
+#proportion correct only for memory buttons in the TBS
+prop_correct_tbs_mem2 = dat_tbs2 %>% filter(pdset == "Memory") %>%
+  group_by(id, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(id) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_mem2) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_mem2 = mean(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"])
+sd_acc_mem2 = sd(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"])
+
+#tests
+t_prop_correct_m2 = t.test(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"], mu = 0.5)
+d_prop_correct_m2 = cohens_d(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_memory2 = bfrr(
+  sample_mean = mean(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"])/sqrt(length(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_mem2$prop[prop_correct_tbs_mem2$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_memory2)
+```
+
+```{r ax_tbs_correct_proportions_attitudes_exp2, include=FALSE}
+#proportion correct only for attitude buttons in the TBS
+prop_correct_tbs_att2 = dat_tbs2 %>% filter(pdset == "Attitude") %>%
+  group_by(id, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(id) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_att2) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_att2 = mean(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"])
+sd_acc_att2 = sd(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"])
+
+#tests
+t_prop_correct_a2 = t.test(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"], mu = 0.5)
+d_prop_correct_a2 = cohens_d(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_att2 = bfrr(
+  sample_mean = mean(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"])/sqrt(length(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_att2$prop[prop_correct_tbs_att2$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_att2)
+```
+
+```{r ax_tbs_count_exp3, include=FALSE}
+#count memory and attitude button responses for each participant
+n_attrib_tbs3 = dat_tbs3 %>%
+  group_by(subject, tbs_button_resp, .drop=FALSE) %>% tally()
+colnames(n_attrib_tbs3) = c("subject", "attrib_buttons", "n_attrib_tbs")
+
+n_attrib_tbs3$n_attrib_tbs = as.numeric(n_attrib_tbs3$n_attrib_tbs)
+
+m_prop_Memory3 = mean(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="memory"])
+sd_prop_Memory3 = sd(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="memory"])
+
+m_prop_Attitude3 = mean(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="attitude"])
+sd_prop_Attitude3 = sd(n_attrib_tbs3$n_attrib_tbs[n_attrib_tbs3$attrib_buttons=="attitude"])
+
+describeBy(n_attrib_tbs3$n_attrib_tbs, n_attrib_tbs3$attrib_buttons)
+```
+
+```{r ax_tbs_correct_proportions_memory_exp3, include=FALSE}
+#proportion correct only for memory buttons in the TBS
+prop_correct_tbs_mem3 = dat_tbs3 %>% filter(tbs_button_resp == "memory") %>%
+  group_by(subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_mem3) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_mem3 = mean(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"])
+sd_acc_mem3 = sd(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"])
+
+#tests
+t_prop_correct_m3 = t.test(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"], mu = 0.5)
+d_prop_correct_m3 = cohens_d(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_memory3 = bfrr(
+  sample_mean = mean(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"])/sqrt(length(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_mem3$prop[prop_correct_tbs_mem3$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_memory3)
+```
+
+```{r ax_tbs_correct_proportions_attitudes_exp3, include=FALSE}
+#proportion correct only for attitude buttons in the TBS
+prop_correct_tbs_att3 = dat_tbs3 %>% filter(tbs_button_resp == "attitude") %>%
+  group_by(subject, tbs_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_tbs_att3) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_att3 = mean(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"])
+sd_acc_att3 = sd(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"])
+
+#tests
+t_prop_correct_a3 = t.test(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"], mu = 0.5)
+d_prop_correct_a3 = cohens_d(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"], mu = .5)
+
+bf_prop_tbs_att3 = bfrr(
+  sample_mean = mean(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"])/sqrt(length(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_tbs_att3$prop[prop_correct_tbs_att3$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_tbs_att3)
+```
+
+```{r ax_vma_count}
+#for each participant, compute the number of each attribution they made in the VMA task
+dat_vma$attrib_buttons = as.factor(dat_vma$attrib_buttons)
+
+n_attrib_vma = dat_vma %>% 
+  group_by(subject, attrib_buttons, .drop=FALSE) %>% tally()
+colnames(n_attrib_vma) = c("subject", "attrib_buttons", "n_attrib_vma")
+
+n_attrib_vma$n_attrib_vma = as.numeric(n_attrib_vma$n_attrib_vma)
+
+m_prop_Memory_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
+sd_prop_Memory_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="memory_attrib_button"])
+
+m_prop_intuition_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
+sd_prop_intuition_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="intuition_feeling_button"])
+
+m_prop_guess_vma = mean(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
+sd_prop_guess_vma = sd(n_attrib_vma$n_attrib_vma[n_attrib_vma$attrib_buttons=="guess_attrib_button"])
+```
+
+```{r ax_vma_correct_proportions_memory, include=FALSE}
+#for each participant, compute the proportion of correct identifications in the VMA
+#meaning, say "positive" if the CS was paired with a positive US, and say "negative if the CS was paired with a negative US
+dat_vma$vma_correct = as.factor(ifelse(substr(dat_vma$response_valence_id, 1, 3) == substr(dat_vma$us_valence, 1, 3), "correct", "incorrect"))
+
+#proportion correct only for memory attributions in the VMA
+prop_correct_vma_mem = dat_vma %>% filter(attrib_buttons == "memory_attrib_button") %>%
+  group_by(subject, vma_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_vma_mem) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_mem_vma = mean(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])
+sd_acc_mem_vma = sd(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])
+
+#tests
+t_prop_vma_m = t.test(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"], mu = 0.5)
+d_prop_vma_m = cohens_d(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"], mu = .5)
+
+bf_prop_memory_vma = bfrr(
+  sample_mean = mean(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])-.5, # mean of the sample minus the test value .5
+  sample_se = sd(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])/sqrt(length(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_vma_mem$prop[prop_correct_vma_mem$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+
+#summary(bf_prop_memory_vma)
+```
+
+```{r ax_vma_correct_proportions_feeling, include=FALSE}
+#proportion correct only for feeling attributions in the VMA
+prop_correct_vma_feel = dat_vma %>% filter(attrib_buttons == "intuition_feeling_button") %>%
+  group_by(subject, vma_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_vma_feel) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_feel_vma = mean(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])
+sd_acc_feel_vma = sd(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])
+
+#tests
+t_prop_vma_f = t.test(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"], mu = 0.5)
+d_prop_vma_f = cohens_d(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"], mu = .5)
+
+bf_prop_feel_vma = bfrr(
+  sample_mean = mean(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])-.5, # mean of the sample minus the test value .5
+  sample_se = sd(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])/sqrt(length(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_vma_feel$prop[prop_correct_vma_feel$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_feel_vma)
+```
+
+```{r ax_vma_correct_proportions_guessing, include=FALSE}
+#proportion correct only for guess attributions in the VMA
+prop_correct_vma_guess = dat_vma %>% filter(attrib_buttons == "guess_attrib_button") %>%
+  group_by(subject, vma_correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_vma_guess) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_guess_vma = mean(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])
+sd_acc_guess_vma = sd(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])
+
+#tests
+t_prop_vma_g = t.test(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"], mu = 0.5)
+d_prop_vma_g = cohens_d(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"], mu = .5)
+
+bf_prop_guess_vma = bfrr(
+  sample_mean = mean(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])-.5, # mean of the sample minus the test value .5
+  sample_se = sd(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])/sqrt(length(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_vma_guess$prop[prop_correct_vma_guess$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_guess_vma)
+```
+
+```{r ax_3ace_count}
+#count memory, feeling, and guess uses
+n_attrib_3bs = dat_3bs %>% 
+  group_by(subject, scales_3BS_state, .drop=FALSE) %>% tally() 
+colnames(n_attrib_3bs) = c("subject", "response_set", "n_attrib")
+
+n_attrib_3bs$n_attrib = as.numeric(n_attrib_3bs$n_attrib)
+
+m_prop_Memory_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="memory_button"])
+sd_prop_Memory_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="memory_button"])
+
+m_prop_intuition_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="intuition_scale"])
+sd_prop_intuition_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="intuition_scale"])
+
+m_prop_guess_3ace = mean(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="guess_scale"])
+sd_prop_guess_3ace = sd(n_attrib_3bs$n_attrib[n_attrib_3bs$response_set=="guess_scale"])
+```
+
+```{r ax_3bs_correct_proportions_memory, include=FALSE}
+#proportion of correct memory attributions
+prop_correct_3bs_mem = dat_3bs %>% filter(scales_3BS_state == "memory_button") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_mem) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_mem_3ace = mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])
+sd_acc_mem_3ace = sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])
+
+#tests
+t_prop_3bs_m = t.test(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_m = cohens_d(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"], mu = .5)
+
+bf_prop_mem_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])/sqrt(length(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_mem_3bs)
+```
+
+```{r ax_3bs_correct_proportions_intuition, include=FALSE}
+#proportion of correct intuition scale uses
+prop_correct_3bs_intuition = dat_3bs %>% filter(scales_3BS_state == "intuition_scale") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_intuition) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_feel_3ace = mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])
+sd_acc_feel_3ace = sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])
+
+#tests
+t_prop_3bs_i = t.test(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_i = cohens_d(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"], mu = .5)
+
+bf_prop_intuition_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])/sqrt(length(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_intuition$prop[prop_correct_3bs_intuition$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_intuition_3bs)
+```
+
+```{r ax_3bs_correct_proportions_guessing, include=FALSE}
+#proportion of correct guess scale uses
+prop_correct_3bs_guess = dat_3bs %>% filter(scales_3BS_state == "guess_scale") %>%
+  group_by(subject, correct, .drop=FALSE) %>% 
+  summarise(n = n()) %>%
+  mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
+
+colnames(prop_correct_3bs_guess) = c("subject", "correct_response", "n_count", "prop")
+
+#descriptive
+m_acc_guess_3ace = mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])
+sd_acc_guess_3ace = sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])
+
+#tests
+t_prop_3bs_g = t.test(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"], mu = 0.5)
+d_prop_3bs_g = cohens_d(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"], mu = .5)
+
+bf_prop_guess_3bs = bfrr(
+  sample_mean = mean(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])-.5, # mean of the sample
+  sample_se = sd(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])/sqrt(length(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"])), # SE of the sample
+  sample_df = length(prop_correct_3bs_guess$prop[prop_correct_3bs_guess$correct_response=="correct"]) - 1, # degrees of freedom
+  model = "normal",
+  mean = 0, 
+  sd = .15, 
+  tail = 1, #one-tailed
+  criterion = 3, 
+  rr_interval = list( # ranges to vary H1 parameters for robustness regions
+    sd = c(0, 2) 
+  )
+)
+#summary(bf_prop_guess_3bs)
+```
+
+```{r ax_tbs_table_exps1_2_3}
+table_appendix_tbs = data.frame(list(
+  `Response.set` = c("Experiment 1", "Memory", "Attitude"
+                     ,"Experiment 2", "Memory", "Attitude"
+                     ,"Experiment 3", "Memory", "Attitude"), 
+  M.prop.responses = c(""
+        , round(m_prop_Memory1, digits=2)
+        , round(m_prop_Attitude1, digits=2)
+        , ""
+        , round(m_prop_Memory2, digits=2)
+        , round(m_prop_Attitude2, digits=2)
+        , ""
+        , round(m_prop_Memory3, digits=2)
+        , round(m_prop_Attitude3, digits=2))
+  ,SD.prop.responses = c(""
+          , round(sd_prop_Memory1, digits=2)
+          , round(sd_prop_Attitude1, digits=2)
+          , ""
+          , round(sd_prop_Memory2, digits=2)
+          , round(sd_prop_Attitude2, digits=2)
+          , ""
+          , round(sd_prop_Memory3, digits=2)
+          , round(sd_prop_Attitude3, digits=2))
+  ,M.valence.accuracy = c(""
+         , round(m_acc_mem1, digits=2)
+         , round(m_acc_att1, digits=2)
+         , ""
+         , round(m_acc_mem2, digits=2)
+         , round(m_acc_att2, digits=2)
+         , ""
+         , round(m_acc_mem3, digits=2)
+         , round(m_acc_att3, digits=2))
+  ,SD.valence.accuracy = c(""
+          , round(sd_acc_mem1, digits=2)
+          , round(sd_acc_att1, digits=2)
+          , ""
+          , round(sd_acc_mem2, digits=2)
+          , round(sd_acc_att2, digits=2)
+          , ""
+          , round(sd_acc_mem3, digits=2)
+          , round(sd_acc_att3, digits=2))
+  ,`t.test` = c(""
+                , gsub("\\$", "", apa_print(t_prop_correct_m1)$statistic)
+                , gsub("\\$", "", apa_print(t_prop_correct_a1)$statistic)
+                , ""
+                , gsub("\\$", "", apa_print(t_prop_correct_m2)$statistic)
+                , gsub("\\$", "", apa_print(t_prop_correct_a2)$statistic)
+                , ""
+                , gsub("\\$", "", apa_print(t_prop_correct_m3)$statistic)
+                , gsub("\\$", "", apa_print(t_prop_correct_a3)$statistic))
+  ,`Cohen.d` = c(""
+                   , round(d_prop_correct_m1$Cohens_d, digits=2)
+                   , round(d_prop_correct_a1$Cohens_d, digits=2)
+                   , ""
+                   , round(d_prop_correct_m2$Cohens_d, digits=2)
+                   , round(d_prop_correct_a1$Cohens_d, digits=2)
+                   , ""
+                   , round(d_prop_correct_m3$Cohens_d, digits=2)
+                   , round(d_prop_correct_a3$Cohens_d, digits=2))
+    ,`Cohen.d.95%CI` = c(""
+                   , printD_CI_ax(d_prop_correct_m1)
+                   , printD_CI_ax(d_prop_correct_a1)
+                   , ""
+                   , printD_CI_ax(d_prop_correct_m2)
+                   , printD_CI_ax(d_prop_correct_a1)
+                   , ""
+                   , printD_CI_ax(d_prop_correct_m3)
+                   , printD_CI_ax(d_prop_correct_a3))
+  ,BF = c(""
+                   , printBF_ax(bf_prop_tbs_memory1)
+                   , printBF_ax(bf_prop_tbs_att1)
+                   , ""
+                   , printBF_ax(bf_prop_tbs_memory2)
+                   , printBF_ax(bf_prop_tbs_att2)
+                   , ""
+                   , printBF_ax(bf_prop_tbs_memory3)
+                   , printBF_ax(bf_prop_tbs_att3))
+  ,`Robustness.Region` = c(""
+                   , printRR_ax(bf_prop_tbs_memory1)
+                   , printRR_ax(bf_prop_tbs_att1)
+                   , ""
+                   , printRR_ax(bf_prop_tbs_memory2)
+                   , printRR_ax(bf_prop_tbs_att2)
+                   , ""
+                   , printRR_ax(bf_prop_tbs_memory3)
+                   , printRR_ax(bf_prop_tbs_att3))
+))
+
+kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in the Two-buttons-sets procedure of each experiment.", label="a1_tbs") %>%
+  add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against the chance level (mu=.5). 'Cohen d 95 CI': 95% Confidence Intervals of the effect sizes indexed by Cohen's d. BF: Bayes Factors -- we modeled the distribution of true effect sizes under H1 as a half-normal distribution with an SD of 15 percent (see main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+```{r ax_table_vma_3ace}
+table_vma_3ace = data.frame(list(
+  Attribution = c("VMA", "Memory", "Intuition", "Random guessing"
+                     ,"3ACE", "Memory", "Feeling", "Random guessing"), 
+  M.prop.responses = c(""
+        , round(m_prop_Memory_vma, digits=2)
+        , round(m_prop_intuition_vma, digits=2)
+        , round(m_prop_guess_vma, digits=2)
+        , ""
+        , round(m_prop_Memory_3ace, digits=2)
+        , round(m_prop_intuition_3ace, digits=2)
+        , round(m_prop_guess_3ace, digits=2))
+  ,SD.prop.responses = c(""
+          , round(sd_prop_Memory_vma, digits=2)
+          , round(sd_prop_intuition_vma, digits=2)
+          , round(sd_prop_guess_vma, digits=2)
+          , ""
+          , round(sd_prop_Memory_3ace, digits=2)
+          , round(sd_prop_intuition_3ace, digits=2)
+          , round(sd_prop_guess_3ace, digits=2))
+  ,M.valence.accuracy = c(""
+        , round(m_acc_mem_vma, digits=2)
+        , round(m_acc_feel_vma, digits=2)
+        , round(m_acc_guess_vma, digits=2)
+        , ""
+        , round(m_acc_mem_vma, digits=2)
+        , round(m_acc_feel_3ace, digits=2)
+        , round(m_acc_guess_3ace, digits=2))
+  ,SD.valence.accuracy = c(""
+        , round(sd_acc_mem_vma, digits=2)
+        , round(sd_acc_feel_vma, digits=2)
+        , round(sd_acc_guess_vma, digits=2)
+        , ""
+        , round(sd_acc_mem_vma, digits=2)
+        , round(sd_acc_feel_3ace, digits=2)
+        , round(sd_acc_guess_3ace, digits=2))
+  ,`t.test` = c(""
+        , gsub("\\$", "", apa_print(t_prop_vma_m)$statistic)
+        , gsub("\\$", "", apa_print(t_prop_vma_f)$statistic)
+        , gsub("\\$", "", apa_print(t_prop_vma_g)$statistic)
+        , ""
+        , gsub("\\$", "", apa_print(t_prop_3bs_m)$statistic)
+        , gsub("\\$", "", apa_print(t_prop_3bs_i)$statistic)
+        , gsub("\\$", "", apa_print(t_prop_3bs_g)$statistic))
+  ,`Cohen.d` = c(""
+        , round(d_prop_vma_m$Cohens_d, digits=2)
+        , round(d_prop_vma_f$Cohens_d, digits=2)
+        , round(d_prop_vma_g$Cohens_d, digits=2)
+        , ""
+        , round(d_prop_3bs_m$Cohens_d, digits=2)
+        , round(d_prop_3bs_i$Cohens_d, digits=2)
+        , round(d_prop_3bs_g$Cohens_d, digits=2))
+  ,`Cohen.d.95%CI` = c(""
+        , printD_CI_ax(d_prop_vma_m)
+        , printD_CI_ax(d_prop_vma_f)
+        , printD_CI_ax(d_prop_vma_g)
+        , ""
+        , printD_CI_ax(d_prop_3bs_m)
+        , printD_CI_ax(d_prop_3bs_i)
+        , printD_CI_ax(d_prop_3bs_g))
+  ,BF = c(""
+        , printBF_ax(bf_prop_memory_vma)
+        , printBF_ax(bf_prop_feel_vma)
+        , printBF_ax(bf_prop_guess_vma)
+        , ""
+        , printBF_ax(bf_prop_mem_3bs)
+        , printBF_ax(bf_prop_intuition_3bs)
+        , printBF_ax(bf_prop_guess_3bs))
+  ,`Robustness.Region` = c(""
+        , printRR_ax(bf_prop_memory_vma)
+        , printRR_ax(bf_prop_feel_vma)
+        , printRR_ax(bf_prop_guess_vma)
+        , ""
+        , printRR_ax(bf_prop_mem_3bs)
+        , printRR_ax(bf_prop_intuition_3bs)
+        , printRR_ax(bf_prop_guess_3bs))
+))
+
+kbl(table_vma_3ace, col.names = gsub("[.]", " ", names(table_vma_3ace)), booktabs=TRUE, align="c", caption="Proportions (and SD) of attributions and of valence memory accuracy (with tests against the chance level) in the Valence Memory with Attributions (VMA) and the Three-attribution, continuous evaluation (3ACE) tasks (Experiment 3).", label="a2_vma_3ace") %>%
+add_footnote("Note. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against the chance level (mu=.5). 'Cohen d 95 CI': 95% Confidence Intervals of the effect sizes indexed by Cohen's d. BF: Bayes Factors -- we modeled the distribution of true effect sizes under H1 as a half-normal distribution with an SD of 15 percent (see main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2). VMA: Valence Memory with Attributions task; 3ACE: Three-Attribution, Continuous Evaluation task.", notation="none") %>%
+  kable_styling(latex_options = c("scale_down")) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
