@@ -598,7 +598,7 @@ table_appendix_tbs = data.frame(list(
                    , ""
                    , printD_CI_ax(d_prop_correct_m3)
                    , printD_CI_ax(d_prop_correct_a3))
-  ,BF = c(""
+  ,`BF(H1)` = c(""
                    , printBF_ax(bf_prop_tbs_memory1)
                    , printBF_ax(bf_prop_tbs_att1)
                    , ""
@@ -618,8 +618,8 @@ table_appendix_tbs = data.frame(list(
                    , printRR_ax(bf_prop_tbs_att3))
 ))
 
-kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in each experiment's Two-buttons-sets procedure.", label="a1_tbs") %>%
-  add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against the chance level (mu=.5). 'Cohen d 95 CI': 95% Confidence Intervals of the effect sizes indexed by Cohen's d. BF: Bayes Factors -- we modeled the distribution of true effect sizes under H1 as a half-normal distribution with an SD of 15 percent (see main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
+kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in each experiment's Two-buttons-sets procedure.", label="a1-tbs") %>%
+  add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. 't-test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). BF(H1): Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
   kable_styling(latex_options = c("scale_down")) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 ```
@@ -660,7 +660,7 @@ table_vma_3ace = data.frame(list(
         , round(sd_acc_mem_vma, digits=2)
         , round(sd_acc_feel_3ace, digits=2)
         , round(sd_acc_guess_3ace, digits=2))
-  ,`t.test` = c(""
+  ,`t-test` = c(""
         , gsub("\\$", "", apa_print(t_prop_vma_m)$statistic)
         , gsub("\\$", "", apa_print(t_prop_vma_f)$statistic)
         , gsub("\\$", "", apa_print(t_prop_vma_g)$statistic)
@@ -684,7 +684,7 @@ table_vma_3ace = data.frame(list(
         , printD_CI_ax(d_prop_3bs_m)
         , printD_CI_ax(d_prop_3bs_i)
         , printD_CI_ax(d_prop_3bs_g))
-  ,BF = c(""
+  ,`BF(H1)` = c(""
         , printBF_ax(bf_prop_memory_vma)
         , printBF_ax(bf_prop_feel_vma)
         , printBF_ax(bf_prop_guess_vma)
@@ -702,8 +702,8 @@ table_vma_3ace = data.frame(list(
         , printRR_ax(bf_prop_guess_3bs))
 ))
 
-kbl(table_vma_3ace, col.names = gsub("[.]", " ", names(table_vma_3ace)), booktabs=TRUE, align="c", caption="Proportions (and SD) of attributions and of valence memory accuracy (with tests against the chance level) in the Valence Memory with Attributions (VMA) and the Three-attribution, continuous evaluation (3ACE) tasks (Experiment 3).", label="a2_vma_3ace") %>%
-add_footnote("Note. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against the chance level (mu=.5). 'Cohen d 95 CI': 95% Confidence Intervals of the effect sizes indexed by Cohen's d. BF: Bayes Factors -- we modeled the distribution of true effect sizes under H1 as a half-normal distribution with an SD of 15 percent (see main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2). VMA: Valence Memory with Attributions task; 3ACE: Three-Attribution, Continuous Evaluation task.", notation="none") %>%
+kbl(table_vma_3ace, col.names = gsub("[.]", " ", names(table_vma_3ace)), booktabs=TRUE, align="c", caption="Proportions (and SD) of attributions and of valence memory accuracy (with tests against the chance level) in the Valence Memory with Attributions (VMA) and the Three-attribution, continuous evaluation (3ACE) tasks (Experiment 3).", label="a2-vma-3ace") %>%
+add_footnote("Note. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). BF(H1): Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2). VMA: Valence Memory with Attributions task; 3ACE: Three-Attribution, Continuous Evaluation task.", notation="none") %>%
   kable_styling(latex_options = c("scale_down")) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 ```

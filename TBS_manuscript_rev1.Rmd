@@ -1,6 +1,6 @@
 ---
-title             : "Introducing a Two Buttons Sets Procedure for the Simultaneous Assessment of Retrieval Awareness and Evaluative Conditioning Effects"
-shorttitle        : "Two Buttons Sets Procedure"
+title             : "Introducing a two-button-sets procedure for advancing the study of memory-independent evaluative conditioning effects"
+shorttitle        : "Two Button Sets Procedure"
 author: 
   - name          : "Christoph Stahl"
     affiliation   : "1"
@@ -34,9 +34,9 @@ draft             : no
 documentclass     : "apa6"
 classoption       : "jou"
 output            : 
-  papaja::apa6_word:
-    number_sections: false
   papaja::apa6_pdf:
+    number_sections: false
+  papaja::apa6_word:
     number_sections: false
 authornote: |
   Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jeremy Bena, and Adrien Mierop, UCLouvain.
