@@ -52,7 +52,7 @@ In the Appendix, we report additional results on the proportions of Memory- and 
 
 ### Evaluative conditioning
 
-To probe for EC effects, pre-post evaluative changes were entered into an ANOVA with all of the experimental factors (Table \@ref(tab:t2ec)).
+To examine EC effects, pre-post evaluative changes were entered into an ANOVA with all of the experimental factors.
 Figures \@ref(fig:ec2face) (face CSs) and \@ref(fig:ec2gogo) (toy CSs) illustrate pre-post evaluative change as a function of CS Valence and US valence.
 
 ```{r ec2face, fig.cap="Pre-post evaluative change as a function of CS Valence and US Valence (face CS material)"}
@@ -342,7 +342,7 @@ bf_prop_tbs_att = bfrr(
 #summary(bf_prop_tbs_att)
 ```
 
-We first investigated the effect of manipulated variables on the proportion of Memory-set responses.
+We first investigated effects of the manipulated variables on the proportion of Memory-set responses.
 We expected (and found) the memory manipulation to be reflected in a higher proportion of Memory-set responses for paired target CSs as compared to non-paired foil stimuli:
 The majority of paired CSs (60%) were judged 'remembered' (i.e., received Memory-set responses); only a minority (15%) of nonpaired foils was also falsely 'remembered' as having been paired with a US.
 ^[In addition to confirming the effect of the memory manipulation, 
@@ -377,7 +377,7 @@ Additional (smaller) effects were obtained for CS Valence, `r  apa_print(x2pM)$f
 Next, Attitude-set judgments for paired CSs were analyzed, with a particular focus on whether or not they are influenced by US valence in a similar manner as were Memory-set judgments.
 However, as reflected in the bottom-left quadrant of Table 2, those CSs were not evaluated in accordance with US valence.
 In a logistic regression, only a CS Valence effect on these judgments was found, `r  apa_print(x2pA)$full_result$CS_Valence_L` (with initially pleasant CSs more likely judged pleasant). 
-Importantly, replicating the absence of an EC-without-memory effect, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
+Importantly, replicating the absence of an EC effect in the absence of feelings of US valence recollection, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
 <!-- (z=.13, p=.9). -->
 
 As in Experiment 1, we additionally computed a BF on the proportions of responses in line with US Valence for paired neutral CSs that received an Attitude-set judgment.
@@ -396,5 +396,5 @@ Participants consistently reported the attitude corresponding to their pre-study
 Besides this strong effect of CS Valence, the logistic regression analysis did not yield other significant predictors.
 
 In sum, responses on the TBS task again appropriately reflected the memory and attitude manipulations.
-We replicated the absence of EC without memory (i.e., the effect of US Valence was limited to Memory-set responses).
+We replicated the absence of EC effects when participants reported that they could not recollect the valence of the US that was paired with a given CS (i.e., the effect of US Valence was limited to Memory-set responses).
 We also replicated the attitude-as-information bias (i.e., the effect of CS Valence on Memory-set responses), which was now obtained not only for nonpaired foils but also for paired CSs.
