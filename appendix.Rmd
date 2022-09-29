@@ -19,18 +19,25 @@ p_load('tidyverse', 'psych', 'effectsize', 'bfrr', 'papaja', 'kableExtra')
 #function to display results from Bayesian analyses conducted with the package bfrr
 printBF_ax <- function(bf){
   result = paste0(ifelse((bf$BF>999)|(bf$BF<.001), format(bf$BF, scientific=TRUE), format(bf$BF, digits=2)))
+  result_RR <- paste0(result, " (", bf$RR$sd[1], ", ", bf$RR$sd[2], ")" ) 
   #print(result) # use for debugging in the console
-  result
+  result_RR
 }
 
-printRR_ax <- function(bf){
-  result = paste0("(", bf$RR$sd[1], ", ", bf$RR$sd[2], ")") 
-  #print(result) # use for debugging in the console
-  result
-}
+# printBF_ax <- function(bf){
+#   result = paste0(ifelse((bf$BF>999)|(bf$BF<.001), format(bf$BF, scientific=TRUE), format(bf$BF, digits=2)))
+#   #print(result) # use for debugging in the console
+#   result
+# }
 
-printD_CI_ax <- function(d){
-  result = paste0("(", round(d$CI_low, digits = 2), ", ", round(d$CI_high, digits = 2), ")")
+# printRR_ax <- function(bf){
+#   result = paste0("(", bf$RR$sd[1], ", ", bf$RR$sd[2], ")") 
+#   #print(result) # use for debugging in the console
+#   result
+# }
+
+printD_ax <- function(d){
+  result = paste0(round(d$Cohens_d, digits = 2), " (", round(d$CI_low, digits = 2), ", ", round(d$CI_high, digits = 2), ")")
   #print(result) # use for debugging in the console
   result
 }
@@ -535,42 +542,24 @@ table_appendix_tbs = data.frame(list(
   `Response.set` = c("Experiment 1", "Memory", "Attitude"
                      ,"Experiment 2", "Memory", "Attitude"
                      ,"Experiment 3", "Memory", "Attitude"), 
-  M.prop.responses = c(""
-        , round(m_prop_Memory1, digits=2)
-        , round(m_prop_Attitude1, digits=2)
+   `Proportion of responses` = c(""
+        , paste0(round(m_prop_Memory1, digits=2), " (", round(sd_prop_Memory1, digits=2), ")")
+        , paste0(round(m_prop_Attitude1, digits=2), " (", round(sd_prop_Attitude1, digits=2), ")")
         , ""
-        , round(m_prop_Memory2, digits=2)
-        , round(m_prop_Attitude2, digits=2)
+        , paste0(round(m_prop_Memory2, digits=2), " (", round(sd_prop_Memory2, digits=2), ")")
+        , paste0(round(m_prop_Attitude2, digits=2), " (", round(sd_prop_Attitude2, digits=2), ")")
         , ""
-        , round(m_prop_Memory3, digits=2)
-        , round(m_prop_Attitude3, digits=2))
-  ,SD.prop.responses = c(""
-          , round(sd_prop_Memory1, digits=2)
-          , round(sd_prop_Attitude1, digits=2)
-          , ""
-          , round(sd_prop_Memory2, digits=2)
-          , round(sd_prop_Attitude2, digits=2)
-          , ""
-          , round(sd_prop_Memory3, digits=2)
-          , round(sd_prop_Attitude3, digits=2))
-  ,M.valence.accuracy = c(""
-         , round(m_acc_mem1, digits=2)
-         , round(m_acc_att1, digits=2)
+        , paste0(round(m_prop_Memory3, digits=2), " (", round(sd_prop_Memory3, digits=2), ")")
+        , paste0(round(m_prop_Attitude3, digits=2), " (", round(sd_prop_Attitude3, digits=2), ")"))
+  ,`Valence memory accuracy` = c(""
+         , paste0(round(m_acc_mem1, digits=2), " (", round(sd_acc_mem1, digits=2), ")")
+         , paste0(round(m_acc_att1, digits=2), " (", round(sd_acc_att1, digits=2), ")")
          , ""
-         , round(m_acc_mem2, digits=2)
-         , round(m_acc_att2, digits=2)
+         , paste0(round(m_acc_mem2, digits=2), " (", round(sd_acc_mem2, digits=2), ")")
+         , paste0(round(m_acc_att2, digits=2), " (", round(sd_acc_att2, digits=2), ")")
          , ""
-         , round(m_acc_mem3, digits=2)
-         , round(m_acc_att3, digits=2))
-  ,SD.valence.accuracy = c(""
-          , round(sd_acc_mem1, digits=2)
-          , round(sd_acc_att1, digits=2)
-          , ""
-          , round(sd_acc_mem2, digits=2)
-          , round(sd_acc_att2, digits=2)
-          , ""
-          , round(sd_acc_mem3, digits=2)
-          , round(sd_acc_att3, digits=2))
+         , paste0(round(m_acc_mem3, digits=2), " (", round(sd_acc_mem3, digits=2), ")")
+         , paste0(round(m_acc_att3, digits=3), " (", round(sd_acc_att3, digits=2), ")"))
   ,`t.test` = c(""
                 , gsub("\\$", "", apa_print(t_prop_correct_m1)$statistic)
                 , gsub("\\$", "", apa_print(t_prop_correct_a1)$statistic)
@@ -580,25 +569,16 @@ table_appendix_tbs = data.frame(list(
                 , ""
                 , gsub("\\$", "", apa_print(t_prop_correct_m3)$statistic)
                 , gsub("\\$", "", apa_print(t_prop_correct_a3)$statistic))
-  ,`Cohen.d` = c(""
-                   , round(d_prop_correct_m1$Cohens_d, digits=2)
-                   , round(d_prop_correct_a1$Cohens_d, digits=2)
+  ,`Cohen.d (95% CI)` = c(""
+                   , printD_ax(d_prop_correct_m1)
+                   , printD_ax(d_prop_correct_a1)
                    , ""
-                   , round(d_prop_correct_m2$Cohens_d, digits=2)
-                   , round(d_prop_correct_a1$Cohens_d, digits=2)
+                   , printD_ax(d_prop_correct_m2)
+                   , printD_ax(d_prop_correct_a2)
                    , ""
-                   , round(d_prop_correct_m3$Cohens_d, digits=2)
-                   , round(d_prop_correct_a3$Cohens_d, digits=2))
-    ,`Cohen.d.95%CI` = c(""
-                   , printD_CI_ax(d_prop_correct_m1)
-                   , printD_CI_ax(d_prop_correct_a1)
-                   , ""
-                   , printD_CI_ax(d_prop_correct_m2)
-                   , printD_CI_ax(d_prop_correct_a1)
-                   , ""
-                   , printD_CI_ax(d_prop_correct_m3)
-                   , printD_CI_ax(d_prop_correct_a3))
-  ,`BF(H1)` = c(""
+                   , printD_ax(d_prop_correct_m3)
+                   , printD_ax(d_prop_correct_a3))
+  ,`BF(H1) (Robustness Region)` = c(""
                    , printBF_ax(bf_prop_tbs_memory1)
                    , printBF_ax(bf_prop_tbs_att1)
                    , ""
@@ -607,19 +587,10 @@ table_appendix_tbs = data.frame(list(
                    , ""
                    , printBF_ax(bf_prop_tbs_memory3)
                    , printBF_ax(bf_prop_tbs_att3))
-  ,`Robustness.Region` = c(""
-                   , printRR_ax(bf_prop_tbs_memory1)
-                   , printRR_ax(bf_prop_tbs_att1)
-                   , ""
-                   , printRR_ax(bf_prop_tbs_memory2)
-                   , printRR_ax(bf_prop_tbs_att2)
-                   , ""
-                   , printRR_ax(bf_prop_tbs_memory3)
-                   , printRR_ax(bf_prop_tbs_att3))
 ))
 
-kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)), booktabs=TRUE, align="c", caption="Proportions of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in each experiment's Two-buttons-sets procedure.", label="a1-tbs") %>%
-  add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. 't-test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). BF(H1): Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
+kbl(table_appendix_tbs, booktabs=TRUE, align="c", caption="Mean proportions (and SD) of Memory and Attitude-set responses and of valence memory accuracy (with tests against the chance level) in each experiment's Two-buttons-sets procedure.", label="a1-tbs", col.names = c("Experiment/ Response set", "Proportion of responses", "Valence memory accuracy", "t test", "Cohen's d (95% CI)", "BF(H1) (Robustness Region)")) %>%
+  add_footnote("Note. In Experiments 1 and 2, the analyses were performed only on the responses to the paired neutral conditioned stimuli. `t-test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). `BF(H1)': Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). `Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2).", notation="none") %>%
   kable_styling(latex_options = c("scale_down")) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 ```
@@ -628,38 +599,22 @@ kbl(table_appendix_tbs, col.names = gsub("[.]", " ", names(table_appendix_tbs)),
 table_vma_3ace = data.frame(list(
   Attribution = c("VMA", "Memory", "Intuition", "Random guessing"
                      ,"3ACE", "Memory", "Feeling", "Random guessing"), 
-  M.prop.responses = c(""
-        , round(m_prop_Memory_vma, digits=2)
-        , round(m_prop_intuition_vma, digits=2)
-        , round(m_prop_guess_vma, digits=2)
+  `Proportion of responses` = c(""
+        , paste0(round(m_prop_Memory_vma, digits=2), " (", round(sd_prop_Memory_vma, digits=2), ")")
+        , paste0(round(m_prop_intuition_vma, digits=2), " (", round(sd_prop_intuition_vma, digits=2), ")")
+        , paste0(round(m_prop_guess_vma, digits=2), " (", round(sd_prop_guess_vma, digits=2), ")")
         , ""
-        , round(m_prop_Memory_3ace, digits=2)
-        , round(m_prop_intuition_3ace, digits=2)
-        , round(m_prop_guess_3ace, digits=2))
-  ,SD.prop.responses = c(""
-          , round(sd_prop_Memory_vma, digits=2)
-          , round(sd_prop_intuition_vma, digits=2)
-          , round(sd_prop_guess_vma, digits=2)
-          , ""
-          , round(sd_prop_Memory_3ace, digits=2)
-          , round(sd_prop_intuition_3ace, digits=2)
-          , round(sd_prop_guess_3ace, digits=2))
-  ,M.valence.accuracy = c(""
-        , round(m_acc_mem_vma, digits=2)
-        , round(m_acc_feel_vma, digits=2)
-        , round(m_acc_guess_vma, digits=2)
+        , paste0(round(m_prop_Memory_3ace, digits=2), " (", round(sd_prop_Memory_3ace, digits=2), ")")
+        , paste0(round(m_prop_intuition_3ace, digits=2), " (", round(sd_prop_intuition_3ace, digits=2), ")")
+        , paste0(round(m_prop_guess_3ace, digits=2), " (", round(sd_prop_guess_3ace, digits=2), ")"))
+  ,`Valence memory accuracy` = c(""
+        , paste0(round(m_acc_mem_vma, digits=2), " (", round(sd_acc_mem_vma, digits=2), ")")
+        , paste0(round(m_acc_feel_vma, digits=2), " (", round(sd_acc_feel_vma, digits=2), ")")
+        , paste0(round(m_acc_guess_vma, digits=2), " (", round(sd_acc_guess_vma, digits=2), ")")
         , ""
-        , round(m_acc_mem_vma, digits=2)
-        , round(m_acc_feel_3ace, digits=2)
-        , round(m_acc_guess_3ace, digits=2))
-  ,SD.valence.accuracy = c(""
-        , round(sd_acc_mem_vma, digits=2)
-        , round(sd_acc_feel_vma, digits=2)
-        , round(sd_acc_guess_vma, digits=2)
-        , ""
-        , round(sd_acc_mem_vma, digits=2)
-        , round(sd_acc_feel_3ace, digits=2)
-        , round(sd_acc_guess_3ace, digits=2))
+        , paste0(round(m_acc_mem_3ace, digits=2), " (", round(sd_acc_mem_3ace, digits=2), ")")
+        , paste0(round(m_acc_feel_3ace, digits=2), " (", round(sd_acc_feel_3ace, digits=2), ")")
+        , paste0(round(m_acc_guess_3ace, digits=2), " (", round(sd_acc_guess_3ace, digits=2), ")"))
   ,`t-test` = c(""
         , gsub("\\$", "", apa_print(t_prop_vma_m)$statistic)
         , gsub("\\$", "", apa_print(t_prop_vma_f)$statistic)
@@ -668,23 +623,15 @@ table_vma_3ace = data.frame(list(
         , gsub("\\$", "", apa_print(t_prop_3bs_m)$statistic)
         , gsub("\\$", "", apa_print(t_prop_3bs_i)$statistic)
         , gsub("\\$", "", apa_print(t_prop_3bs_g)$statistic))
-  ,`Cohen.d` = c(""
-        , round(d_prop_vma_m$Cohens_d, digits=2)
-        , round(d_prop_vma_f$Cohens_d, digits=2)
-        , round(d_prop_vma_g$Cohens_d, digits=2)
+  ,`Cohen.d (95% CI)` = c(""
+        , printD_ax(d_prop_vma_m)
+        , printD_ax(d_prop_vma_f)
+        , printD_ax(d_prop_vma_g)
         , ""
-        , round(d_prop_3bs_m$Cohens_d, digits=2)
-        , round(d_prop_3bs_i$Cohens_d, digits=2)
-        , round(d_prop_3bs_g$Cohens_d, digits=2))
-  ,`Cohen.d.95%CI` = c(""
-        , printD_CI_ax(d_prop_vma_m)
-        , printD_CI_ax(d_prop_vma_f)
-        , printD_CI_ax(d_prop_vma_g)
-        , ""
-        , printD_CI_ax(d_prop_3bs_m)
-        , printD_CI_ax(d_prop_3bs_i)
-        , printD_CI_ax(d_prop_3bs_g))
-  ,`BF(H1)` = c(""
+        , printD_ax(d_prop_3bs_m)
+        , printD_ax(d_prop_3bs_i)
+        , printD_ax(d_prop_3bs_g))
+  ,`BF(H1) (Robustness Region)` = c(""
         , printBF_ax(bf_prop_memory_vma)
         , printBF_ax(bf_prop_feel_vma)
         , printBF_ax(bf_prop_guess_vma)
@@ -692,18 +639,10 @@ table_vma_3ace = data.frame(list(
         , printBF_ax(bf_prop_mem_3bs)
         , printBF_ax(bf_prop_intuition_3bs)
         , printBF_ax(bf_prop_guess_3bs))
-  ,`Robustness.Region` = c(""
-        , printRR_ax(bf_prop_memory_vma)
-        , printRR_ax(bf_prop_feel_vma)
-        , printRR_ax(bf_prop_guess_vma)
-        , ""
-        , printRR_ax(bf_prop_mem_3bs)
-        , printRR_ax(bf_prop_intuition_3bs)
-        , printRR_ax(bf_prop_guess_3bs))
 ))
 
-kbl(table_vma_3ace, col.names = gsub("[.]", " ", names(table_vma_3ace)), booktabs=TRUE, align="c", caption="Proportions (and SD) of attributions and of valence memory accuracy (with tests against the chance level) in the Valence Memory with Attributions (VMA) and the Three-attribution, continuous evaluation (3ACE) tasks (Experiment 3).", label="a2-vma-3ace") %>%
-add_footnote("Note. 't test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). BF(H1): Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). 'Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2). VMA: Valence Memory with Attributions task; 3ACE: Three-Attribution, Continuous Evaluation task.", notation="none") %>%
+kbl(table_vma_3ace, booktabs=TRUE, align="c", caption="Mean proportions (and SD) of attributions and of valence memory accuracy (with tests against the chance level) in the Valence Memory with Attributions (VMA) and the Three-attribution, continuous evaluation (3ACE) tasks (Experiment 3).", label="a2-vma-3ace", col.names = c("Task/ Attribution", "Proportion of responses", "Valence memory accuracy", "t test", "Cohen's d (95% CI)", "BF(H1) (Robustness Region)")) %>%
+  add_footnote("Note. `t test': two-tailed one-sample t-tests on the proportions of correct valence responses against chance level (.5). `BF(H1)': Bayes Factor quantifying the support for the H1 (modelled as a half-normal distribution with an SD of 15 percent; see also main text). `Robustness Region': range of SDs of the H1 distribution that support the same conclusion as the reported BF (in the analyses, max SD = 2). `VMA': Valence Memory with Attributions task; `3ACE': Three-Attribution, Continuous Evaluation task.", notation="none") %>%
   kable_styling(latex_options = c("scale_down")) %>%
   collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
 ```
