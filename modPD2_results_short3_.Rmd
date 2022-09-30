@@ -13,8 +13,8 @@ knitr::opts_chunk$set(echo = FALSE,cache=TRUE,message=FALSE,warning=FALSE)
 options(scipen=1, digits=2)
 
 library("papaja")
-library(kableExtra)
-library(stringr)
+#library(kableExtra)
+#library(stringr)
 library(afex)
 library(bfrr)
 library(dplyr)
@@ -75,6 +75,7 @@ apa_beeplot(data=subset(d2, Material=="gogos"), id="id", dv="Evaluative change",
 ```{r ec2}
 
 ec2 <- aov_ez(data=d2, id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction","Material"))
+ec2_ <- apa_print(ec2)
 
 ec2p <- aov_ez(data=subset(d2, US_Valence!="negative"), id="id", dv="ec", within=c("CS_Valence","US_Valence"), between=c("Instruction","Material"))
 ## neutral-positive: F=64, p<.001, eta=.092, keine Interaktion mit Material
@@ -111,13 +112,13 @@ d2Ag <- subset(d2MA, pdset=="Attitude" & Material=="gogos")
 ```
 
 
-We found robust US valence effects, `r apa_print(ec2)$full_result$US_Valence`.
+We found robust US valence effects, `r ec2_$full_result$US_Valence`.
 Compared with nonpaired stimuli, pairing with pleasant USs clearly increased liking, `r apa_print(ec2p)$full_result$US_Valence`, whereas the reduction by unpleasant USs was considerably smaller,  `r apa_print(ec2n)$full_result$US_Valence`.
 
-We also found a strong regression-to-the-mean artifact for pre-experimentally valent CSs (i.e., CSs selected because they were initially most negative were later evaluated more positively; and vice versa), `r apa_print(ec2)$full_result$CS_Valence`.
-Interactions with Material indicated that both effects were stronger for toy figures than faces (CS Valence: `r apa_print(ec2)$full_result$Material_CS_Valence`; US Valence: `r apa_print(ec2)$full_result$Material_US_Valence`).
+We also found a strong regression-to-the-mean artifact for pre-experimentally valent CSs (i.e., CSs selected because they were initially most negative were later evaluated more positively; and vice versa), `r ec2_$full_result$CS_Valence`.
+Interactions with Material indicated that both effects were stronger for toy figures than faces (CS Valence: `r ec2_$full_result$Material_CS_Valence`; US Valence: `r ec2_$full_result$Material_US_Valence`).
 While the increase in liking was found for both materials (faces: `r apa_print(ec2pf)$full_result$US_Valence`, toys: `r apa_print(ec2pg)$full_result$US_Valence`), the reduction by unpleasant USs was limited to toy figures, `r apa_print(ec2ng)$full_result$US_Valence`, and absent from faces `r apa_print(ec2nf)$full_result$US_Valence`.
-Interestingly, the US valence effect was not modified by CS valence, `r apa_print(ec2)$full_result$CS_Valence_US_Valence`: 
+Interestingly, the US valence effect was not modified by CS valence, `r ec2_$statistic$CS_Valence_US_Valence`: 
 In contrast to the widespread notion that EC works best for neutral CSs, the EC effect was of the same magnitude for valent and neutral CSs.
 ^[It could be argued that unfamiliar toy figures are more neutral than human faces, and so the larger EC effect for the toys could be taken to support that notion, albeit applied to classes of materials varied between participants, not variations between CSs within participants.]
 <!-- As another unexpected finding, the EC effect for faces was restricted to positive USs; there was no difference in evaluations between face CSs paired with negative USs and those not paired at all (this was not the case for the toy figures). -->

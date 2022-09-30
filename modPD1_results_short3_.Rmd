@@ -11,9 +11,9 @@ output:
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
 options(scipen=1, digits=2)
 
-library("papaja")
-library(kableExtra)
-library(stringr)
+#library("papaja")
+#library(kableExtra)
+#library(stringr)
 library(afex)
 library(bfrr)
 library(dplyr)

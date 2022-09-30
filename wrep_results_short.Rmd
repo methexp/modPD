@@ -14,8 +14,7 @@ options(scipen=1, digits=2)
 
 #Load (or install and load) packages
 require(pacman)
-p_load('tidyverse', 'psych', 'effectsize', 'afex', 'lme4', 'lmerTest', 'effects', 'sjstats', 'sjPlot', 'ggeffects', 'bfrr', 'papaja', 'kableExtra', 'BayesFactor') 
-set_sum_contrasts()
+p_load('tidyverse', 'psych', 'effectsize', 'afex', 'bfrr', 'papaja', 'kableExtra') 
 
 #function to display results from Bayesian analyses conducted with the package bfrr
 printBFRR <- function(bf, RR=TRUE){
@@ -984,6 +983,23 @@ dat_3bs$correct[dat_3bs$scales_3BS_state=="guess_scale"] = ifelse(substr(dat_3bs
 dat_3bs$correct = as.factor(dat_3bs$correct)
 
 #saveRDS(dat_3bs, "data/appendix/appendix_exp3_3ace.RDS")
+
+#compute the difference between pre- and post-ratings for each CS in the 3ACE task
+dat_eval_change_intuition = subset(dat_3bs, scales_3BS_state=="intuition_scale") %>%
+  group_by(subject, c, u, scales_3BS_state, us_valence) %>%
+  summarise(eval_change_score_3bs_intuition = scale_3bs_intuition - scale_prerating)
+
+dat_eval_change_guess = subset(dat_3bs, scales_3BS_state=="guess_scale") %>%
+  group_by(subject, c, u, scales_3BS_state, us_valence) %>%
+  summarise(eval_change_score_3bs_guess = scale_3bs_guess - scale_prerating)
+
+#for analyses with intuition and guessing grouped together, create another dataset
+dat_intui_guess = full_join(dat_eval_change_intuition, dat_eval_change_guess
+                , by = c("subject"="subject", "scales_3BS_state"="scales_3BS_state",
+                         "us_valence"="us_valence", "c"="c", "u"="u")) 
+
+#put scores into the same column
+dat_intui_guess$eval_change_score_3bs_intuition_guess = coalesce(dat_intui_guess$eval_change_score_3bs_intuition, dat_intui_guess$eval_change_score_3bs_guess)
 ```
 
 ```{r 3bs_correct_proportions_overall, include=FALSE}
@@ -1026,9 +1042,6 @@ prop_correct_3bs_mem = dat_3bs %>% filter(scales_3BS_state == "memory_button") %
   mutate(freq = n / sum(n)) %>% group_by(subject) %>% filter(!is.nan(freq))
 
 colnames(prop_correct_3bs_mem) = c("subject", "correct_response", "n_count", "prop")
-
-#at the aggregated level
-knitr::kable(describe(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"]), digits=2)
 
 #tests
 t_prop_3bs_m = t.test(prop_correct_3bs_mem$prop[prop_correct_3bs_mem$correct_response=="correct"], mu = 0.5)
@@ -1126,30 +1139,6 @@ bf_prop_guess_3bs = bfrr(
 
 ```
 
-
-```{r prepare_tbs_plot, include=FALSE}
-dat_3bs$attrib_plot = as.factor(recode(dat_3bs$scales_3BS_state, "guess_scale"="random guessing"
-       ,"intuition_scale"="intuition"
-       ,"memory_button"="memory"))
-
-dat_3bs$attrib_plot = fct_relevel(dat_3bs$attrib_plot, "memory", "intuition", "random guessing")
-
-dat_3bs_plot = dat_3bs %>%
-  group_by(subject, us_valence, attrib_plot) %>%
-  summarise(mean_eval_change = mean(eval_change_score)) 
-
-dat_3bs_plot_wide = dat_3bs_plot %>% pivot_wider(names_from = us_valence
-                                                 ,values_from = mean_eval_change)
-
-dat_3bs_plot_wide$EC_score = dat_3bs_plot_wide$positive - dat_3bs_plot_wide$negative
-```
-
-```{r overall_3BS_figure,  eval=FALSE, fig.cap="Difference between evaluative change scores for CS+ and CS- (EC scores) as a function of Response set (3ACE Procedure condition)"}
-apa_beeplot(data=dat_3bs_plot_wide, id="subject", dv="EC_score", factors="attrib_plot", intercept =0, use = "all.obs", ylim=c(-225,225)
-            , ylab = '3BS response set/scale'
-            , xlab = 'Evaluative Conditioning effect score')
-```
-
 ```{r 3bs_eval_change_memory, include=FALSE}
 ####
 #EVALUATIVE CHANGE AS A FUNCTION OF VALENCE MEMORY ATTRIBUTIONS IN THE 3BS TASK
@@ -1201,38 +1190,28 @@ bf_ev_memory_3bs = bfrr(
 #summary(bf_ev_memory_3bs)
 ```
 
-```{r 3bseval_change_intuition, include=FALSE}
+```{r 3bseval_change_intuition_3ace_ratings, include=FALSE}
 ##intuition scale
-dat_ev_3bs_intuition = dat_3bs %>%  filter(scales_3BS_state == "intuition_scale") %>%
+dat_ev_3bs_intuition_3ace_ratings = dat_eval_change_intuition %>%
   group_by(subject, us_valence) %>%
-  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+  summarise(mean_eval_change = mean(eval_change_score_3bs_intuition)) %>% filter(n() > 1)
 
-mod_intuition_3bs = aov_ez(dat_ev_3bs_intuition
+mod_intuition_3bs_3ace_ratings = aov_ez(dat_ev_3bs_intuition_3ace_ratings
                                    ,id = "subject"
                                    ,dv = "mean_eval_change"
                                    ,within = "us_valence"
 )
 
-# mod_intuition_3bs_print = apa_print(mod_intuition_3bs)
-# 
-# apa_table(
-#   mod_intuition_3bs_print$table
-#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with an 'Intuition' scale use (3BS procedure)"
-# )
-# 
-# knitr::kable(describeBy(dat_ev_3bs_intuition$mean_eval_change, dat_ev_3bs_intuition$us_valence, mat=TRUE), digits=2)
+dat_ev_3bs_intuition_wide_3ace_ratings = dat_ev_3bs_intuition_3ace_ratings %>% pivot_wider(names_from = "us_valence"
+                     ,values_from = "mean_eval_change")
 
-dat_ev_3bs_intuition_wide = dat_ev_3bs_intuition %>% pivot_wider(names_from = "us_valence"
-                                                                                 ,values_from = "mean_eval_change")
+dat_ev_3bs_intuition_wide_3ace_ratings$diff_overall = dat_ev_3bs_intuition_wide_3ace_ratings$positive-dat_ev_3bs_intuition_wide_3ace_ratings$negative 
+dat_ev_3bs_intuition_wide_3ace_ratings = dat_ev_3bs_intuition_wide_3ace_ratings %>% filter(!is.na(diff_overall))
 
-dat_ev_3bs_intuition_wide$diff_overall = dat_ev_3bs_intuition_wide$positive-dat_ev_3bs_intuition_wide$negative 
-
-dat_ev_3bs_intuition_wide = dat_ev_3bs_intuition_wide %>% filter(!is.na(diff_overall))
-
-bf_ev_intuition_3bs = bfrr(
-  sample_mean = mean(dat_ev_3bs_intuition_wide$diff_overall), # mean of the sample
-  sample_se = sd(dat_ev_3bs_intuition_wide$diff_overall)/sqrt(length(dat_ev_3bs_intuition_wide$diff_overall)), # SE of the sample
-  sample_df = length(dat_ev_3bs_intuition_wide$diff_overall) - 1, # degrees of freedom
+bf_ev_intuition_3bs_3ace_ratings = bfrr(
+  sample_mean = mean(dat_ev_3bs_intuition_wide_3ace_ratings$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_intuition_wide_3ace_ratings$diff_overall)/sqrt(length(dat_ev_3bs_intuition_wide_3ace_ratings$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_intuition_wide_3ace_ratings$diff_overall) - 1, # degrees of freedom
   model = "normal",
   mean = 0, 
   sd = 23.5,
@@ -1244,41 +1223,32 @@ bf_ev_intuition_3bs = bfrr(
   )
 )
 
-# summary(bf_ev_intuition_3bs)
+# summary(bf_ev_intuition_3bs_3ace_ratings)
 ```
 
-```{r 3bs_eval_change_guessing, include=FALSE}
+```{r 3bs_eval_change_guessing_3ace_ratings, include=FALSE}
 ##guess scale
-dat_ev_3bs_guess = dat_3bs %>%  filter(scales_3BS_state == "guess_scale") %>%
+dat_ev_3bs_guess_3ace_ratings = dat_eval_change_guess %>%
   group_by(subject, us_valence) %>%
-  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+  summarise(mean_eval_change = mean(eval_change_score_3bs_guess)) %>% filter(n() > 1)
 
-mod_guess_3bs = aov_ez(dat_ev_3bs_guess
+mod_guess_3bs_3ace_ratings = aov_ez(dat_ev_3bs_guess_3ace_ratings
                                ,id = "subject"
                                ,dv = "mean_eval_change"
                                ,within = "us_valence"
 )
 
-# mod_guess_3bs_print = apa_print(mod_guess_3bs)
-# 
-# apa_table(
-#   mod_guess_3bs_print$table
-#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with a 'Guess' scale use (3BS procedure)"
-# )
-# 
-# knitr::kable(describeBy(dat_ev_3bs_guess$mean_eval_change, dat_ev_3bs_guess$us_valence, mat=TRUE), digits=2)
+dat_ev_3bs_guess_wide_3ace_ratings = dat_ev_3bs_guess_3ace_ratings %>% pivot_wider(names_from = "us_valence"
+            ,values_from = "mean_eval_change")
 
-dat_ev_3bs_guess_wide = dat_ev_3bs_guess %>% pivot_wider(names_from = "us_valence"
-                                                                         ,values_from = "mean_eval_change")
+dat_ev_3bs_guess_wide_3ace_ratings$diff_overall = dat_ev_3bs_guess_wide_3ace_ratings$positive-dat_ev_3bs_guess_wide_3ace_ratings$negative 
 
-dat_ev_3bs_guess_wide$diff_overall = dat_ev_3bs_guess_wide$positive-dat_ev_3bs_guess_wide$negative 
+dat_ev_3bs_guess_wide_3ace_ratings = dat_ev_3bs_guess_wide_3ace_ratings %>% filter(!is.na(diff_overall))
 
-dat_ev_3bs_guess_wide = dat_ev_3bs_guess_wide %>% filter(!is.na(diff_overall))
-
-bf_ev_guess_3bs = bfrr(
-  sample_mean = mean(dat_ev_3bs_guess_wide$diff_overall), # mean of the sample
-  sample_se = sd(dat_ev_3bs_guess_wide$diff_overall)/sqrt(length(dat_ev_3bs_guess_wide$diff_overall)), # SE of the sample
-  sample_df = length(dat_ev_3bs_guess_wide$diff_overall) - 1, # degrees of freedom
+bf_ev_guess_3bs_3ace_ratings = bfrr(
+  sample_mean = mean(dat_ev_3bs_guess_wide_3ace_ratings$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_guess_wide_3ace_ratings$diff_overall)/sqrt(length(dat_ev_3bs_guess_wide_3ace_ratings$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_guess_wide_3ace_ratings$diff_overall) - 1, # degrees of freedom
   model = "normal",
   mean = 0, 
   sd = 23.5,
@@ -1290,47 +1260,32 @@ bf_ev_guess_3bs = bfrr(
   )
 )
 
-# summary(bf_ev_guess_3bs)
+# summary(bf_ev_guess_3bs_3ace_ratings)
 ```
 
-```{r 3bs_eval_change_no_struct_k, include=FALSE}
-#recode intuition and guessing attributions into "no_conscious_s_k"
-dat_3bs = dat_3bs %>% mutate(recode_attrib = as.factor(ifelse(scales_3BS_state=="memory_button", "conscious", "no_conscious_sk")))
-
-#check whether it worked as intended
-table(dat_3bs$scales_3BS_state, dat_3bs$recode_attrib)
-  
+```{r 3bs_eval_change_no_struct_k_3ace_ratings, include=FALSE}
 #for no conscious structural knowledge (intuition and guessing)
-dat_ev_3bs_no_conscious = dat_3bs %>% filter(recode_attrib == "no_conscious_sk") %>%
+dat_ev_3bs_no_conscious_3ace_ratings = dat_intui_guess %>%
   group_by(subject, us_valence) %>%
-  summarise(mean_eval_change = mean(eval_change_score)) %>% filter(n() > 1)
+  summarise(mean_eval_change = mean(eval_change_score_3bs_intuition_guess)) %>% filter(n() > 1)
 
-mod_noc_3bs = aov_ez(dat_ev_3bs_no_conscious
+mod_noc_3bs_3ace_ratings = aov_ez(dat_ev_3bs_no_conscious_3ace_ratings
                                 ,id = "subject"
                                 ,dv = "mean_eval_change"
                                 ,within = "us_valence"
 )
 
-# mod_noc_3bs_print = apa_print(mod_noc_3bs)
-# 
-# apa_table(
-#   mod_noc_3bs_print$table
-#   ,caption = "Repeated-measures ANOVA: Evaluative change scores as a function of US Valence for CSs associated with an 'Intuition' or 'Guess' scale use (3BS procedure)"
-# )
-# 
-# knitr::kable(describeBy(dat_ev_3bs_no_conscious$mean_eval_change, dat_ev_3bs_no_conscious$us_valence, mat=TRUE), digits=2)
+dat_ev_3bs_no_conscious_wide_3ace_ratings = dat_ev_3bs_no_conscious_3ace_ratings %>% pivot_wider(names_from = "us_valence"
+            ,values_from = "mean_eval_change")
 
-dat_ev_3bs_no_conscious_wide = dat_ev_3bs_no_conscious %>% pivot_wider(names_from = "us_valence"
-                                                                           ,values_from = "mean_eval_change")
+dat_ev_3bs_no_conscious_wide_3ace_ratings$diff_overall = dat_ev_3bs_no_conscious_wide_3ace_ratings$positive-dat_ev_3bs_no_conscious_wide_3ace_ratings$negative 
 
-dat_ev_3bs_no_conscious_wide$diff_overall = dat_ev_3bs_no_conscious_wide$positive-dat_ev_3bs_no_conscious_wide$negative 
+dat_ev_3bs_no_conscious_wide_3ace_ratings = dat_ev_3bs_no_conscious_wide_3ace_ratings %>% filter(!is.na(diff_overall))
 
-dat_ev_3bs_no_conscious_wide = dat_ev_3bs_no_conscious_wide %>% filter(!is.na(diff_overall))
-
-bf_ev_no_conscious_3bs = bfrr(
-  sample_mean = mean(dat_ev_3bs_no_conscious_wide$diff_overall), # mean of the sample
-  sample_se = sd(dat_ev_3bs_no_conscious_wide$diff_overall)/sqrt(length(dat_ev_3bs_no_conscious_wide$diff_overall)), # SE of the sample
-  sample_df = length(dat_ev_3bs_no_conscious_wide$diff_overall) - 1, # degrees of freedom
+bf_ev_no_conscious_3bs_3ace_ratings = bfrr(
+  sample_mean = mean(dat_ev_3bs_no_conscious_wide_3ace_ratings$diff_overall), # mean of the sample
+  sample_se = sd(dat_ev_3bs_no_conscious_wide_3ace_ratings$diff_overall)/sqrt(length(dat_ev_3bs_no_conscious_wide_3ace_ratings$diff_overall)), # SE of the sample
+  sample_df = length(dat_ev_3bs_no_conscious_wide_3ace_ratings$diff_overall) - 1, # degrees of freedom
   model = "normal",
   mean = 0, 
   sd = 23.5,
@@ -1342,15 +1297,13 @@ bf_ev_no_conscious_3bs = bfrr(
   )
 )
 
-# summary(bf_ev_no_conscious_3bs)
+# summary(bf_ev_no_conscious_3bs_3ace_ratings)
 ```
 
 <!-- #### EC effects as a function of response set -->
 
-<!-- The main results are displayed in Figure \@ref(fig:overall_3BS_figure).  -->
 <!-- We were interested in whether we find an EC effect when participants reported no memory (random guessing), as in the VMA task.  -->
-The pattern of 3ACE results was very similar to the one we found on the VMA task. 
 We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, `r printBFRR(bf_ev_memory_3bs)`. 
-When participants made a feeling/intuition attribution, the EC effect was not significant, `r apa_print(mod_intuition_3bs)$full_result`; however, the BF was inconclusive, `r printBFRR(bf_ev_intuition_3bs)`. 
-We found no EC effect when participants made a random-guessing attribution, `r apa_print(mod_guess_3bs)$full_result`, and the BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs)`. 
-^[When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and the BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious_3bs)`.]
+When participants made a feeling/intuition attribution, the EC effect was also significant, `r apa_print(mod_intuition_3bs_3ace_ratings)$full_result`, and the BF yielded evidence for an EC effect, `r printBFRR(bf_ev_intuition_3bs_3ace_ratings)`. 
+We found no EC effect when participants made a random-guessing attribution, `r apa_print(mod_guess_3bs_3ace_ratings)$full_result`, and the BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs_3ace_ratings)`. 
+^[When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs_3ace_ratings)$full_result`, but the BF was inconclusive, `r printBFRR(bf_ev_no_conscious_3bs_3ace_ratings)`.]

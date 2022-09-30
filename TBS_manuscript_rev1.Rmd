@@ -1,6 +1,6 @@
 ---
 title             : "A conditional judgment procedure for probing evaluative conditioning effects in the absence of feelings of remembering"
-shorttitle        : "Two Button Sets Procedure"
+shorttitle        : "Two Button Sets Task"
 author: 
   - name          : "Christoph Stahl"
     affiliation   : "1"
@@ -32,11 +32,11 @@ linenumbers       : no
 mask              : no
 draft             : no
 documentclass     : "apa6"
-classoption       : "jou"
+classoption       : "man"
 output            : 
-  papaja::apa6_word:
-    number_sections: false
   papaja::apa6_pdf:
+    number_sections: false
+  papaja::apa6_word:
     number_sections: false
 authornote: |
   Christoph Stahl and Frederik Aust, Department of Psychology. Olivier Corneille, Jérémy Bena, and Adrien Mierop, UCLouvain.
@@ -179,7 +179,7 @@ This makes the modified procedure more efficient and flexible.
 For example, it can be used in within-participant designs that allow for more stringent experimental control as well as higher statistical power. 
 Second, contrary to the per-item task but similar to the original process dissociation procedure, the immediacy criterion is met and the error measurement issue originating from multiple assessments of evaluation and memory is reduced. 
 This is because a single measurement (either for US memory or for CS evaluation) is involved for each individual CS.
-^[Although both of the TBS's questions must be answered by a single response, they may or may not involve only a single unitary memory retrieval operation. In a modeling framework such as MINERVA, it is plausible that a single operation would be sufficient, with the strength of the memory echo informing the Memory-Attitude decision, and the echo's content informing the choice of the pleasant/unpleasant response (for an application to EC, see Aust & Stahl, 2018; Aust, Haaf, & Stahl, 2019). Yet, participants may also approach the task differently, using a two-step approach involving multiple retrieval operations. Future empirical and modeling research is needed to address this question.]
+^[Although both of the TBS's questions must be answered by a single response, they may or may not involve only a single unitary memory retrieval operation. In a modeling framework such as MINERVA, it is plausible that a single operation would be sufficient, with the strength of the memory echo informing the Memory-Attitude decision, and the echo's content informing the choice of the pleasant/unpleasant response [for an application to EC, see @stahl_evaluative_2018; @aust_memory-based_2019). Yet, participants may also approach the task differently, using a two-step approach involving multiple retrieval operations. Future empirical and modeling research is needed to address this question.]
 Third, the CS-level information enables finer-grained analyses and more rigorous tests; most importantly, EC effects can be scrutinized at the item-within-person instead of the group level; hence, the TBS respects the information criterion. 
 
 
@@ -445,9 +445,12 @@ We also counterbalanced the order of post-experimental evaluative ratings and th
 ^[Furthermore, to explore the relation between memory judgments on the different memory tasks, we also varied task type within-subjects:
 Participants completed a second valence-memory task (i.e., participants in the TBS and 3ACE condition completed the VMA task, and participants in the VMA condition completed a TBS task).
 Finally, to explore the accuracy of subjective memory attributions, participants completed a US identity memory task.
-The results of these tasks are not reported in the present paper (as it primarily focuses on the validation of the TBS task); procedural details and results will be reported in an online appendix (osf.io/xxxxx).]
+The results of these tasks are not reported in the present paper (as it primarily focuses on the validation of the TBS task); procedural details and results will be reported elsewhere (see osf.io/ygcz4).]
 
 ## Method
+
+The study was preregistered at osf.io/pducs. 
+Material, data, and analysis scripts are available at osf.io/ygcz4.
 
 ### Participants and Design
 
@@ -486,10 +489,11 @@ Finally, participants were asked whether they paid attention during the learning
 
 ## Discussion
 
-Results were consistent across tasks: 
-Robust EC effects were found for memory attributions; the evidence for or against EC effects was inconclusive for "intuition" attributions; and EC effects were clearly absent for random-guessing/no-memory attributions.
-This pattern of results is in line with those of Experiments 1 and 2, which also found an EC effect only for "remember" but not for "don't remember" attributions.
+Across tasks, robust EC effects were found for Memory-set responses and memory attributions, and EC effects were clearly absent for Attitude-set responses and random-guessing attributions.
+Regarding gut-feeling (or intuition) attributions, results diverged between the Valence Memory Attribution (VMA) task from @waroquier_distinguishing_2020 and the 3ACE task we introduced in Experiment 3: 
+While in the VMA, the evidence for or against an EC effect with gut-feeling attributions was inconclusive, the 3ACE yielded positive evidence for a gut-feeling EC effect. 
 
+This pattern of results is in line with those of Experiments 1 and 2, which also found an EC effect when participants felt they remembered US valence, but not when participants felt they did not remember.
 These results support the robustness of the conclusions derived from the TBS task.
 In particular, the same results are obtained regardless of whether nonpaired and valent stimuli are included in the design or not.
 Note that, with nonpaired and valent items included, the TBS is a much more powerful tool, especially for investigating the attitude-as-information bias and possibly other heuristics.  
@@ -497,6 +501,7 @@ Note that, with nonpaired and valent items included, the TBS is a much more powe
 The present evidence for the absence of EC in the absence of feelings of US valence recollection contrasts with the finding of EC for "random guessing" cases in Waroquier et al.'s (2020) Experiment 2 (both in the immediate and delayed test) as well as in a meta-analysis of their Experiments 1 and 2.
 Given that our study is a close replication of the studies by Waroquier, we can only speculate about the reasons for the discrepancy (i.e., there were differences in participant populations, US stimuli, language of instructions); more research is needed to try to replicate their EC effect for random-guessing attributions and to explain why the current Experiment 3 failed to do so.
 With regard to the "intuition" attributions, our findings are more in line with those by Waroquier et al., who also found inconclusive evidence for these cases (i.e., there was evidence for feeling-based EC in Exp.1, but evidence was inconclusive in the immediate test of Exp.2, and there was evidence for the absence of EC on the delayed test).
+Interestingly, we found an EC effect for "intuition" attributions in the 3ACE task in which attributions and evaluative ratings were collected in a single task (hence better respecting the immediacy criterion than the VMA task).
 To identify the factors underlying a potential "intuitive" or "gut-feeling" EC effect, future research should aim at better understanding the subjective state of gut-feeling attributions, and its relation to similar subjective memory reports (such as "know" judgments that are often associated with familiarity-based or semantic memory retrieval).
 
 
@@ -528,7 +533,7 @@ However, we found here that pre-experimental CS valence
 <!-- For instance, for paired as well as non-paired items, effects of pre-experimental CS Valence on Memory-set responses can be interpreted as attitude-as-information biases.  -->
 <!-- Note, however, that attitude-as-information (i.e., pre-experimental CS valence)  -->
 did not affect participants’ choice of the Memory vs. Attitude response sets. 
-Thus, CS evaluations did not distort subjective decisions about recollection US valence or not. 
+Thus, CS evaluations did not distort subjective decisions about recollecting US valence or not. 
 For paired items, then, effects of US Valence on Memory-set responses may be interpreted as reflecting genuine US valence memory; and effects of US Valence on Attitude responses (if there were any) could be more confidently interpreted as reflecting EC effects in the absence of US valence recollection.
 
 ### Evaluative conditioning and retrieval awareness
@@ -561,6 +566,10 @@ As a final difference, while in the TBS task participants reported their metacog
 With a delay between judgments, their retrieval awareness measure met the immediacy criterion less well than the present TBS task.
 One may, therefore, speculate that their results reflect the addition of noise to the evaluation-awareness relation, which could lead to an artificial "EC without US valence retrieval awareness" pattern.
 Future task developments could move towards a task such as the 3ACE used in Experiment 3 that respects the immediacy criterion, allows for more than two attributions (e.g., that distinguishes not only memory and no-memory states but also allows for intuition attributions), and uses a more sensitive response format (i.e., a continuous rating scale rather than a binary choice).
+
+The finding of an EC effect for gut-feeling attributions in the 3ACE points to the possibility of EC in the absence of feelings of remembering US valence.
+It remains open whether these findings reflect some participants' conservative decision criteria (i.e., a tendency to respond "intuition" for somewhat weaker memory experiences) or a distinct process altogether.
+Clearly, however, this finding (if robust) will be important both for research into the processes underlying evaluative memories as well as for applied research targeting strategies for controlling persuasive influences.
 
 <!-- The present Experiment 3 yields first tentative evidence. -->
 <!-- First, we could not replicate the findings by Waroquier et al. (2020) of an EC effect with "random guessing" attributions; instead, EC was clearly absent for these cases.  -->
@@ -667,7 +676,9 @@ Finally, one should be careful not generalizing the conclusions reached here in 
 The TBS distinguishes between only two different metacognitive states - remembering versus non-remembering; it does not allow participants to distinguish between different states of (not) having memory.
 In particular, several important dissociations have been made in previous research, for instance between remembering versus knowing [@wixted_continuous_2010], or structural versus judgment knowledge [@dienes_measuring_2005]. 
 The TBS task is however easily extended to allow for more fine-grained metacognitive distinctions.
-For instance, an adapted version (such as the 3ACE task piloted in Experiment 3) could offer three attribution options (one each for remembering, gut feeling, and guessing) to more conclusively assess whether the EC-without-memory results obtained by @waroquier_distinguishing_2020 reflect an artifact due to lack of immediacy, or whether their more fine-grained metacognitive distinctions were better able to isolate the relevant cases than the present TBS task.
+For instance, an adapted version (such as the 3ACE task piloted in Experiment 3) could offer three attribution options (one each for remembering, gut feeling, and guessing) to more conclusively assess whether the results obtained by @waroquier_distinguishing_2020 reflect an artifact due to lack of immediacy, or whether their more fine-grained metacognitive distinctions were better able to isolate the relevant cases than the present TBS task.
+The EC effect for gut-feeling/intuition attributions found on the 3ACE (which respects the immediacy criterion better than Waroquier et al.'s task) points to the latter.
+More research is needed to understand better when and why EC effects could be obtained without feelings of remembering.
 
 ### Going beyond the EC-without-retrieval-awareness issue
 
