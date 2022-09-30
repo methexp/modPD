@@ -2,8 +2,6 @@
 title             : "A conditional judgment procedure for probing evaluative conditioning effects in the absence of feelings of remembering"
 shorttitle        : "Two Button Sets Procedure"
 author: 
-  - name          : "Jérémy Bena"
-    affiliation   : "2"
   - name          : "Christoph Stahl"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
@@ -11,6 +9,8 @@ author:
     email         : "christoph.stahl@uni-koeln.de"
   - name          : "Frederik Aust"
     affiliation   : "1"
+  - name          : "Jérémy Bena"
+    affiliation   : "2"
   - name          : "Adrien Mierop"
     affiliation   : "2"
   - name          : "Olivier Corneille"
@@ -239,7 +239,7 @@ To mirror the process-dissociation procedure, in addition to the standard TBS in
 For the sake of conciseness and because these complementary analyses were not directly relevant to our present validation goal, the present article does however not address this issue, and the data from that condition were not included in the analyses reported below.
 Hence we omitted the TBS Exclusion condition and these additional memory measures from the empirical section (the data from these conditions and measures will be reported elsewhere and made available in the OSF repository).
 
-To sum up, the present study is primarily aimed at introducing the TBS and gathering empirical support for its validity for investigating how conscious retrieval relates to EC effects. 
+To sum up, the present study is primarily aimed at introducing the TBS and gathering empirical support for its validity for investigating how conscious retrieval of US valence relates to EC effects. 
 In doing so, this research provides preliminary information about whether EC is found in the absence of conscious retrieval, and information relevant to the attitude-as-information bias. 
 These latter – more theoretical - goals, however, should be considered more secondary in the context of the present study.
 
@@ -426,7 +426,6 @@ To examine this possibility, we ran a third experiment that made use of the simp
 Experiment 3 examines whether EC is found in the absence of conscious US valence recollection, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design that excludes nonpaired and valent stimuli, as typically done in EC studies). 
 In doing so, this experiment provides what may be considered a more liberal (or even fairer) test for EC effects without feelings of US valence recollection. 
 This was done in a first condition.
-
 <!-- This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies. -->
 
 In a second condition, we went beyond this first objective and replicated a study by Waroquier et al. (2020), who reported EC effects when participants indicated that they did not have conscious knowledge about US valence.
