@@ -2,8 +2,6 @@
 title             : "A conditional judgment procedure for probing evaluative conditioning effects in the absence of feelings of remembering"
 shorttitle        : "Two Button Sets Procedure"
 author: 
-  - name          : "Jérémy Bena"
-    affiliation   : "2"
   - name          : "Christoph Stahl"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
@@ -11,6 +9,8 @@ author:
     email         : "christoph.stahl@uni-koeln.de"
   - name          : "Frederik Aust"
     affiliation   : "1"
+  - name          : "Jérémy Bena"
+    affiliation   : "2"
   - name          : "Adrien Mierop"
     affiliation   : "2"
   - name          : "Olivier Corneille"
@@ -154,7 +154,7 @@ As we validate the new procedure we propose here, we will be able to provide ans
 ## Introducing the two-button-sets (TBS) task
 
 
-(ref:task-displays) Screen displays of the per-item valence-memory task (left), the process-dissociation task (center), and the TBS task (right).
+(ref:task-displays) Screen displays of the per-item valence-memory task (left), the process-dissociation task (center, inclusion condition), and the TBS task (right).
 
 ```{r task-displays, fig.cap="(ref:task-displays)", fig.env = "figure*", fig.align='center', out.width="100%"}
 knitr::include_graphics(path="./fig/modPD_task_displays.png")
@@ -239,7 +239,7 @@ To mirror the process-dissociation procedure, in addition to the standard TBS in
 For the sake of conciseness and because these complementary analyses were not directly relevant to our present validation goal, the present article does however not address this issue, and the data from that condition were not included in the analyses reported below.
 Hence we omitted the TBS Exclusion condition and these additional memory measures from the empirical section (the data from these conditions and measures will be reported elsewhere and made available in the OSF repository).
 
-To sum up, the present study is primarily aimed at introducing the TBS and gathering empirical support for its validity for investigating how conscious retrieval relates to EC effects. 
+To sum up, the present study is primarily aimed at introducing the TBS and gathering empirical support for its validity for investigating how conscious retrieval of US valence relates to EC effects. 
 In doing so, this research provides preliminary information about whether EC is found in the absence of conscious retrieval, and information relevant to the attitude-as-information bias. 
 These latter – more theoretical - goals, however, should be considered more secondary in the context of the present study.
 
@@ -263,7 +263,7 @@ To manipulate CS attitudes, the most valent (positive and negative) foil stimuli
 For these stimuli, Attitude-set responses should reflect pre-rated attitudes.
 Figure \@ref(fig:procedure) gives an overview of the experimental procedure.
 
-(ref:procedure-caption) General procedure of Expts. 1 and 2. CS items were pre-rated and then assigned to within-subject conditions. After the learning phase, the TBS task was administered, followed by post-learning ratings.
+(ref:procedure-caption) Illustration of general procedure. CS items were pre-rated and then assigned to within-subject conditions. After the learning phase, the TBS task was administered, followed by post-learning ratings. Exp.3 deviated from this procedure in that one of three valence-memory tasks (TBS, VMA, or 3ACE) was administered, and the order of valence-memory task and post-study evaluative ratings was counterbalanced.
 <!-- and memory measures (US valence and US identity). In Exp.1, US valence memory was assessed using the per-item task (Stahl et al., 2009); in Exp.2, US valence memory was assessed using confidence ratings followed by remember/know/guess judgments. -->
 <!-- Exp. 1 had a 2 x 2 (repeated measures) design: Valence (positive vs. negative) x Pairing (critical/paired vs. control/unpaired). The 24 most neutrally pre-rated face stimuli (for a given participant) were selected as neutral CSs (12 were paired with positive USs, and 12 with negative USs); the 16 most extremely rated ones (8 positive, 8 negative) were used as valenced control CSs. US valence memory was assessed using the per-item task (Stahl et al., 2009). -->
 <!-- Experiment 2 had a 2 (TBS task: present vs. absent) x 2 (material: faces vs. figures) x 2 (US: positive, non-paired, negative) x 3 (CS valence: positive, neutral, negative) design (the last 2 factors were within-subjects). The 24 most neutral and the 18 most valent stimuli (9 positive, 9 negative) were selected (42 in total; CSs: 16 neutral, 6 positive, 6 negative; non-paired foils: 8 neutral, 3 positive, 3 negative). Of the CSs, half of each subset were paired with USs of each valence. A given CS was paired twice with each of 4 different USs of the same valence. US valence memory was assessed using confidence ratings followed by remember/know/guess judgments. -->
@@ -426,7 +426,6 @@ To examine this possibility, we ran a third experiment that made use of the simp
 Experiment 3 examines whether EC is found in the absence of conscious US valence recollection, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design that excludes nonpaired and valent stimuli, as typically done in EC studies). 
 In doing so, this experiment provides what may be considered a more liberal (or even fairer) test for EC effects without feelings of US valence recollection. 
 This was done in a first condition.
-
 <!-- This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies. -->
 
 In a second condition, we went beyond this first objective and replicated a study by Waroquier et al. (2020), who reported EC effects when participants indicated that they did not have conscious knowledge about US valence.
@@ -455,9 +454,8 @@ The results of these tasks are not reported in the present paper (as it primaril
 Participants were randomly assigned to a 3 (valence-memory task: TBS, VMA, 3ACE) x 2 (order: evaluative ratings first vs. valence-memory task first) between-subjects design.
 They were recruited from the lab database (i.e., University of Cologne student population) and were invited to participate either in the lab or via internet.
 As compensation, course credit or an amount of EUR 8 was offered.
-We recruited participants until there were at least 180 participants who had passed the instruction-understanding checks (see also below). 
-Of these 201 participants, 15 were excluded because they failed the seriousness or attention checks (i.e., they either indicated that their data should not be used for scientific purposes, or that they were not able to pay sustained attention during the learning phase); one additional participant with technical problems was excluded. 
-This resulted in a final sample size of 185 participants.
+We recruited participants week by week until there were at least 180 participants who had passed the instruction-understanding, seriousness, and attention checks (see also below); this resulted in a final sample size of 185 participants.
+<!-- Of these 201 participants, 15 were excluded because they failed the seriousness or attention checks (i.e., they either indicated that their data should not be used for scientific purposes, or that they were not able to pay sustained attention during the learning phase); one additional participant with technical problems was excluded.  -->
 
 ### Material
 
@@ -469,7 +467,7 @@ An additional set of 3 US images of the same valence were assigned to each CS to
 ### Procedure
 
 The procedure was similar to the previous studies (with procedural details closely following those from Waroquier et al., 2020).
-After collecting pre-study ratings, the learning phase began, presenting 240 trials in which a CS and a US were shown simultaneously and side by side on the screen for 1500 ms (with a 100 ms ISI).
+After collecting pre-study ratings (on a scale from -200 to +200), the learning phase began, presenting 240 trials in which a CS and a US were shown simultaneously and side by side on the screen for 1500 ms (with a 100 ms ISI).
 Participants were instructed to carefully watch all the stimuli.
 As an attention check, they were also asked to press the space bar as quickly as possible whenever a fixation cross was presented in the center of the screen.
 After the study phase, half of participants first gave post-study ratings of all 40 CSs and then engaged in the valence-memory task (i.e., TBS, VMA, or 3ACE); the other half completed the tasks in the reverse order (i.e., valence-memory task first, ratings second).

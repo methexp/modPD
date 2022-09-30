@@ -20,7 +20,11 @@ set_sum_contrasts()
 #function to display results from Bayesian analyses conducted with the package bfrr
 printBFRR <- function(bf, RR=TRUE){
   result = paste0(" $BF_{H1: ", bf$H1_model, "}=$ ", ifelse((bf$BF>999)|(bf$BF<.001), format(bf$BF, scientific=TRUE), format(bf$BF, digits=2)))
-  if(RR) result <- paste0(result, " (Robustness Region: ", bf$RR$sd[1], ", ", bf$RR$sd[2], ")" ) 
+  if(RR) {
+    steps <- length(bf$rr_data$SD)
+    maxSD <- ifelse(bf$RR$sd[2]==bf$rr_data$SD[steps], "> max", bf$RR$sd[2])
+    result <- paste0(result, " (Robustness Region: ", bf$RR$sd[1], ", ", maxSD, ")" )
+  }
   #print(result) # use for debugging in the console
   result
 }
@@ -160,7 +164,7 @@ bf_ev_overall = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 100)
+    sd = c(0, 200)
   )
 )
 ```
@@ -245,7 +249,7 @@ bf_prop_overall_tbs = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 10) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_overall_tbs)
@@ -277,7 +281,7 @@ bf_prop_tbs_memory = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 10) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_tbs_memory)
@@ -309,7 +313,7 @@ bf_prop_tbs_att = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 10) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_tbs_att)
@@ -441,7 +445,7 @@ bf_ev_memory_tbs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -488,7 +492,7 @@ bf_ev_attitude_tbs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -591,7 +595,7 @@ bf_prop_overall = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
   )
 #summary(bf_prop_overall)
@@ -623,7 +627,7 @@ bf_prop_memory = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 
@@ -656,7 +660,7 @@ bf_prop_feel = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_feel)
@@ -688,7 +692,7 @@ bf_prop_guess = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_guess)
@@ -773,7 +777,7 @@ bf_ev_memory = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -819,7 +823,7 @@ bf_ev_feeling = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -865,7 +869,7 @@ bf_ev_guess = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -918,7 +922,7 @@ bf_ev_no_conscious = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -931,16 +935,15 @@ bf_ev_no_conscious = bfrr(
 We tested whether we replicate Waroquier et al.'s (2020) findings. 
 <!-- The main results are displayed in Figure \@ref(fig:overall_vma_figure).  -->
 In particular, we were interested in whether we find an EC effect when participants reported no memory (random guessing).
+Because the VMA task only assesses valence memory (not evaluations), EC effects were computed as pre-post differences in evaluative ratings as in Waroquier et al. (2020).
 
 We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_vma)$full_result`. 
-When participants made an intuition attribution, the EC effect was not significant, `r apa_print(mod_feeling_vma)$full_result`, and BF was inconclusive, `r printBFRR(bf_ev_feeling)`. 
+When participants made an intuition attribution, the EC effect was not significant, `r apa_print(mod_feeling_vma)$full_result`, and BF was inconclusive, `r printBFRR(bf_ev_feeling)`. ^[We used the same *H1* prior distribution as Waroquier et al. (2020), who expected EC effects of approximately 23.5 liking units on a 400 point scale.]
 
 Critically and contrary to Waroquier et al. (2020), we found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_vma)$full_result`, and BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess)`.
-^[Again, this held even for small effects of, on average, 6 points on the 400-point rating scale. The data are inconclusive with regard to even smaller effects.]
 
-As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
-We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious)`. 
-^[Here, the data yield evidence against effects smaller than 15 points on the 400-point rating scale; they are inconclusive with regard to smaller effects.]
+^[As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
+We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious)`.] 
 
 #### Three-attribution, continuous evaluation (3ACE) task
 
@@ -1009,7 +1012,7 @@ bf_prop_overall_3bs = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_overall_3bs)
@@ -1041,7 +1044,7 @@ bf_prop_mem_3bs = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_mem_3bs)
@@ -1073,7 +1076,7 @@ bf_prop_intuition_3bs = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_intuition_3bs)
@@ -1105,7 +1108,7 @@ bf_prop_guess_3bs = bfrr(
   tail = 1, #one-tailed
   criterion = 3, 
   rr_interval = list( # ranges to vary H1 parameters for robustness regions
-    sd = c(0, 2) 
+    sd = c(0, 1) 
   )
 )
 #summary(bf_prop_guess_3bs)
@@ -1191,7 +1194,7 @@ bf_ev_memory_3bs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -1237,7 +1240,7 @@ bf_ev_intuition_3bs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -1283,7 +1286,7 @@ bf_ev_guess_3bs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -1335,7 +1338,7 @@ bf_ev_no_conscious_3bs = bfrr(
   criterion = 3, 
   rr_interval = list(
     # mean = c(-2, 2),
-    sd = c(0, 500)
+    sd = c(0, 200)
   )
 )
 
@@ -1349,6 +1352,5 @@ bf_ev_no_conscious_3bs = bfrr(
 The pattern of 3ACE results was very similar to the one we found on the VMA task. 
 We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, `r printBFRR(bf_ev_memory_3bs)`. 
 When participants made a feeling/intuition attribution, the EC effect was not significant, `r apa_print(mod_intuition_3bs)$full_result`; however, the BF was inconclusive, `r printBFRR(bf_ev_intuition_3bs)`. 
-
 We found no EC effect when participants made a random-guessing attribution, `r apa_print(mod_guess_3bs)$full_result`, and the BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs)`. 
-When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and the BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious_3bs)`. 
+^[When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs)$full_result`, and the BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious_3bs)`.]
