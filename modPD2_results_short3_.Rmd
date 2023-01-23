@@ -369,7 +369,7 @@ In addition, Response Set also interacted with CS Valence, with smaller CS Valen
 ^[Additional effects included a main effect of Response Set, `r apa_print(x2)$full_result$pdset`, a Response Set by Material interaction, `r apa_print(x2)$full_result$Material1_pdset1`.as well as three-way interactions of Response Set with CS Valence and Material,  `r apa_print(x2)$full_result$Material1_CS_Valence_Q_pdset1`, and with CS Valence and US Valence,  `r apa_print(x2)$full_result$US_Valence_L_CS_Valence_L_pdset1`.]
 To break down these findings, we report separate analyses by item type (CSs vs. foils) and Response Set (Memory vs. Attitude), which jointly define the four quadrants of Table 2.
 
-We focused first on paired CSs, for which "pleasant"/"unpleasant" responses for paired CSs showed the same pattern of effects as obtained in the overall analyses reported above.
+We focused first on paired CSs, for which "pleasant"/"unpleasant" responses CSs showed the same pattern of effects as obtained in the overall analyses reported above.
 Most importantly, the interaction of US Valence with Response Set (Memory vs. Attitude) was robustly significant, `r apa_print(x2p)$full_result$US_Valence_L_pdset`, suggesting that US Valence effect on judgments differed between Memory-set and Attitude-set responses.
 For paired stimuli, Memory-set judgments (top left quadrant) quite accurately reflected actual US valence (albeit with a somewhat a lower accuracy than in Experiment 1):
 When participants experienced remembering US valence for a paired stimulus, they were accurate in 70% of cases.
@@ -377,12 +377,12 @@ The strongest effect on Memory-set judgments was exerted by US Valence, `r  apa_
 Additional (smaller) effects were obtained for CS Valence, `r  apa_print(x2pM)$full_result$CS_Valence_L` (with pleasant CSs more likely judged "pleasant", reflecting attitude-consistent guessing), and Material, `r  apa_print(x2pM)$full_result$Material` (with face CSs less likely to be judged "pleasant", perhaps reflecting the finding that pleasant face CSs were less likely classified using the 'Memory-set' responses).
 ^[In addition, the above three-way interaction between Response Set, Material, and CS Valence was reflected here as a significant Material by CS Valence interaction, `r apa_print(x2pM)$full_result$Material1_CS_Valence_Q`.]
 
-### Is evaluative conditioning observed in the absence of conscious retrieval of the CS-US pairings?
+### Is evaluative conditioning observed when CS-US pairings are not remembered?
 
 Next, Attitude-set judgments for paired CSs were analyzed, with a particular focus on whether or not they are influenced by US valence in a similar manner as were Memory-set judgments.
 However, as reflected in the bottom-left quadrant of Table 2, those CSs were not evaluated in accordance with US valence.
 In a logistic regression, only a CS Valence effect on these judgments was found, `r  apa_print(x2pA)$full_result$CS_Valence_L` (with initially pleasant CSs more likely judged pleasant). 
-Importantly, replicating the absence of an EC effect in the absence of feelings of US valence recollection, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
+Importantly, replicating the absence of an EC effect in the absence of remembering US valence, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
 <!-- (z=.13, p=.9). -->
 
 As in Experiment 1, we additionally computed a *BF* on the proportions of responses in line with US Valence for paired neutral CSs that received an Attitude-set judgment.

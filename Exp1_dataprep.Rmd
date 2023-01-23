@@ -171,6 +171,7 @@ dd$vm.correct[dd$vm.resp==2 & dd$typUS=="pos"] <- FALSE
 ### idmem
 dd <- merge(dd, subset(im, select=c(Condition, Subject, ICS,im.correct, im.rt)), by=c("Condition","Subject","ICS"))
 
+dd <- merge(dd, pdc)
 
 ## create factors
 
@@ -185,6 +186,17 @@ dd$im.resp <- NULL
 dd$im.correct <- as.factor(dd$im.correct)
 
 d1 <- dd
+
+### exclude Ss with deficient instruction understanding
+#d1 <- subset(d1, Condition !="Exclusion")
+#n1 <- length(unique(d1$Subject))
+
+length(unique(d1$Subject))
+d1 <- subset(d1, pdtrain.correct>=.75)
+length(unique(d1$Subject))
+
+## write to disk
+
 save(d1, file="./data/modPD1.RData")
 write.csv(d1, file="./data/Exp1.csv")
 

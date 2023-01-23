@@ -82,7 +82,7 @@ addmargins(table(dat$eval_task)/40)
 <!-- ## Main findings -->
 
 We first report results of a manipulation check (i.e., whether there was a robust EC effect).
-Next, we turn to the results of the TBS task, focusing on whether the absence of EC without feelings of US valence recollection is replicated when using a simplified design. 
+Next, we turn to the results of the TBS task, focusing on whether the absence of EC without remembering US valence is replicated when using a simplified design. 
 Subsequently, we report EC effects for the different attributions in the VMA and 3ACE tasks.
 In the Appendix, we report additional results on the proportions of Memory/Attitude responses (in the TBS task), attributions (in the VMA and 3ACE tasks), and on the proportions of valence memory accuracy in each response set for each task.
 
@@ -544,7 +544,7 @@ When participants used the Memory response buttons set, the US Valence effect wa
 In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. 
 This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. 
 Importantly, we also found evidence for the absence of an EC effect in a one-sample *t* test against chance level (i.e., .5) on the proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), which were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`. 
-As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of US valence recollection, `r printBFRR(bf_prop_tbs_att)` (note that this conclusion again holds even for small effects).
+As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of remembering US valence, `r printBFRR(bf_prop_tbs_att)` (note that this conclusion again holds even for small effects).
 
 ### Additional results
 
@@ -939,9 +939,7 @@ Because the VMA task only assesses valence memory (not evaluations), EC effects 
 We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_vma)$full_result`. 
 When participants made an intuition attribution, the EC effect was not significant, `r apa_print(mod_feeling_vma)$full_result`, and BF was inconclusive, `r printBFRR(bf_ev_feeling)`. ^[We used the same *H1* prior distribution as Waroquier et al. (2020), who expected EC effects of approximately 23.5 liking units on a 400 point scale.]
 
-Critically and contrary to Waroquier et al. (2020), we found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_vma)$full_result`, and BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess)`.
-
-^[As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
+Critically and contrary to Waroquier et al. (2020), we found no EC effect when participants made a random guessing attribution, `r apa_print(mod_guess_vma)$full_result`, and BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess)`. ^[As done by Waroquier et al., we grouped intuition and random attributions into a single "no conscious structural knowledge" category. 
 We did not find an EC effect for this category, `r apa_print(mod_noc_vma)$full_result`, and BF yielded evidence against it, `r printBFRR(bf_ev_no_conscious)`.] 
 
 #### Three-attribution, continuous evaluation (3ACE) task
@@ -1303,7 +1301,9 @@ bf_ev_no_conscious_3bs_3ace_ratings = bfrr(
 <!-- #### EC effects as a function of response set -->
 
 <!-- We were interested in whether we find an EC effect when participants reported no memory (random guessing), as in the VMA task.  -->
-We found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`, `r printBFRR(bf_ev_memory_3bs)`. 
-When participants made a feeling/intuition attribution, the EC effect was also significant, `r apa_print(mod_intuition_3bs_3ace_ratings)$full_result`, and the BF yielded evidence for an EC effect, `r printBFRR(bf_ev_intuition_3bs_3ace_ratings)`. 
+In the 3ACE data, we found an EC effect when participants made a memory attribution, `r apa_print(mod_memory_3bs)$full_result`.
+<!-- , `r printBFRR(bf_ev_memory_3bs)`.  -->
+When participants made a feeling/intuition attribution, the EC effect was also significant, `r apa_print(mod_intuition_3bs_3ace_ratings)$full_result`.
+<!-- , and the BF yielded evidence for an EC effect, `r printBFRR(bf_ev_intuition_3bs_3ace_ratings)`.  -->
 We found no EC effect when participants made a random-guessing attribution, `r apa_print(mod_guess_3bs_3ace_ratings)$full_result`, and the BF yielded evidence against an EC effect, `r printBFRR(bf_ev_guess_3bs_3ace_ratings)`. 
 ^[When feeling/intuition and random guessing responses were grouped into a single "no conscious structural knowledge" category, we did not find an EC effect, `r apa_print(mod_noc_3bs_3ace_ratings)$full_result`, but the BF was inconclusive, `r printBFRR(bf_ev_no_conscious_3bs_3ace_ratings)`.]

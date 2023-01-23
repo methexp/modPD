@@ -12,9 +12,10 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE, cache=TRUE)
 options(scipen=1, digits=2)
 
 #library("papaja")
-#library(kableExtra)
+library(kableExtra)
 #library(stringr)
 library(afex)
+#remotes::install_github("debruine/bfrr")
 library(bfrr)
 library(dplyr)
 library(effectsize)
@@ -313,7 +314,7 @@ The first columns show that participants' metamemory judgments clearly distingui
 ^[A logistic regression confirmed that participants reported more Memory responses for the former than the latter (and vice versa), `r apa_print(x1.)$full_result$Pairing1`. A model with only Pairing predictor performed better than models including the Valence factor and/or the interaction.]
 
 Next, we analyzed the frequencies of "pleasant"/"unpleasant" responses.
-It varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and this effect was modulated by a two-way interaction with Pairing, `r apa_print(x1)$full_result$Valence1_Pairing1`, as well as its three-way interaction with Response Set (Memory vs. Attitude), `r apa_print(x1)$full_result$Valence1_Pairing1_pdset1`.
+They varied as a function of Valence, `r apa_print(x1)$full_result$Valence1`, and this effect was modulated by a two-way interaction with Pairing, `r apa_print(x1)$full_result$Valence1_Pairing1`, as well as its three-way interaction with Response Set (Memory vs. Attitude), `r apa_print(x1)$full_result$Valence1_Pairing1_pdset1`.
 Separate analyses for paired and nonpaired stimuli showed, for both item types, effects of Valence (paired: `r apa_print(x1p)$full_result$Valence1`; nonpaired: `r apa_print(x1np)$full_result$Valence1`).
 Importantly, they also showed interactions of Valence with Response-Set (paired: `r apa_print(x1p)$full_result$Valence1_pdset1`; nonpaired: `r apa_print(x1np)$full_result$Valence1_pdset1`), indicating that Valence differentially affects Memory and Attitude responses. 
 We therefore investigated the effect of Valence separately for each of the four subsets of the Pairing (paired CS vs. nonpaired foil) x Response Set (Memory vs. Attitude).
@@ -321,12 +322,12 @@ We therefore investigated the effect of Valence separately for each of the four 
 The corresponding aggregate counts are given in the four 2-by-2 quadrants of Table 1 (one for each combination of the Pairing and Mem/Att variables).
 The top left quadrant (i.e., Memory judgments for paired stimuli) is relevant for evaluating accuracy of Memory responses.
 It shows frequencies (and proportions, in parentheses) of 'pleasant' (Val:+) and 'unpleasant' (Val:-) responses for CSs that were paired either with positive (CS.p) or negative (CS.n) USs.
-Memory judgments for paired stimuli were affected by (and quite accurately reflected) actual US valence, `r apa_print(x1pM)$full_result$Valence1`.
+Memory judgments for paired stimuli were affected by (i.e., quite accurately reflected) actual US valence, `r apa_print(x1pM)$full_result$Valence1`.
 When participants experienced remembering US valence for a paired stimulus, they were accurate in 80% of cases.
 
 The bottom right quadrant (i.e., Attitude judgments for nonpaired stimuli) informs us about the task's ability to reflect pre-experimental attitude.
 Nonpaired stimuli (i.e., those not presented together with USs) were selected to be either clearly positive or negative for a given participant.
-Attitude judgments for nonpaired valent stimuli were strongly influenced by (and quite accurately reflected) participants' pre-study attitudes towards these stimuli, `r  apa_print(x1npA)$full_result$Valence1`.
+Attitude judgments for nonpaired valent stimuli were strongly influenced by (i.e., quite accurately reflected) participants' pre-study attitudes towards these stimuli, `r  apa_print(x1npA)$full_result$Valence1`.
 Participants consistently reported the attitude corresponding to their pre-study ratings in 95% of cases.
 
 So far, the results show that the TBS task adequately reflected experimental manipulations:
@@ -334,14 +335,14 @@ Participants' metamemory judgments were able to separate paired from nonpaired s
 
 
 The remaining two quadrants inform us about two relations between EC and memory:
-EC in the absence of retrieval awareness (bottom-left quadrant), and attitude-as-information bias (top-right quadrant).
+EC without remembering US valence (bottom-left quadrant), and attitude-as-information bias (top-right quadrant).
 
 
-### Is evaluative conditioning observed in the absence of conscious retrieval of the CS-US pairings?
+### Is evaluative conditioning observed without remembering the CS-US pairings?
 
 The bottom left quadrant (Attitude-set judgments for paired stimuli) is relevant to the issue of EC in the absence of feelings of remembering:
 An Attitude-set judgment implies the metacognitive absence of remembering US valence. 
-For paired CSs, the Attitude-set responses should reflect evaluations in the absence of conscious retrieval of US valence memory.
+For paired CSs, the Attitude-set responses should reflect evaluations in the absence of remembering US valence.
 We saw above that Valence affected responses to paired CSs, and that this effect was modulated by an interaction with Response-Button set:
 Whereas the effect of Valence was found for Memory-set responses (see above), it was absent from Attitude-set responses, `r apa_print(x1pA)$full_result$Valence1`. 
 Thus, as reflected in Table 2, there was no significant EC in the absence of feelings of remembering US valence.
@@ -363,12 +364,12 @@ Finally, we examined whether Memory-set responses were systematically affected b
 The top-right quadrant of Table 1 (Memory-set judgments for nonpaired stimuli) serves as a test for attitude-consistent guessing.
 Most often, nonpaired stimuli were judged 'not remembered', and hence Attitude-set responses were given on the TBS task.
 Yet, in those cases that participants falsely 'remembered' that a US had been paired with them (i.e., used the Memory button set), they reported a US valence that tended to be consistent with pre-experimental attitudes, `r apa_print(x1npM)$full_result$Valence1`.
-However, as indicated by the above interaction with Response Set, this effect was smaller than for the Attitude-set judgments.
+(However, as indicated by the above interaction with Response Set, this effect was smaller than for the Attitude-set judgments.)
 In sum, participants indeed showed an attitude-as-information bias on Memory-set responses: 
-For a stimulus falsely judged as having been paired with a US, they relied on the evaluation of that stimulus to inform their memory judgments in 73% of cases.
+For a stimulus falsely judged as having been paired with a US, they relied on their evaluation of that stimulus to inform their memory judgments in 73% of cases.
 Yet, Memory-set responses did not reflect attitudes as strongly as did Attitude-set responses. 
 This suggests that participants may be able to influence the degree to which they allow pre-existing attitudes to inform their judgments.
 
 Taken together, the results of the TBS task appropriately reflected the memory and attitude manipulations. 
 Furthermore, we found no EC in the absence of feelings of remembering US valence.
-In addition, an effect of attitude-as-information was found on the Memory-set responses.
+In addition, an effect of attitude-as-information was found in Memory-set responses for nonpaired stimuli.
