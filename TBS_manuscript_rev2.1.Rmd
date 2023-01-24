@@ -414,7 +414,7 @@ To examine this possibility, we ran a third experiment that made use of the simp
 
 # Experiment 3
 
-Experiment 3 examines whether EC is found when US valence is not remembered, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design that excludes nonpaired and valent stimuli, as typically done in EC studies). 
+Experiment 3 examines whether EC is found when US valence is not remembered, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design that without nonpaired and valent stimuli, as typically done in EC studies). 
 In doing so, this experiment provides what may be considered a more liberal (or even fairer) test for EC effects without remembering US valence. 
 This was done in a first condition.
 <!-- This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies. -->
