@@ -345,7 +345,7 @@ An Attitude-set judgment implies the metacognitive absence of remembering US val
 For paired CSs, the Attitude-set responses should reflect evaluations in the absence of remembering US valence.
 We saw above that Valence affected responses to paired CSs, and that this effect was modulated by an interaction with Response-Button set:
 Whereas the effect of Valence was found for Memory-set responses (see above), it was absent from Attitude-set responses, `r apa_print(x1pA)$full_result$Valence1`. 
-Thus, as reflected in Table 2, there was no significant EC in the absence of feelings of remembering US valence.
+Thus, as reflected in Table 1, there was no significant EC in the absence of feelings of remembering US valence.
 
 Because failing to find a significant effect is not evidence for the absence of an effect, we additionally conducted a Bayesian analysis that allows quantifying the evidence for the null hypothesis of no effect. 
 Specifically, for Attitude-set judgments on paired neutral CSs, we computed a Bayes Factor (BF) on the proportions of responses in line with US Valence. 
@@ -371,5 +371,5 @@ Yet, Memory-set responses did not reflect attitudes as strongly as did Attitude-
 This suggests that participants may be able to influence the degree to which they allow pre-existing attitudes to inform their judgments.
 
 Taken together, the results of the TBS task appropriately reflected the memory and attitude manipulations. 
-Furthermore, we found no EC in the absence of feelings of remembering US valence.
+Furthermore, we did not find the EC effect in the absence of feelings of remembering US valence.
 In addition, an effect of attitude-as-information was found in Memory-set responses for nonpaired stimuli.

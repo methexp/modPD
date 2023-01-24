@@ -398,8 +398,8 @@ However, note that in a logistic regression of this relatively small subset of r
 
 Focusing on the bottom right quadrant (i.e., Attitude-set judgments for nonpaired stimuli), it is apparent that judgments reflected pre-experimental attitudes, `r  apa_print(x2uA)$full_result$CS_Valence_L`:
 Participants consistently reported the attitude corresponding to their pre-study ratings in 84% of cases.
-Besides this strong effect of CS Valence, the logistic regression analysis did not yield other significant predictors.
+Besides this strong effect of CS Valence, the logistic regression analysis did not yield other significant effects.
 
 In sum, responses on the TBS task again appropriately reflected the memory and attitude manipulations.
-We replicated the absence of EC effects when participants reported that they could not recollect the valence of the US that was paired with a given CS (i.e., the effect of US Valence was limited to Memory-set responses).
+We replicated the absence of EC effects when participants reported they had no feeling of remembering the valence of the US that were paired with a given CS (i.e., the effect of US Valence was limited to Memory-set responses).
 We also replicated the attitude-as-information bias (i.e., the effect of CS Valence on Memory-set responses), which was now obtained not only for nonpaired foils but also for paired CSs.
