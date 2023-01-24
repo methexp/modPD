@@ -412,7 +412,7 @@ To examine this possibility, we ran a third experiment that made use of the simp
 
 # Experiment 3
 
-Experiment 3 examines whether EC is found when US valence is not remembered, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design without nonpaired and valent stimuli, as typically done in EC studies). 
+Experiment 3 examines whether EC is found when US valence is not remembered, (1) with higher statistical power, and (2) by using a simplified design (i.e., a design without nonpaired and valent stimuli that is more typical for EC studies). 
 In doing so, this experiment provides what may be considered a more liberal (or even fairer) test for EC effects without remembering US valence. 
 This was done in a first condition.
 <!-- This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies. -->
@@ -565,7 +565,7 @@ Another piece of evidence for stimulus-response learning, relating to source con
 Specifically, implicit misattribution assumes stronger EC effects when US valence is mild rather than high. 
 This is because a very valent US is unlikely to elicit confusion about the source of one's affective reaction. 
 Recent research failed to find evidence consistent with this rationale [@mierop_does_2018].
-Finally, that a memory-independent parameter has been found in instruction-based procedures [@hutter_examining_2017-1] further challenges an associative interpretation of the findings [for related demonstrations, see also @bmc_amb_relat_2022; @corneille_evidence_2019].
+Finally, that a learning effect on the memory-independent parameter has been found in instruction-based procedures [@hutter_examining_2017-1] further challenges an associative interpretation of the findings [for related demonstrations, see also @bmc_amb_relat_2022; @corneille_evidence_2019].
 
 ### Affect-as-information bias
 
@@ -597,7 +597,7 @@ The inclusion-exclusion instruction manipulates how the controllable process is 
 In other words, participants in process-dissociation tasks can only reverse the response assignment in the exclusion condition for intentionally controllable information; the response pattern remains unaffected by the instruction manipulation insofar as there are also uncontrollable contributions.
 
 In the present research, instead of intentional control, awareness of knowing is of central interest. 
-Per-item measures of valence memory require judgment knowledge (i.e., whether a CS had been paired with positive or negative USs), as well as their awareness of knowing (i.e., participants are asked to respond 'dont know' if they are unaware of any knowledge).
+Per-item measures of valence memory require judgment knowledge (i.e., whether a CS had been paired with positive or negative USs), as well as their awareness of knowing (i.e., participants are asked to respond "I don't remember" if they are unaware of any knowledge).
 The TBS similarly taps these two aspects of awareness, albeit in a slightly different way (i.e., it asks participants to report their attitude if they are not aware of having any knowledge).
 For both per-item and TBS tasks, we assume that knowledge about one's subjective knowledge state (i.e., being aware of having knowledge or not) can be used intentionally (i.e., participants intentionally select whether to report their memory or their attitude).
 
@@ -652,8 +652,8 @@ It is typically found that truth judgments are higher for old, repeated statemen
 The TBS task could be adapted to assess perceived truth instead of pleasantness, and separate truth judgments in the presence versus absence of feelings of remembering. 
 Previous research has suggested that it is not the factual repetition that increases truth judgments, but that instead a perceived repetition (i.e., a false alarm) is sufficient to increase truth judgments [@bacon_credibility_1979; see also @mattavelli_truth_2021].
 In addition to providing a simple assessment of metamemory status, a parallel application of the TBS task to truth judgments could also help investigate whether similar judgment biases affect both types of ratings (e.g., whether statements perceived as more true are also more likely to be judged 'remembered').
-Likewise, mere exposure effects may be revisited using the TBS. 
-In mere exposure studies, stimuli are preferred when participants have processed them earlier relative to when they are novel [@zajonc_attitudinal_1968]. 
+Likewise, mere-exposure effects may be revisited using the TBS. 
+In mere-exposure studies, stimuli are preferred when participants have processed them earlier relative to when they are novel [@zajonc_attitudinal_1968]. 
 Many studies have supported the view that this preference may arise independently of a conscious recollection of the old status of the item [@zajonc_mere_2001], or even be compromised by conscious recollection [e.g., @bornstein_stimulus_1992; @newell_recognising_2007; @whittlesea_implicit_2001]. 
 Here too, the use of the TBS may be useful for shedding complementary light on these questions.
 Finally, recent findings in the literature on artifical grammar learning (AGL) have found evidence for EC in the absence of awareness of knowing [@jurchis_evaluative_2020].
