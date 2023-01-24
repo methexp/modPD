@@ -406,7 +406,7 @@ On the other hand, the effects of CS valence (although less selective) were stro
 By presenting participants with valent as well as neutral items, and with paired as well as non-paired items, Experiment 2 was able to separate effects of pairing from those of (pre-existing) evaluations. 
 The use of this relatively complex design was required by our validation effort.
 However, it departed from simpler designs typically used in EC studies, which generally present only neutral CSs paired with either pleasant or unpleasant USs.
-One may therefore, argue (1) that our primary validation goal is successful, but (2) that TBS conclusions regarding memory-EC relations and affect-as-information were affected by---or even originated from---this unusual level of procedural complexity. 
+For this reason, one may argue (1) that our primary validation goal is successful, but (2) that TBS conclusions regarding memory-EC relations and affect-as-information were affected by---or even originated from---this unusual level of procedural complexity. 
 To examine this possibility, we ran a third experiment that made use of the simpler design typically used in EC studies.
  <!-- that the findings obtained in Experiment 2 may be a function of this complexity, and that different findings may obtain in the more simple design commonly used in EC studies. -->
 <!-- To test whether the TBS finding of no EC-without-memory effect was somehow biased by the presence (versus absence) of valent and nonpaired items, we conducted another study with the simple design. -->
