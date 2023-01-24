@@ -648,10 +648,10 @@ More research is needed to understand better when and why EC effects could be ob
 
 The TBS task was used here for addressing one very specific research question in attitude research, but the task (or the general conditional-judgment approach) it may be adapted for addressing other, similarly structured questions.
 For instance, there is a related issue in research on truth judgments, which depend on participants' memory for the statement in question:
-It is typically found that repeatedly presented statements are judged to be more valid  [@dechene_truth_2009]. 
-The TBS task could be adapted to assess validity instead of pleasantness, and separate validity judgments in the metacognitive presence versus absence of memory. 
-Previous research has suggested that it is not the factual repetition that increases validity judgments, but that instead a perceived repetition (i.e., a false alarm) is sufficient for an effect on validity [@bacon_credibility_1979; see also @mattavelli_truth_2021].
-In addition to providing a simple assessment of metamemory status, a parallel application of the TBS task to truth judgments could also help investigate whether similar judgment biases affect both types of ratings (e.g., whether statements perceived as more valid are also more likely to be judged 'remembered').
+It is typically found that truth judgments are higher for old, repeated statements than for new ones [@dechene_truth_2009]. 
+The TBS task could be adapted to assess perceived truth instead of pleasantness, and separate truth judgments in the metacognitive presence versus absence of memory. 
+Previous research has suggested that it is not the factual repetition that increases truth judgments, but that instead a perceived repetition (i.e., a false alarm) is sufficient to increase truth judgments [@bacon_credibility_1979; see also @mattavelli_truth_2021].
+In addition to providing a simple assessment of metamemory status, a parallel application of the TBS task to truth judgments could also help investigate whether similar judgment biases affect both types of ratings (e.g., whether statements perceived as more true are also more likely to be judged 'remembered').
 Likewise, mere exposure effects may be revisited using the TBS. 
 In mere exposure studies, stimuli are preferred when participants have processed them earlier relative to when they are novel [@zajonc_attitudinal_1968]. 
 Many studies have supported the view that this preference may arise independently of a conscious recollection of the old status of the item [@zajonc_mere_2001], or even be compromised by conscious recollection [e.g., @bornstein_stimulus_1992; @newell_recognising_2007; @whittlesea_implicit_2001]. 
