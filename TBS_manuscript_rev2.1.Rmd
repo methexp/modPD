@@ -517,7 +517,7 @@ Experiment 3 further supported the robustness of conclusions derived from the TB
 These results confirm a successful validation of the TBS task [comparable to that of the process-dissociation procedure by @hutter_dissociating_2012].
 
 
-### Evaluative conditioning and retrieval awareness
+### Evaluative conditioning and feelings of remembering
 
 A more secondary aim was to use the TBS to provide preliminary information about whether EC requires participants to remember US valence.
 Using the TBS task, we collected CS-level data on evaluations in the metacognitive absence of remembering US valence. 
@@ -534,7 +534,7 @@ Given sample sizes comparable to (and, jointly, considerably larger than) previo
 Indeed, Bayes Factors indicate evidence for the absence of even small effects.
 It remains possible, of course, that EC without remembering US valence will be found in other studies that realize (as yet elusive) critical enabling conditions.
 
-The finding of no EC without remembering us valence is fully in line with previous conclusions obtained with per-item procedures that also found no EC when participants indicated not remembering the valence of the paired US [e.g., @stahl_respective_2009].
+The finding of no EC without remembering US valence is fully in line with previous conclusions obtained with per-item procedures that also found no EC when participants indicated not remembering the valence of the paired US [e.g., @stahl_respective_2009].
 It is however at odds with a recent per-item result by @waroquier_distinguishing_2020 showing EC even when participants indicated having randomly guessed whether the US's valence was positive or negative.
 In the present Experiment 3, we failed to replicate the latter finding. 
 However, assuming that the findings by Waroquier et al. can be replicated in future studies, there are three important differences between the TBS and their approach that could account for the inconsistent result patterns.
@@ -554,7 +554,7 @@ Clearly, however, this finding (if robust) will be important both for research i
 Whether, when, and through which processes EC effects can be found when US valence is not remembered bears important theoretical implications. 
 The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage [e.g., @stahl_evaluative_2018; @aust_memory-based_2019]. 
 For these models, EC effects are contingent upon a successful retrieval of the CS-US pairings from memory. 
-Alternatively, Stimulus-Response models assume that the affective responses elicited by the US (rather than the US as such) is linked to the CS in long-term memory [for a recent discussion, see @corneille_associative_2019; see also @jones_implicit_2009; @sweldens_evaluative_2010]. 
+Alternatively, Stimulus-Response models assume that the affective responses elicited by the US (rather than the US as such) are linked to the CS in long-term memory [for a recent discussion, see @corneille_associative_2019; see also @jones_implicit_2009; @sweldens_evaluative_2010]. 
 For these models, the retrieval of a CS directly elicits the learned affective response. 
 Hence, neither the encoding nor the retrieval of a CS-US pairing is required to observe EC effects.
 
