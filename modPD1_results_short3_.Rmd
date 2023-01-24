@@ -372,5 +372,5 @@ Yet, Memory-set responses did not reflect attitudes as strongly as did Attitude-
 This suggests that participants may be able to influence the degree to which they allow pre-existing attitudes to inform their judgments.
 
 Taken together, the results of the TBS task appropriately reflected the memory and attitude manipulations. 
-Furthermore, we did not find the EC effect in the absence of feelings of remembering US valence.
+Furthermore, we did not find an EC effect in the absence of feelings of remembering US valence.
 In addition, an effect of attitude-as-information was found in Memory-set responses for nonpaired stimuli.
