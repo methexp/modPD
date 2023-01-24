@@ -555,7 +555,7 @@ Whether, when, and through which processes EC effects can be found when US valen
 The evaluative conditioning literature distinguishes between Stimulus-Stimulus and Stimulus-Response evaluative learning models. Stimulus-Stimulus models assume that CS-US links are encoded in memory and that their retrieval influences participants' judgments at the decision stage [e.g., @stahl_evaluative_2018; @aust_memory-based_2019]. 
 For these models, EC effects are contingent upon a successful retrieval of the CS-US pairings from memory. 
 Alternatively, Stimulus-Response models assume that the affective responses elicited by the US (rather than the US as such) are linked to the CS in long-term memory [for a recent discussion, see @corneille_associative_2019; see also @jones_implicit_2009; @sweldens_evaluative_2010]. 
-For these models, the retrieval of a CS directly elicits the learned affective response. 
+For these models, CS exposure directly cues the learned affective response. 
 Hence, neither the encoding nor the retrieval of a CS-US pairing is required to observe EC effects.
 
 Stimulus-Response learning is thought to operate via a "direct transfer" of the US valence to the CS [e.g., @hutter_dissociating_2018; @sweldens_evaluative_2010] or via implicit misattribution. The latter is thought to occur when, at the learning stage, participants mistakenly attribute their affective response to the CS instead of attributing it to the US [e.g., @jones_implicit_2009]. 
