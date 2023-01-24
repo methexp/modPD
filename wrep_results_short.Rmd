@@ -82,9 +82,9 @@ addmargins(table(dat$eval_task)/40)
 <!-- ## Main findings -->
 
 We first report results of a manipulation check (i.e., whether there was a robust EC effect).
-Next, we turn to the results of the TBS task, focusing on whether the absence of EC without remembering US valence is replicated when using a simplified design. 
+Next, we turn to the results of the TBS task, focusing on whether the absence of EC without feelings of remembering US valence is replicated when using a simplified design. 
 Subsequently, we report EC effects for the different attributions in the VMA and 3ACE tasks.
-In the Appendix, we report additional results on the proportions of Memory/Attitude responses (in the TBS task), attributions (in the VMA and 3ACE tasks), and on the proportions of valence memory accuracy in each response set for each task.
+In the Appendix, we report additional results on the proportions of Memory/Attitude responses (in the TBS task), attributions (in the VMA and 3ACE tasks), and on valence memory accuracy in each response set for each task.
 
 ### Evaluative conditioning
 
@@ -544,11 +544,11 @@ When participants used the Memory response buttons set, the US Valence effect wa
 In contrast, in the Attitude response buttons set, no significant effect of US Valence was found, `r apa_print(mixedmod_val_att)$full_result$us_valence1`. 
 This replicates our previous findings of the absence of an EC effect when participants reported having no US valence memory. 
 Importantly, we also found evidence for the absence of an EC effect in a one-sample *t* test against chance level (i.e., .5) on the proportions of TBS responses in line with US valence (*M =* `r mean(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`; *SD =* `r sd(prop_correct_tbs_att$prop[prop_correct_tbs_att$correct_response=="correct"])`), which were not significantly different from the chance level, `r apa_print(t_prop_correct_a)$statistic`, *d =* `r d_prop_correct_a$Cohens_d`. 
-As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of remembering US valence, `r printBFRR(bf_prop_tbs_att)` (note that this conclusion again holds even for small effects).
+As in Experiment 2, a Bayesian analysis yielded evidence for no EC effect in the absence of feelings of remembering US valence, `r printBFRR(bf_prop_tbs_att)` (note that this conclusion again holds even for small effects).
 
 ### Additional results
 
-Here, we report the results of our attempt to replicate the EC-without-awareness findings by Waroquier et al. (2020), who assessed participants' attributions of their valence-memory decisions (i.e., subjective assessments of their knowledge) and found EC effects when participants indicated having only intuitions about US valence or when participants reported randomly guessing.
+Here, we report the results of our attempt to replicate the EC-without-conscious-knowledge findings by Waroquier et al. (2020), who assessed participants' attributions of their valence-memory decisions (i.e., subjective assessments of their knowledge) and found EC effects when participants indicated having only intuitions about US valence or when participants reported randomly guessing.
 We also report initial results from a new version of the procedure (i.e., 3ACE) that serves to illustrate how the TBS approach could be further developed by capturing three (rather than two) retrieval experiences, and by assessing evaluations on a continuous rating scale (rather than as a binary choice).
 
 #### Valence Memory Attribution (VMA) task 

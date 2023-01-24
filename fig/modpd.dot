@@ -21,8 +21,8 @@ digraph {
     fontsize = 14;
     
     node [shape = oval, fontname = Helvetica, style = filled, fillcolor = white, height = 0.8, width = 1.6]
-    memory11 [label = "Memory"]
-    memory12 [label = "No\nmemory"]
+    memory11 [label = "Feelings of\nremembering"]
+    memory12 [label = "No feelings of\nremembering"]
     
     direct [label = "Report US\nvalence"]
     reverse [label = "Report\nattitude"]
@@ -74,8 +74,8 @@ digraph {
     fontsize = 14;
     
     node [shape = oval, fontname = Helvetica, style = filled, fillcolor = white, height = 0.8, width = 1.25]
-    memory21 [label = "Memory"]
-    memory22 [label = "No\nmemory"]
+    memory21 [label = "Feelings of\nremembering"]
+    memory22 [label = "No feelings of\nremembering"]
   }
 
   subgraph cluster_3 {

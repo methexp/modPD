@@ -60,7 +60,8 @@ d1$pdcor_ <- as.numeric(d1$pdcor)
 ## Results
 
 We first report results of a manipulation check (i.e., whether our study produced EC effects).
-The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without memory as well as the attitude-as-information bias. In the Appendix, we report additional results on the proportions of Memory and Attitude-set judgments and on the proportions of valence memory accuracy in each response set.
+The responses on the novel TBS task are analyzed next, first assessing its validity (i.e., whether the memory and attitude manipulations were adequately reflected in the responses), and then testing for EC without feelings of remembering us valence as well as for attitude-as-information bias. 
+In the Appendix, we report additional results on the proportions of Memory and Attitude-set judgments and on valence memory accuracy in each response set.
 
 <!-- Third, we related the responses on the novel task to evaluative ratings. -->
 
@@ -335,10 +336,10 @@ Participants' metamemory judgments were able to separate paired from nonpaired s
 
 
 The remaining two quadrants inform us about two relations between EC and memory:
-EC without remembering US valence (bottom-left quadrant), and attitude-as-information bias (top-right quadrant).
+EC without feelings of remembering US valence (bottom-left quadrant), and attitude-as-information bias (top-right quadrant).
 
 
-### Is evaluative conditioning observed without remembering the CS-US pairings?
+### Is EC observed without feelings of remembering US valence?
 
 The bottom left quadrant (Attitude-set judgments for paired stimuli) is relevant to the issue of EC in the absence of feelings of remembering:
 An Attitude-set judgment implies the metacognitive absence of remembering US valence. 

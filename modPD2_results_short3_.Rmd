@@ -52,7 +52,7 @@ d2$`Evaluative change` <- d2$ec
 
 As in Experiment 1, we first report the results of a manipulation check (i.e., the effects of the experimental valence manipulations on evaluative ratings).
 Next, we analyzed the responses on the TBS task.
-In the Appendix, we report additional results on the proportions of Memory- and Attitude-set judgments and on the proportions of valence memory accuracy in each response set.
+In the Appendix, we report additional results on the proportions of Memory- and Attitude-set judgments and on valence memory accuracy in each response set.
 
 ### Evaluative conditioning
 
@@ -377,12 +377,12 @@ The strongest effect on Memory-set judgments was exerted by US Valence, `r  apa_
 Additional (smaller) effects were obtained for CS Valence, `r  apa_print(x2pM)$full_result$CS_Valence_L` (with pleasant CSs more likely judged "pleasant", reflecting attitude-consistent guessing), and Material, `r  apa_print(x2pM)$full_result$Material` (with face CSs less likely to be judged "pleasant", perhaps reflecting the finding that pleasant face CSs were less likely classified using the 'Memory-set' responses).
 ^[In addition, the above three-way interaction between Response Set, Material, and CS Valence was reflected here as a significant Material by CS Valence interaction, `r apa_print(x2pM)$full_result$Material1_CS_Valence_Q`.]
 
-### Is evaluative conditioning observed when CS-US pairings are not remembered?
+### Is EC observed without feelings of remembering US valence?
 
 Next, Attitude-set judgments for paired CSs were analyzed, with a particular focus on whether or not they are influenced by US valence in a similar manner as were Memory-set judgments.
 However, as reflected in the bottom-left quadrant of Table 2, those CSs were not evaluated in accordance with US valence.
 In a logistic regression, only a CS Valence effect on these judgments was found, `r  apa_print(x2pA)$full_result$CS_Valence_L` (with initially pleasant CSs more likely judged pleasant). 
-Importantly, replicating the absence of an EC effect in the absence of remembering US valence, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
+Importantly, replicating the absence of an EC effect in the absence of feelings of remembering US valence, US Valence did not affect these judgments, `r  apa_print(x2pA)$full_result$US_Valence_L`.
 <!-- (z=.13, p=.9). -->
 
 As in Experiment 1, we additionally computed a *BF* on the proportions of responses in line with US Valence for paired neutral CSs that received an Attitude-set judgment.
