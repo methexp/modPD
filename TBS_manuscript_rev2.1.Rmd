@@ -419,7 +419,7 @@ In doing so, this experiment provides what may be considered a more liberal (or 
 This was done in a first condition.
 <!-- This study aims at replicating and strengthening the evidence --- that no EC is found when participants experience a lack of memory --- with higher statistical power, and in a simplified design (i.e., without nonpaired and valent stimuli) that is more comparable to previous studies. -->
 
-In a second condition, we went beyond this first objective and replicated a study by [@waroquier_distinguishing_2020] who reported EC effects when participants indicated that they did not have conscious knowledge about US valence.
+In a second condition, we went beyond this first objective and replicated a study by @waroquier_distinguishing_2020 who reported EC effects when participants indicated that they did not have conscious knowledge about US valence.
 In their study, after the learning phase, participants were presented with a CS and asked to report the valence of the associated US.
 They were then asked to indicate the basis of their valence-memory response, that is, to attribute their response to one of several different mental states: *memory* (i.e., when they remembered the pairing), *gut-feeling* (i.e., when they had an intuition or feeling of familiarity about the US's valence), or *random guessing*.
 In their Experiment 1, Waroquier et al. found EC effects not only for *memory* but also for *gut-feeling* attributions; in their Experiment 2, EC was found for *memory* and *random-guessing*, but not for *gut-feeling* attributions.
