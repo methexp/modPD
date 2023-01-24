@@ -336,7 +336,7 @@ This bias was obtained despite metacognitive 'remember' judgments, suggesting th
 Note that Experiment 1 had several limitations.
 Perhaps most importantly, as in previous studies, pairing memory and (pre-existing) attitude were confounded: 
 Only neutrally pre-rated CSs were paired with (positive or negative) USs; valent CSs were never paired.
-This meant that we could not assess the simultaneous effects of pairing and pre-experimental attitudes on the same set of CSs.
+This means that we could not assess the simultaneous effects of pairing and pre-experimental attitudes on the same set of CSs.
 <!-- ^[Each specific CS-US pairing was presented only once, while each stimulus (CS or US) was also paired with other stimuli (i.e., each CS was paired with 8 different USs; each US was paired, on average, with 2 different CSs).] -->
 Experiment 2 addressed these limitations.
 
