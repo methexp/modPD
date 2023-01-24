@@ -75,11 +75,11 @@ In contrast, *correlational studies* have classically used memory measures as a 
 This second line of research brought mixed support to the possibility of EC without CS-US pairing awareness (see below). In the last decade, however, it became increasingly apparent that that this second strand of – correlational – research examined relations between memory and evaluations, rather than the role of encoding performance in attitude acquisition [for instance, see @gawronski_what_2012]. 
 As a result, evaluative conditioning research became increasingly interested in linking the question of evaluative formation and change to memory models [e.g., @gast_declarative_2018; @stahl_evaluative_2018].  
 Furthermore, there are reasons to believe (as we will argue below) that this research has examined EC in the absence of subjective feelings of remembering rather than memory performance [see also @waroquier_distinguishing_2020]. 
-The question whether EC can be found without participants’ feeling of remembering US valence is important for both theoretical reasons (e.g., to inform models of the role of memory processes in EC; to relate EC accounts to theories of implicit learning and consciousness) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
+The question of whether EC can be found without participants’ feeling of remembering US valence is important for both theoretical reasons (e.g., to inform models of the role of memory processes in EC; to relate EC accounts to theories of implicit learning and consciousness) and practical reasons (e.g., whether participants can selectively control the effects of persuasive influences on their attitudes and behaviors).
 
 Below, we first provide an overview and discussion of how recent research has addressed EC effects as a function of memory performance, and what conclusions were derived from two main procedures: the per-item and process dissociation procedures. 
 In a second step, we introduce a novel procedure that combines the advantages of the two prior ones. 
-In the empirical section, we validate the new procedure and use it to provide firmer conclusions about contingency of EC effects upon feelings of remembering US valence. 
+In the empirical section, we validate the new procedure and use it to provide firmer conclusions about the contingency of EC effects upon feelings of remembering US valence. 
 In doing so, we also shed additional light on affect-as-information processes. 
 In the general discussion, we summarize the main insights of the new procedure introduced here, and we explain how it can be used in future research (i.e., attitude research and beyond).
 
