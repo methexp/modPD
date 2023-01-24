@@ -567,7 +567,7 @@ Another piece of evidence for stimulus-response learning, relating to source con
 Specifically, implicit misattribution assumes stronger EC effects when US valence is mild rather than high. 
 This is because a very valent US is unlikely to elicit confusion about the source of one's affective reaction. 
 Recent research failed to find evidence consistent with this rationale [@mierop_does_2018].
-Finally, that a memory-independent parameter has been found in instruction-based procedures [@hutter_examining_2017-1] further challenges an associative interpretation of the findings [for related demonstrations, see also Béna, Mauclet, & Corneille, 2022; @corneille_evidence_2019].
+Finally, that a memory-independent parameter has been found in instruction-based procedures [@hutter_examining_2017-1] further challenges an associative interpretation of the findings [for related demonstrations, see also @bmc_amb_relat_2022; @corneille_evidence_2019].
 
 ### Affect-as-information bias
 
